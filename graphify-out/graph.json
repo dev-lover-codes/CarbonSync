@@ -1,0 +1,312 @@
+{
+  "directed": false,
+  "multigraph": false,
+  "graph": {},
+  "nodes": [
+    {
+      "label": "vite.config.ts",
+      "file_type": "code",
+      "source_file": "vite.config.ts",
+      "source_location": "L1",
+      "id": "vite_config_ts",
+      "community": 4,
+      "norm_label": "vite.config.ts"
+    },
+    {
+      "label": "eslint.config.js",
+      "file_type": "code",
+      "source_file": "eslint.config.js",
+      "source_location": "L1",
+      "id": "eslint_config_js",
+      "community": 5,
+      "norm_label": "eslint.config.js"
+    },
+    {
+      "label": "App.tsx",
+      "file_type": "code",
+      "source_file": "src/App.tsx",
+      "source_location": "L1",
+      "id": "src_app_tsx",
+      "community": 3,
+      "norm_label": "app.tsx"
+    },
+    {
+      "label": "App()",
+      "file_type": "code",
+      "source_file": "src/App.tsx",
+      "source_location": "L7",
+      "id": "src_app_app",
+      "community": 3,
+      "norm_label": "app()"
+    },
+    {
+      "label": "main.tsx",
+      "file_type": "code",
+      "source_file": "src/main.tsx",
+      "source_location": "L1",
+      "id": "src_main_tsx",
+      "community": 3,
+      "norm_label": "main.tsx"
+    },
+    {
+      "label": "Vite Configuration",
+      "file_type": "code",
+      "source_file": "/home/user/third-project-prompt/vite.config.ts",
+      "id": "code_vite_config",
+      "community": 1,
+      "norm_label": "vite configuration"
+    },
+    {
+      "label": "ESLint Configuration",
+      "file_type": "code",
+      "source_file": "/home/user/third-project-prompt/eslint.config.js",
+      "id": "code_eslint_config",
+      "community": 0,
+      "norm_label": "eslint configuration"
+    },
+    {
+      "label": "App Component",
+      "file_type": "code",
+      "source_file": "/home/user/third-project-prompt/src/App.tsx",
+      "id": "code_app_tsx",
+      "community": 1,
+      "norm_label": "app component"
+    },
+    {
+      "label": "Main Entry Point",
+      "file_type": "code",
+      "source_file": "/home/user/third-project-prompt/src/main.tsx",
+      "id": "code_main_tsx",
+      "community": 0,
+      "norm_label": "main entry point"
+    },
+    {
+      "label": "Index HTML",
+      "file_type": "code",
+      "source_file": "/home/user/third-project-prompt/index.html",
+      "id": "code_index_html",
+      "community": 0,
+      "norm_label": "index html"
+    },
+    {
+      "label": "AI Development Guidelines",
+      "file_type": "document",
+      "source_file": "/home/user/third-project-prompt/GEMINI.md",
+      "id": "doc_gemini_md",
+      "community": 0,
+      "norm_label": "ai development guidelines"
+    },
+    {
+      "label": "Project Readme",
+      "file_type": "document",
+      "source_file": "/home/user/third-project-prompt/README.md",
+      "id": "doc_readme_md",
+      "community": 0,
+      "norm_label": "project readme"
+    },
+    {
+      "label": "React Compiler",
+      "file_type": "rationale",
+      "source_file": "/home/user/third-project-prompt/GEMINI.md",
+      "id": "concept_react_compiler",
+      "community": 0,
+      "norm_label": "react compiler"
+    },
+    {
+      "label": "Firebase Studio",
+      "file_type": "rationale",
+      "source_file": "/home/user/third-project-prompt/GEMINI.md",
+      "id": "concept_firebase_studio",
+      "community": 1,
+      "norm_label": "firebase studio"
+    },
+    {
+      "label": "Hot Module Replacement",
+      "file_type": "rationale",
+      "source_file": "/home/user/third-project-prompt/src/App.tsx",
+      "id": "concept_hmr",
+      "community": 1,
+      "norm_label": "hot module replacement"
+    },
+    {
+      "label": "React Logo",
+      "file_type": "image",
+      "source_file": "/home/user/third-project-prompt/src/assets/react.svg",
+      "id": "assets_react_logo",
+      "community": 6,
+      "norm_label": "react logo"
+    },
+    {
+      "label": "Vite Logo",
+      "file_type": "image",
+      "source_file": "/home/user/third-project-prompt/src/assets/vite.svg",
+      "id": "assets_vite_logo",
+      "community": 7,
+      "norm_label": "vite logo"
+    },
+    {
+      "label": "Hero Image",
+      "file_type": "image",
+      "source_file": "/home/user/third-project-prompt/src/assets/hero.png",
+      "id": "assets_hero_image",
+      "community": 8,
+      "norm_label": "hero image"
+    },
+    {
+      "label": "App Favicon",
+      "file_type": "image",
+      "source_file": "/home/user/third-project-prompt/public/favicon.svg",
+      "id": "public_favicon",
+      "community": 9,
+      "norm_label": "app favicon"
+    },
+    {
+      "label": "Icon Sprite Sheet",
+      "file_type": "image",
+      "source_file": "/home/user/third-project-prompt/public/icons.svg",
+      "id": "public_icons_sprite",
+      "community": 2,
+      "norm_label": "icon sprite sheet"
+    },
+    {
+      "label": "Bluesky Icon",
+      "file_type": "image",
+      "source_file": "/home/user/third-project-prompt/public/icons.svg",
+      "id": "icons_bluesky_icon",
+      "community": 2,
+      "norm_label": "bluesky icon"
+    },
+    {
+      "label": "Discord Icon",
+      "file_type": "image",
+      "source_file": "/home/user/third-project-prompt/public/icons.svg",
+      "id": "icons_discord_icon",
+      "community": 2,
+      "norm_label": "discord icon"
+    },
+    {
+      "label": "Documentation Icon",
+      "file_type": "image",
+      "source_file": "/home/user/third-project-prompt/public/icons.svg",
+      "id": "icons_documentation_icon",
+      "community": 2,
+      "norm_label": "documentation icon"
+    }
+  ],
+  "links": [
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/App.tsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "src_app_tsx",
+      "target": "src_app_app",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/main.tsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "src_main_tsx",
+      "target": "src_app_tsx",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "orchestrates_build",
+      "confidence": "INFERRED",
+      "confidence_score": 0.9,
+      "source": "code_vite_config",
+      "target": "code_app_tsx"
+    },
+    {
+      "relation": "implements_code_quality_rules",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source": "code_eslint_config",
+      "target": "doc_gemini_md"
+    },
+    {
+      "relation": "assumes_primary_component",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source": "doc_gemini_md",
+      "target": "code_app_tsx"
+    },
+    {
+      "relation": "tests_capability",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source": "code_app_tsx",
+      "target": "concept_hmr"
+    },
+    {
+      "relation": "optimized_for_preview",
+      "confidence": "INFERRED",
+      "confidence_score": 0.7,
+      "source": "code_app_tsx",
+      "target": "concept_firebase_studio"
+    },
+    {
+      "relation": "mounts_to_root",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source": "code_main_tsx",
+      "target": "code_index_html"
+    },
+    {
+      "relation": "identifies_entry_point",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source": "doc_gemini_md",
+      "target": "code_main_tsx"
+    },
+    {
+      "relation": "defines_operating_env",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source": "doc_gemini_md",
+      "target": "concept_firebase_studio"
+    },
+    {
+      "relation": "mandates_usage",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source": "doc_gemini_md",
+      "target": "concept_react_compiler"
+    },
+    {
+      "relation": "notes_not_enabled",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source": "doc_readme_md",
+      "target": "concept_react_compiler"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source": "public_icons_sprite",
+      "target": "icons_bluesky_icon"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source": "public_icons_sprite",
+      "target": "icons_discord_icon"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source": "public_icons_sprite",
+      "target": "icons_documentation_icon"
+    }
+  ],
+  "hyperedges": [],
+  "built_at_commit": "e9446b19fe02fd5ec5751e61165497bd2188b750"
+}

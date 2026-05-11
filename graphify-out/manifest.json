@@ -1,0 +1,50 @@
+{
+  "/home/user/third-project-prompt/vite.config.ts": {
+    "mtime": 1777972842.2327883,
+    "hash": "88439104b3c207f17d33ef3160e3b080"
+  },
+  "/home/user/third-project-prompt/eslint.config.js": {
+    "mtime": 1777972842.2267885,
+    "hash": "0355276bc79439afe3c53e3a2470ca1e"
+  },
+  "/home/user/third-project-prompt/src/App.tsx": {
+    "mtime": 1777972842.2277884,
+    "hash": "c5e44a49ac2a44373fba5d1a7fe35be4"
+  },
+  "/home/user/third-project-prompt/src/main.tsx": {
+    "mtime": 1777972842.2317884,
+    "hash": "787e5a07efeb2bf6209d5937195f2f68"
+  },
+  "/home/user/third-project-prompt/index.html": {
+    "mtime": 1777972842.2267885,
+    "hash": "13ef07baae64c1a4acd12b640f549e52"
+  },
+  "/home/user/third-project-prompt/GEMINI.md": {
+    "mtime": 1778053619.8117838,
+    "hash": "fb52737677bef03e4c5bcf50584ed649"
+  },
+  "/home/user/third-project-prompt/README.md": {
+    "mtime": 1778307943.909996,
+    "hash": "d3505f4178bd44ebcd070bf9ad54c45f"
+  },
+  "/home/user/third-project-prompt/src/assets/react.svg": {
+    "mtime": 1777972842.2317884,
+    "hash": "f0402b67b6ce880f65666bb49e841696"
+  },
+  "/home/user/third-project-prompt/src/assets/vite.svg": {
+    "mtime": 1777972842.2317884,
+    "hash": "9960a24288958394ac50e57ff638b036"
+  },
+  "/home/user/third-project-prompt/src/assets/hero.png": {
+    "mtime": 1777972842.2277884,
+    "hash": "aead493361b27e7510691c5d7072dfc1"
+  },
+  "/home/user/third-project-prompt/public/favicon.svg": {
+    "mtime": 1777972842.2267885,
+    "hash": "7e840862161341271697daa99a40d76b"
+  },
+  "/home/user/third-project-prompt/public/icons.svg": {
+    "mtime": 1777972842.2277884,
+    "hash": "3b4fcfcf393eca4d264dca4a4663bc37"
+  }
+}
