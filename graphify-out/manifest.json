@@ -1,0 +1,97 @@
+{
+  "/home/user/site/.gemini/settings.json": {
+    "mtime": 1780402895.9050584,
+    "ast_hash": "f080aabf772e803c9e24b9ad0acbf2b6",
+    "semantic_hash": ""
+  },
+  "/home/user/site/.idx/mcp.json": {
+    "mtime": 1780402087.0757797,
+    "ast_hash": "e87985e5c990302484fadf256b886277",
+    "semantic_hash": ""
+  },
+  "/home/user/site/.vscode/settings.json": {
+    "mtime": 1780398779.6118047,
+    "ast_hash": "949ed6a4766b6865c727e5b4129c3d53",
+    "semantic_hash": ""
+  },
+  "/home/user/site/eslint.config.mjs": {
+    "mtime": 1780398779.6148047,
+    "ast_hash": "dfa1f5f6a7037bf39dc510f30b180002",
+    "semantic_hash": ""
+  },
+  "/home/user/site/next.config.ts": {
+    "mtime": 1780398779.6148047,
+    "ast_hash": "9b77af189a21a7a64e4bd7a426f64176",
+    "semantic_hash": ""
+  },
+  "/home/user/site/package.json": {
+    "mtime": 1780402244.3496423,
+    "ast_hash": "02876fedf50f43f5f253888ff65e9155",
+    "semantic_hash": ""
+  },
+  "/home/user/site/postcss.config.mjs": {
+    "mtime": 1780398779.6208048,
+    "ast_hash": "239f3ebf717465dc636818a1a619398d",
+    "semantic_hash": ""
+  },
+  "/home/user/site/src/app/layout.tsx": {
+    "mtime": 1780398779.6268048,
+    "ast_hash": "94c34ef68b3949a75807a0211ec2273c",
+    "semantic_hash": ""
+  },
+  "/home/user/site/src/app/page.tsx": {
+    "mtime": 1780398779.6268048,
+    "ast_hash": "1e489b26bb597dc97f8d44954dd042da",
+    "semantic_hash": ""
+  },
+  "/home/user/site/tsconfig.json": {
+    "mtime": 1780398779.6278048,
+    "ast_hash": "ee17fd1c97c735e9f3564e3f5251f125",
+    "semantic_hash": ""
+  },
+  "/home/user/site/AGENTS.md": {
+    "mtime": 1780398779.6118047,
+    "ast_hash": "9e09241799026ac05be315a2f0b50055",
+    "semantic_hash": ""
+  },
+  "/home/user/site/CLAUDE.md": {
+    "mtime": 1780398779.6118047,
+    "ast_hash": "5c27369b226fcf2be8a6cfe52224e767",
+    "semantic_hash": ""
+  },
+  "/home/user/site/GEMINI.md": {
+    "mtime": 1780402895.9050584,
+    "ast_hash": "252b9fdef5d3d4cd98c9729d484210f0",
+    "semantic_hash": ""
+  },
+  "/home/user/site/README.md": {
+    "mtime": 1780398779.612805,
+    "ast_hash": "f15aaa42d5d299d091b1171097ea56ad",
+    "semantic_hash": ""
+  },
+  "/home/user/site/public/file.svg": {
+    "mtime": 1780398779.6228049,
+    "ast_hash": "d09f95206c3fa0bb9bd9fefabfd0ea71",
+    "semantic_hash": ""
+  },
+  "/home/user/site/public/globe.svg": {
+    "mtime": 1780398779.6228049,
+    "ast_hash": "2aaafa6a49b6563925fe440891e32717",
+    "semantic_hash": ""
+  },
+  "/home/user/site/public/next.svg": {
+    "mtime": 1780398779.6228049,
+    "ast_hash": "8e061864f388b47f33a1c3780831193e",
+    "semantic_hash": ""
+  },
+  "/home/user/site/public/vercel.svg": {
+    "mtime": 1780398779.6228049,
+    "ast_hash": "c0af2f507b369b085b35ef4bbe3bcf1e",
+    "semantic_hash": ""
+  },
+  "/home/user/site/public/window.svg": {
+    "mtime": 1780398779.6228049,
+    "ast_hash": "a2760511c65806022ad20adf74370ff3",
+    "semantic_hash": ""
+  }
+}
