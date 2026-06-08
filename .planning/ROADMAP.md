@@ -4,23 +4,24 @@
 **Current Phase:** Phase 1
 
 ## Phase 1: Infrastructure and Tooling
-**Goal:** Setup the React + Vite foundation, Tailwind CSS 4, and Firebase integration.
+**Goal:** Setup the React + Vite foundation, Tailwind CSS 3, and Firebase integration.
 **Status:** Ready
-**Plans:** 2 plans
+**Plans:** 1/2 plans executed
 
 Plans:
 - [ ] .planning/phase-01/01-01-PLAN.md — Scaffold Vite + React and configure Tailwind CSS theme.
 - [ ] .planning/phase-01/01-02-PLAN.md — Setup Firebase integration and Carbon calculation logic.
 
 ## Phase 2: User Identity
-**Goal:** Implement secure Next.js authentication (Firebase Auth + next-firebase-auth-edge) and user profiles.
+**Goal:** Implement client-side authentication (Firebase Auth), user profiles, and the core application shell.
 **Status:** Ready
-**Plans:** 3 plans
+**Plans:** 4 plans
 
 Plans:
-- [ ] .planning/phases/02-user-identity/02-01-PLAN.md — Setup secure auth infrastructure and Middleware.
-- [ ] .planning/phases/02-user-identity/02-02-PLAN.md — Implement Auth UI and session bridging.
-- [ ] .planning/phases/02-user-identity/02-03-PLAN.md — Implement user profiles and Server Action mutations.
+- [ ] .planning/phases/02-user-identity/02-01-PLAN.md — Create reusable UI components for the application.
+- [ ] .planning/phases/02-user-identity/02-02-PLAN.md — Implement Auth and Carbon contexts for state management.
+- [ ] .planning/phases/02-user-identity/02-03-PLAN.md — Establish the application layout and routing infrastructure.
+- [ ] .planning/phases/02-user-identity/02-04-PLAN.md — Build the authentication pages and onboarding wizard.
 
 ## Phase 3: Activity Tracking
 **Goal:** Allow users to log environmental activities and calculate CO2 impact.
@@ -61,4 +62,4 @@ Plans:
 
 ---
 *Roadmap generated: 2026-06-08*
-*Last updated: 2026-06-08 after Phase 1 replan*
+*Last updated: 2026-06-08 after Phase 2 Vite replan*

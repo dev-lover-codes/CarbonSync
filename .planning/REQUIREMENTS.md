@@ -9,8 +9,8 @@
 
 - [ ] **INFRA-01**: Setup project with React + Vite
 - [ ] **INFRA-02**: Initialize and configure Tailwind CSS with custom theme (primary, earth, sky, surface)
-- [ ] **INFRA-03**: Configure Firebase App, Auth, and Firestore
-- [ ] **INFRA-04**: Define Carbon Factors configuration for footprint calculation
+- [x] **INFRA-03**: Configure Firebase App, Auth, and Firestore
+- [x] **INFRA-04**: Define Carbon Factors configuration for footprint calculation
 
 ### Authentication
 
@@ -66,8 +66,8 @@ Which phases cover which requirements. Updated during roadmap creation.
 |-------------|-------|--------|
 | INFRA-01 | Phase 1 | Pending |
 | INFRA-02 | Phase 1 | Pending |
-| INFRA-03 | Phase 1 | Pending |
-| INFRA-04 | Phase 1 | Pending |
+| INFRA-03 | Phase 1 | Complete |
+| INFRA-04 | Phase 1 | Complete |
 | AUTH-01 | Phase 2 | Pending |
 | PROF-01 | Phase 2 | Pending |
 | PROF-02 | Phase 2 | Pending |
