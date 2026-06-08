@@ -25,10 +25,12 @@ Plans:
 ## Phase 3: Activity Tracking
 **Goal:** Allow users to log environmental activities and calculate CO2 impact.
 **Status:** Not Started
+**Plans:** 3 plans
 
-- **Step 1:** Create UI forms for logging transport, energy, food, shopping, and waste.
-- **Step 2:** Implement Firestore helper functions for activities (`logActivity`, `getActivities`).
-- **Step 3:** Integrate carbon footprint calculations.
+Plans:
+- [ ] 03-01-PLAN.md — Activity Logic & Calculations (TDD).
+- [ ] 03-02-PLAN.md — Firestore Activity Helpers.
+- [ ] 03-03-PLAN.md — Activity Tracking UI.
 
 ## Phase 4: Goals Management
 **Goal:** Enable users to set and track their carbon reduction goals.
@@ -41,22 +43,22 @@ Plans:
 
 ## Phase 5: Insights & Leaderboard
 **Goal:** Provide insights and gamify the platform with a top 10 leaderboard.
-**Status:** Not Started
+**Status:** In Progress
+**Plans:** 2 plans
 
-- **Step 1:** Implement Firestore helper functions for insights (`saveInsight`, `getInsights`).
-- **Step 2:** Create Insights UI.
-- **Step 3:** Implement Firestore helper function for leaderboard (`getLeaderboard`).
-- **Step 4:** Create Leaderboard UI.
+Plans:
+- [ ] 05-01-PLAN.md — Implement Firestore helper functions and seed insights data.
+- [ ] 05-02-PLAN.md — Build the Insights Bento-grid and Leaderboard UI components and pages.
 
 ## Phase 6: Community & AI Intelligence
 **Goal:** Transform CarbonSync into a community-driven platform with personalized AI guidance.
 **Status:** Not Started
+**Plans:** 2 plans
 
-- **Step 1:** Implement Group Management and Collaborative Challenges (SOC-01, SOC-02).
-- **Step 2:** Create the Community Activity Feed (SOC-03).
-- **Step 3:** Integrate "EcoCoach" Chatbot powered by Gemini (AI-01).
-- **Step 4:** Implement Personalized Weekly Insights (AI-02).
+Plans:
+- [ ] 06-01-PLAN.md — Social Infrastructure & Community Feed.
+- [ ] 06-02-PLAN.md — EcoCoach AI Integration & Weekly Insights.
 
 ---
 *Roadmap generated: 2026-06-08*
-*Last updated: 2026-06-08 after Phase 6 addition*
+*Last updated: 2026-06-08 after Phase 3 planning*
