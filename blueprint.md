@@ -5,13 +5,13 @@ CarbonSync is a Carbon Footprint Awareness Platform designed for a competitive h
 
 ## Tech Stack
 - **Frontend**: React + Vite
-- **Styling**: Tailwind CSS 4
+- **Styling**: Tailwind CSS (v3)
 - **Authentication**: Firebase Authentication
 - **Database**: Firebase Firestore
 - **Deployment**: Vercel
 - **UI Components**: Lucide React, Framer Motion, Recharts, React Hot Toast
 
-## Features (Implemented/Planned)
+## Features (Planned)
 - User Authentication (Email/Password & Google)
 - Activity Logging (Transport, Energy, Food, Shopping, Waste)
 - Carbon Footprint Calculation Logic
@@ -20,27 +20,15 @@ CarbonSync is a Carbon Footprint Awareness Platform designed for a competitive h
 - Community Leaderboard
 
 ## Phase 1: Foundational Setup
-Establish the core infrastructure and design system.
+### Tasks
+- [x] Install dependencies (firebase, react-router-dom, tailwindcss, etc.)
+- [x] Configure Tailwind CSS with custom theme (Primary, Earth, Sky, Surface)
+- [x] Configure 'Plus Jakarta Sans' typography
+- [x] Initialize Firebase App, Auth, and Firestore
+- [x] Implement Database Helper Functions (createUserProfile, logActivity, etc.)
+- [x] Implement Carbon Calculation Logic (carbonFactors.js)
 
-### Plan 1: Environment Setup & Design System
-- **Purpose**: Scaffold Vite + React and configure Tailwind CSS 4.
-- **Tasks**:
-  - Install dependencies: `firebase`, `react-router-dom`, `tailwindcss`, `postcss`, `autoprefixer`, `@tailwindcss/forms`, `recharts`, `framer-motion`, `react-hot-toast`, `lucide-react`.
-  - Initialize Tailwind with custom theme:
-    - primary: { DEFAULT: "#2D6A4F", light: "#52B788", dark: "#1B4332" }
-    - earth: { DEFAULT: "#8B5E3C", light: "#D4A574", dark: "#5C3D1E" }
-    - sky: { DEFAULT: "#0EA5E9", light: "#BAE6FD", dark: "#0369A1" }
-    - surface: { DEFAULT: "#F8FAF7", card: "#FFFFFF", dark: "#0F1C14" }
-  - Typography: 'Plus Jakarta Sans'.
-  - Global styles in `src/index.css`.
-
-### Plan 2: Firebase & Data Logic
-- **Purpose**: Setup Firebase integration and footprint calculation logic.
-- **Tasks**:
-  - Initialize Firebase in `src/lib/firebase.js` using VITE_ env vars.
-  - Implement Firestore helper functions in `src/lib/firestore.js` for profile management, activity logging, and leaderboard.
-  - Implement Carbon calculation logic in `src/config/carbonFactors.js` with category-specific emission factors.
-
-## Implementation Details (Current State)
-- **Status**: Planning complete for Phase 1.
-- **Next Steps**: Execute Plan 1-1 to scaffold the project.
+### Implementation Details
+- **Design System**: Nature-inspired palette with custom colors.
+- **Firebase Helpers**: Async functions in `src/lib/firestore.js` handling all CRUD for the hackathon.
+- **Calculation Engine**: Centralized factors for Transport, Energy, Food, Shopping, and Waste.

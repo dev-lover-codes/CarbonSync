@@ -39,11 +39,16 @@
 
 ## v2 Requirements
 
-Deferred to future release. Tracked but not in current roadmap.
+### Social & Community
 
-### [Category]
+- [ ] **SOC-01**: User can create and join Groups/Teams for collective tracking
+- [ ] **SOC-02**: Groups can participate in Collaborative Challenges with shared progress bars
+- [ ] **SOC-03**: Users can view and post to a Community Feed for sharing achievements
 
-- **[CAT]-01**: Additional social features
+### AI Intelligence
+
+- [ ] **AI-01**: User can interact with an "EcoCoach" Chatbot (powered by Gemini) for sustainability advice
+- [ ] **AI-02**: Application generates weekly personalized insights based on user activity trends
 
 ## Out of Scope
 
@@ -73,10 +78,16 @@ Which phases cover which requirements. Updated during roadmap creation.
 | GOAL-02 | Phase 4 | Pending |
 | INS-01 | Phase 5 | Pending |
 | LEAD-01 | Phase 5 | Pending |
+| SOC-01 | Phase 6 | Pending |
+| SOC-02 | Phase 6 | Pending |
+| SOC-03 | Phase 6 | Pending |
+| AI-01 | Phase 6 | Pending |
+| AI-02 | Phase 6 | Pending |
 
 **Coverage:**
 - v1 requirements: 14 total
-- Mapped to phases: 14
+- v2 requirements (Phase 6): 5 total
+- Mapped to phases: 19
 - Unmapped: 0 
 
 ---
