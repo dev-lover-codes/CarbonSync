@@ -5,13 +5,12 @@
 
 ## Phase 1: Infrastructure and Tooling
 **Goal:** Setup the React + Vite foundation, Tailwind CSS, and Firebase integration.
-**Status:** Not Started
+**Status:** In Progress
+**Plans:** 2 plans
 
-- **Step 1:** Scaffold React + Vite application.
-- **Step 2:** Install dependencies (Firebase, Tailwind, React Router, etc.).
-- **Step 3:** Configure Tailwind CSS and custom fonts.
-- **Step 4:** Setup Firebase configuration and environment variables.
-- **Step 5:** Create carbon factors configuration file.
+Plans:
+- [ ] 01-01-PLAN.md — Scaffold Vite + React and configure Tailwind CSS theme.
+- [ ] 01-02-PLAN.md — Setup Firebase integration and Carbon calculation logic.
 
 ## Phase 2: User Identity
 **Goal:** Implement Firebase Authentication and user profile document management.
@@ -47,3 +46,4 @@
 
 ---
 *Roadmap generated: 2026-06-08*
+*Last updated: 2026-06-08 after Phase 1 planning*
