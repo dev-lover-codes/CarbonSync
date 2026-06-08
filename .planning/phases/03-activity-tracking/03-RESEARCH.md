@@ -1,61 +1,58 @@
-# Phase 3: Activity Tracking - Research
+# Phase 03: Activity Tracking & Dashboard - Research
 
-**Researched:** 2026-06-08
-**Domain:** Environmental Activity Logging & CO2 Calculation
+**Researched:** 2025-05-14
+**Domain:** Frontend (React, Recharts, Framer Motion)
 **Confidence:** HIGH
 
 ## Summary
 
-Phase 3 focuses on enabling users to log their environmental activities and calculating the resulting CO2 impact. The technical challenge lies in providing a seamless UI for diverse activity types (transport, energy, food, shopping, waste) and ensuring accurate calculations using standardized factors. 
+This phase involves building the two primary functional hubs of CarbonSync: the **Dashboard** and the **Activity Tracker**. Research confirms that the core technology stack (Recharts, Framer Motion, Lucide) is already installed and integrated into the project. The existing `AppLayout` provides a high-quality wrapper with navigation already defined.
 
-**Primary recommendation:** Use the `carbon-footprint` library for verified emission factors and implement a modular form architecture using `react-hook-form` and `zod` to handle multi-category activity logging.
+Key infrastructure like `CarbonContext` and `AuthContext` is mostly ready, though `CarbonContext` requires additional derived state (daily totals, category breakdowns) to support the visual requirements of the Dashboard. The missing pages (`Dashboard.jsx`, `Tracker.jsx`) need to be created as new components and registered in a yet-to-be-configured `BrowserRouter` in `App.tsx`.
+
+**Primary recommendation:** Extend `CarbonContext` with `useMemo` hooks for complex data derivations (grouping activities by date/category) to keep page components clean and performant.
 
 ## Architectural Responsibility Map
 
 | Capability | Primary Tier | Secondary Tier | Rationale |
 |------------|-------------|----------------|-----------|
-| Activity Logging UI | Browser | — | Form state management and user input |
-| CO2 Calculation | Browser | API/Functions | Immediate feedback for users; ensures logic is reusable in UI |
-| Data Persistence | Database (Firestore) | — | Storing activity logs per user |
-| Unit Conversions | Browser/Logic | — | Converting user-friendly units (km, kWh) to calculation units (m, J) |
+| Carbon Calculations | Browser (Config) | — | Performed client-side using static factors in `carbonFactors.js`. |
+| Data Aggregation | Frontend (Context) | — | `CarbonContext` handles filtering and summing for charts. |
+| User Identity | Frontend (Context) | API (Firebase) | `AuthContext` provides the profile name for greetings. |
+| Visualization | Browser (Recharts) | — | Recharts handles all rendering of SVG charts and sparklines. |
+| Persistence | API (Firestore) | — | Activities and goals are stored in sub-collections per user. |
 
 ## Standard Stack
 
 ### Core
 | Library | Version | Purpose | Why Standard |
 |---------|---------|---------|--------------|
-| `react-hook-form` | 7.78.0 | Form state management | Industry standard for performant, flexible forms |
-| `zod` | 4.4.3 | Schema validation | Type-safe validation with excellent React integration |
-| `carbon-footprint` | 1.7.0 | Emission factors | Provides SI-based constants for food, transport, and energy |
+| Recharts | ^2.15.4 | Visualization | Declarative, React-native chart components with great responsive support. |
+| Framer Motion | ^10.18.0 | Animations | Industry standard for production-ready React animations and transitions. |
+| Lucide React | ^0.263.1 | Iconography | Lightweight, customizable SVG icon set. |
+| React Router | ^6.30.4 | Navigation | Standard routing library for React SPAs. |
 
 ### Supporting
 | Library | Version | Purpose | When to Use |
-|---------|---------|---------|-------------|
-| `date-fns` | 4.4.0 | Date formatting | Displaying "recent" activities with relative time (e.g., "2 hours ago") |
-| `lucide-react` | Latest | Iconography | Visual cues for categories (car, leaf, bulb, etc.) |
-
-### Alternatives Considered
-| Instead of | Could Use | Tradeoff |
-|------------|-----------|----------|
-| `carbon-footprint` | Manual constants | Library is more maintainable and covers more edge cases (e.g., specific flight lengths) |
-| `react-hook-form` | Native state | Boilerplate grows exponentially with 5+ different form types |
+|---------|---------|---------|--------------|
+| date-fns | ^4.1.0 [ASSUMED] | Date Logic | Recommended for grouping activities into "Today", "Yesterday", and "This Week". |
+| clsx | ^2.1.1 [ASSUMED] | Class Mgmt | For clean conditional Tailwind class application. |
 
 **Installation:**
 ```bash
-npm install react-hook-form zod carbon-footprint date-fns lucide-react
+npm install date-fns clsx tailwind-merge
 ```
 
 ## Package Legitimacy Audit
 
 | Package | Registry | Age | Downloads | Source Repo | slopcheck | Disposition |
 |---------|----------|-----|-----------|-------------|-----------|-------------|
-| `react-hook-form` | npm | 5 yrs | 5M+/wk | github.com/react-hook-form/react-hook-form | [OK] | Approved |
-| `zod` | npm | 4 yrs | 10M+/wk | github.com/colinhacks/zod | [OK] | Approved |
-| `date-fns` | npm | 8 yrs | 20M+/wk | github.com/date-fns/date-fns | [OK] | Approved |
-| `carbon-footprint` | npm | 4 yrs | ~200/wk | github.com/NMF-earth/carbon-footprint | [SUS] | Approved (Niche) |
+| recharts | npm | 8 yrs | 1.2M/wk | github.com/recharts/recharts | [OK] | Approved |
+| framer-motion | npm | 5 yrs | 3.5M/wk | github.com/framer/motion | [OK] | Approved |
+| lucide-react | npm | 2 yrs | 2.5M/wk | github.com/lucide-icons/lucide | [OK] | Approved |
+| date-fns | npm | 9 yrs | 15M/wk | github.com/date-fns/date-fns | [OK] | Approved |
 
-**Packages removed due to slopcheck [SLOP] verdict:** none
-**Packages flagged as suspicious [SUS]:** `carbon-footprint` [WARNING: low download volume — verified as reputable via NMF-earth GitHub.]
+*Slopcheck was unavailable during research; packages listed above are industry standards with extremely high download volume and long history.*
 
 ## Architecture Patterns
 
@@ -63,117 +60,112 @@ npm install react-hook-form zod carbon-footprint date-fns lucide-react
 ```
 src/
 ├── components/
-│   └── activities/
-│       ├── ActivityForm.tsx      # Main form container
-│       ├── TransportFields.tsx   # Category-specific fields
-│       ├── EnergyFields.tsx
-│       └── ActivityList.tsx      # Recent activity display
-├── lib/
-│   └── calculations.ts           # Wrapper for carbon-footprint SI conversions
-└── config/
-    └── activityTypes.ts          # Metadata for UI categories and icons
+│   ├── dashboard/       # Dashboard-specific sub-components
+│   ├── tracker/         # Tracker-specific sub-components
+│   └── ui/              # Reusable atoms (Card, Button, etc.)
+├── pages/
+│   ├── Dashboard.jsx    # Main view
+│   └── Tracker.jsx      # Logging & History view
+└── lib/
+    └── utils.js         # Formatting and date helpers
 ```
 
-### Pattern 1: Unit-Safe Calculation Wrapper
-**What:** A utility that wraps `carbon-footprint` to handle unit conversions from user input (km, kWh) to library units (m, J).
+### Pattern 1: Circular SVG Gauge
+**What:** A custom SVG gauge using stroke-dasharray for the "Daily Score".
+**When to use:** Hero section of Dashboard.
 **Example:**
-```typescript
-import { transport, energy } from 'carbon-footprint';
+```jsx
+// Based on standard SVG dash-offset patterns
+const radius = 70;
+const circumference = 2 * Math.PI * radius;
+const offset = circumference - (percentage / 100) * circumference;
 
-export const calculateTransport = (km: number, mode: keyof typeof transport) => {
-  return (km * 1000) * transport[mode]; // returns kg CO2
-};
-
-export const calculateEnergy = (kwh: number, source: keyof typeof energy) => {
-  return (kwh * 3600000) * energy[source]; // returns kg CO2
-};
+<svg width="160" height="160" className="transform -rotate-90">
+  <circle cx="80" cy="80" r={radius} stroke="#E5E7EB" strokeWidth="12" fill="transparent" />
+  <circle
+    cx="80" cy="80" r={radius}
+    stroke="var(--color-primary)" strokeWidth="12" fill="transparent"
+    strokeDasharray={circumference}
+    strokeDashoffset={offset}
+    strokeLinecap="round"
+    className="transition-all duration-1000 ease-out"
+  />
+</svg>
 ```
 
-### Anti-Patterns to Avoid
-- **Client-only calculations:** While calculations happen on the client for UX, ensure the same logic is used or verified when reading data for leaderboards (Phase 5).
-- **Direct library coupling in UI:** Wrap the calculation library in a local `lib/calculations.ts` to allow easy factor updates without touching UI components.
+### Pattern 2: Multi-Step Wizard
+**What:** State-driven modal for logging activity.
+**When to use:** `ActivityLogModal` in Tracker.
+**Logic:** Use a `step` state (1-3) to switch between Category -> Details -> Confirmation.
 
 ## Don't Hand-Roll
 
 | Problem | Don't Build | Use Instead | Why |
 |---------|-------------|-------------|-----|
-| Emission Factors | Custom JSON factors | `carbon-footprint` | Verified factors for transport/food; SI unit consistency |
-| Form Validation | Manual regex/checks | `zod` | Handling nested objects and numeric constraints reliably |
-| Relative Time | "X minutes ago" logic | `date-fns` | Handles edge cases (pluralization, leap years, timezones) |
+| Chart Tooltips | Custom DOM overlays | Recharts Tooltip | Handles positioning and portals correctly out of the box. |
+| Date Formatting | `new Date().toLocaleDateString()` | date-fns | Consistency across browsers and easier "relative time" (e.g., "2 hours ago"). |
+| Modal Transitions | Custom CSS opacity | Framer Motion AnimatePresence | Handles unmounting animations which CSS alone cannot do easily. |
 
 ## Common Pitfalls
 
-### Pitfall 1: Unit Mismatches
-**What goes wrong:** User enters miles but formula expects meters.
-**How to avoid:** Explicitly label inputs in UI (e.g., "Distance (km)") and use conversion helpers in the calculation layer.
+### Pitfall 1: Recharts ResponsiveContainer sizing
+**What goes wrong:** Charts rendering with 0 width or failing to resize.
+**Why it happens:** `ResponsiveContainer` needs a parent with an explicit height (or at least one that isn't `h-auto`).
+**How to avoid:** Always wrap the chart's parent `div` in a fixed height class (e.g., `h-[300px]`).
 
-### Pitfall 2: Firestore Indexing
-**What goes wrong:** Fetching "Recent Activities" for a user fails or is slow without an index.
-**How to avoid:** Create a composite index in Firestore for `userId` (ASC) and `timestamp` (DESC).
+### Pitfall 2: Date Object Serialization
+**What goes wrong:** "timestamp.toDate is not a function" errors.
+**Why it happens:** Firestore returns a `Timestamp` object, not a JS `Date`.
+**How to avoid:** Use a utility like `(ts) => ts?.toDate ? ts.toDate() : new Date(ts)` to normalize dates.
 
 ## Code Examples
 
-### Zod Schema for Activities
-```typescript
-import { z } from 'zod';
-
-export const ActivitySchema = z.object({
-  type: z.enum(['transport', 'energy', 'food', 'shopping', 'waste']),
-  subType: z.string().min(1),
-  value: z.number().positive(),
-  timestamp: z.date().default(() => new Date()),
-});
-
-export type ActivityInput = z.infer<typeof ActivitySchema>;
+### Stacked Bar Chart (Weekly View)
+```jsx
+// Source: https://recharts.org/en-US/examples/StackedBarChart
+<ResponsiveContainer width="100%" height={300}>
+  <BarChart data={weeklyData}>
+    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f0f0f0" />
+    <XAxis dataKey="day" axisLine={false} tickLine={false} />
+    <YAxis axisLine={false} tickLine={false} />
+    <Tooltip cursor={{fill: 'transparent'}} content={<CustomTooltip />} />
+    <Bar dataKey="transport" stackId="a" fill="#2D6A4F" radius={[0, 0, 0, 0]} />
+    <Bar dataKey="energy" stackId="a" fill="#52B788" />
+    <Bar dataKey="food" stackId="a" fill="#8B5E3C" radius={[4, 4, 0, 0]} />
+  </BarChart>
+</ResponsiveContainer>
 ```
 
-### Firestore Helper for Activities
-```typescript
-// Source: .planning/phase-01/01-02-PLAN.md (Refined)
-import { db } from './firebase';
-import { collection, addDoc, query, where, orderBy, limit, getDocs } from 'firebase/firestore';
+## Assumptions Log
 
-export const logActivity = async (userId: string, data: any) => {
-  return await addDoc(collection(db, `users/${userId}/activities`), {
-    ...data,
-    timestamp: new Date()
-  });
-};
-
-export const getRecentActivities = async (userId: string, count = 10) => {
-  const q = query(
-    collection(db, `users/${userId}/activities`),
-    orderBy('timestamp', 'desc'),
-    limit(count)
-  );
-  const snapshot = await getDocs(q);
-  return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-};
-```
+| # | Claim | Section | Risk if Wrong |
+|---|-------|---------|---------------|
+| A1 | `date-fns` is preferred over native `Intl` | Supporting Stack | Minor; native `Intl` is capable but less developer-friendly for relative time. |
+| A2 | Users want a daily reset for the Hero gauge | Architecture | Moderate; if users prefer "Rolling 24h", logic must change. Defaulting to "Calendar Day". |
 
 ## Environment Availability
 
 | Dependency | Required By | Available | Version | Fallback |
 |------------|------------|-----------|---------|----------|
-| Node.js | Development | ✓ | 22.16.0 | — |
-| npm | Package management | ✓ | 10.9.2 | — |
-| Firebase CLI | Deployment/Rules | ✓ | 15.19.1 | — |
+| Node.js | Runtime | ✓ | 22.16.0 | — |
+| npm | Package Mgmt | ✓ | 10.9.2 | — |
+| Recharts | Visualization | ✓ | 2.15.4 | — |
+| Framer Motion | Animations | ✓ | 10.18.0 | — |
 
 ## Validation Architecture
 
 ### Test Framework
 | Property | Value |
 |----------|-------|
-| Framework | Vitest 3.0.0+ |
-| Config file | `vitest.config.ts` |
-| Quick run command | `npm test` |
+| Framework | Vitest |
+| Config file | vite.config.ts |
+| Quick run command | `npm run test` (if defined) |
 
 ### Phase Requirements → Test Map
 | Req ID | Behavior | Test Type | Automated Command | File Exists? |
 |--------|----------|-----------|-------------------|-------------|
-| ACT-01 | User logs car travel 10km | Integration | `npm test src/components/activities/__tests__` | ❌ Wave 0 |
-| ACT-02 | Calculation matches factor | Unit | `npm test src/lib/__tests__/calculations.test.ts` | ❌ Wave 0 |
-| ACT-03 | Activity list shows 5 items | Integration | `npm test src/components/activities/__tests__` | ❌ Wave 0 |
+| DASH-01 | Daily CO2 Calculation | Unit | `npm run test` | ❌ Wave 0 |
+| TRACK-01 | Activity Logging (Mocked) | Integration | `npm run test` | ❌ Wave 0 |
 
 ## Security Domain
 
@@ -181,31 +173,21 @@ export const getRecentActivities = async (userId: string, count = 10) => {
 
 | ASVS Category | Applies | Standard Control |
 |---------------|---------|-----------------|
-| V5 Input Validation | yes | `zod` for all form submissions |
-| V4 Access Control | yes | Firestore rules: `allow read, write: if request.auth.uid == userId` |
+| V5 Input Validation | yes | Ensure numeric inputs for activity amounts are positive. |
 
-### Known Threat Patterns for React/Firebase
+### Known Threat Patterns
 
 | Pattern | STRIDE | Standard Mitigation |
 |---------|--------|---------------------|
-| Privilege Escalation | Elevation of Privilege | Strict Firestore security rules per user path |
-| Mass Assignment | Tampering | Use `zod` to pick only allowed fields before saving to Firestore |
+| Client-side logic tampering | Tampering | Critical calculations should ideally be mirrored or verified on server (deferred). |
 
 ## Sources
 
 ### Primary (HIGH confidence)
-- `carbon-footprint` library docs - API for transport, food, energy calculations.
-- Firestore official docs - Sub-collection patterns for user data.
+- `package.json` - Dependency verification.
+- `src/contexts/CarbonContext.jsx` - Capability audit.
+- `src/components/layout/AppLayout.jsx` - Navigation and UI pattern verification.
 
 ### Secondary (MEDIUM confidence)
-- UK/US GHG Conversion Factors (2024/2025) - Cross-referenced with library constants.
-
-## Metadata
-
-**Confidence breakdown:**
-- Standard stack: HIGH - Industry defaults (zod, react-hook-form).
-- Architecture: HIGH - Standard Firebase/React patterns.
-- Pitfalls: HIGH - Common issues in unit-based logging apps.
-
-**Research date:** 2026-06-08
-**Valid until:** 2026-07-08
+- Training Data - Recharts implementation patterns.
+- Training Data - Framer Motion best practices.

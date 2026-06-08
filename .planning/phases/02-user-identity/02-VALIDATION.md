@@ -4,20 +4,32 @@
 
 | Requirement | Test File / Command | Wave |
 |-------------|---------------------|------|
-| **AUTH-01** | `npm test src/app/(auth)/auth.test.ts` | 2 |
-| **PROF-01** | `npm test src/app/(auth)/auth.test.ts` (Creation) / `src/lib/actions/profile.test.ts` (Retrieval) | 2 & 3 |
-| **PROF-02** | `npm test src/lib/actions/profile.test.ts` | 3 |
+| **AUTH-01** | `npm test src/contexts/AuthContext.test.jsx` | 2 |
+| **PROF-01** | `npm test src/contexts/AuthContext.test.jsx` | 2 |
+| **PROF-02** | `npm test src/contexts/CarbonContext.test.jsx` | 2 |
 
 ## Automated Checks
 
+- **Vitest**: All unit tests must pass: `npm test`.
 - **Linting**: `npm run lint` must pass after each task.
 - **Build**: `npm run build` must succeed after each wave.
-- **Auth Flow**: Manual verification of signup -> login -> profile access.
 
 ## Success Criteria
 
-1. User can successfully sign up and their document is created in Firestore.
-2. User can login, and a session cookie is set via `/api/login`.
-3. Protected routes (e.g., `/profile`) are inaccessible without a valid session.
-4. User can update their profile information and see the changes reflected.
-5. `next-firebase-auth-edge` correctly validates tokens in Middleware.
+1. **Authentication (AUTH-01)**:
+   - Users can sign up with email/password.
+   - Users can sign in with Google.
+   - Users can log out.
+   - Authentication state persists across page refreshes.
+2. **Profiles (PROF-01)**:
+   - A Firestore document in the `users` collection is created automatically on signup.
+   - User profile data (name, level, etc.) is correctly fetched and available in `AuthContext`.
+3. **Onboarding (PROF-02)**:
+   - The onboarding wizard correctly saves preferences to Firestore.
+   - `onboardingComplete` flag is updated to `true` upon finishing.
+4. **Routing & Layout**:
+   - Protected routes redirect unauthenticated users to `/login`.
+   - Users who haven't finished onboarding are redirected to `/onboarding`.
+   - The navigation sidebar is visible on all protected pages.
+5. **UI Components**:
+   - All 8 components in `src/components/ui/` are functional and follow the design system.

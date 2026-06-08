@@ -4,10 +4,24 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  font-family: 'Plus Jakarta Sans', sans-serif;
-}
+@layer base {
+  :root {
+    --primary: #2D6A4F;
+    --primary-light: #52B788;
+    --primary-dark: #1B4332;
+    --earth: #8B5E3C;
+    --earth-light: #D4A574;
+    --earth-dark: #5C3D1E;
+    --sky: #0EA5E9;
+    --sky-light: #BAE6FD;
+    --sky-dark: #0369A1;
+    --surface: #F8FAF7;
+    --surface-card: #FFFFFF;
+    --surface-dark: #0F1C14;
+  }
 
-body {
-  @apply bg-surface text-surface-dark antialiased;
+  body {
+    @apply bg-surface text-surface-dark antialiased;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+  }
 }

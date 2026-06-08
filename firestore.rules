@@ -1,0 +1,22 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /users/{userId} {
+      // 1. Users can only read and write their own profile document, 
+      // UNLESS their showOnLeaderboard field is set to true
+      allow read: if request.auth != null && (request.auth.uid == userId || resource.data.showOnLeaderboard == true);
+      allow write: if request.auth != null && request.auth.uid == userId;
+
+      // 2. The activities, goals, and insights subcollections must be strictly private
+      match /activities/{docId} {
+        allow read, write, delete: if request.auth != null && request.auth.uid == userId;
+      }
+      match /goals/{docId} {
+        allow read, write, delete: if request.auth != null && request.auth.uid == userId;
+      }
+      match /insights/{docId} {
+        allow read, write, delete: if request.auth != null && request.auth.uid == userId;
+      }
+    }
+  }
+}
