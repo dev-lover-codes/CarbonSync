@@ -1,6 +1,6 @@
 # Roadmap: CarbonSync
 
-**Status:** Not Started
+**Status:** In Progress
 **Current Phase:** Phase 1
 
 ## Phase 1: Infrastructure and Tooling
@@ -30,10 +30,12 @@ Plans:
 
 ## Phase 4: Goals Management
 **Goal:** Enable users to set and track their carbon reduction goals.
-**Status:** Not Started
+**Status:** In Progress
+**Plans:** 2 plans
 
-- **Step 1:** Create UI for setting and updating goals.
-- **Step 2:** Implement Firestore helper functions for goals (`saveGoal`, `getGoals`, `updateGoal`).
+Plans:
+- [ ] 04-01-PLAN.md — Setup the foundational data layer and progress logic.
+- [ ] 04-02-PLAN.md — Build the interactive Goals UI and Dashboard page.
 
 ## Phase 5: Insights & Leaderboard
 **Goal:** Provide insights and gamify the platform with a top 10 leaderboard.
@@ -44,6 +46,12 @@ Plans:
 - **Step 3:** Implement Firestore helper function for leaderboard (`getLeaderboard`).
 - **Step 4:** Create Leaderboard UI.
 
+## Phase 6: 2
+**Goal:** TBD
+**Status:** Not Started
+
+- **Step 1:** TBD
+
 ---
 *Roadmap generated: 2026-06-08*
-*Last updated: 2026-06-08 after Phase 1 planning*
+*Last updated: 2026-06-08 after Phase 6 addition*
