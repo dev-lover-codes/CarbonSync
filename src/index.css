@@ -1,27 +1,34 @@
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-  :root {
-    --primary: #2D6A4F;
-    --primary-light: #52B788;
-    --primary-dark: #1B4332;
-    --earth: #8B5E3C;
-    --earth-light: #D4A574;
-    --earth-dark: #5C3D1E;
-    --sky: #0EA5E9;
-    --sky-light: #BAE6FD;
-    --sky-dark: #0369A1;
-    --surface: #F8FAF7;
-    --surface-card: #FFFFFF;
-    --surface-dark: #0F1C14;
-  }
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
-  body {
-    @apply bg-surface text-surface-dark antialiased;
-    font-family: 'Plus Jakarta Sans', sans-serif;
-  }
+html, body, #root {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: #020b06;
+  color: #ffffff;
+  user-select: none;
+}
+
+canvas {
+  display: block !important;
+}
+
+/* Custom scrollbar resets for nested HTML overlays if any */
+::-webkit-scrollbar {
+  width: 4px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(2, 11, 6, 0.5);
+}
+::-webkit-scrollbar-thumb {
+  background: #00ff87;
+  border-radius: 4px;
 }

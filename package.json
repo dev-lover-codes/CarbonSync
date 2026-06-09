@@ -4,21 +4,30 @@
   "version": "0.1.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "node scripts/dev-wrapper.js",
     "build": "vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives",
     "preview": "vite preview"
   },
   "dependencies": {
     "@google/generative-ai": "^0.24.1",
+    "@gsap/react": "^2.1.2",
+    "@react-spring/three": "^10.1.0",
+    "@react-three/drei": "^9.122.0",
+    "@react-three/fiber": "^8.18.0",
+    "@react-three/postprocessing": "^3.0.4",
     "firebase": "^10.14.1",
     "framer-motion": "^10.18.0",
+    "gsap": "^3.15.0",
+    "leva": "^0.10.1",
     "lucide-react": "^0.263.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hot-toast": "^2.6.0",
     "react-router-dom": "^6.30.4",
-    "recharts": "^2.15.4"
+    "recharts": "^2.15.4",
+    "three": "^0.164.0",
+    "zustand": "^5.0.14"
   },
   "devDependencies": {
     "@tailwindcss/forms": "^0.5.11",
