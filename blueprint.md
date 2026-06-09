@@ -116,6 +116,22 @@ CarbonSync is a Carbon Footprint Awareness Platform designed for a competitive h
 - **Race Condition Resolution**: Fetched user profiles and setting `currentUser`/`userProfile` state synchronously in the context actions before resolving the authentication promises, resolving the redirection bug to `/login`.
 - **Interactive UI Mock Toggle**: Created a floating badge in [App.jsx](file:///home/user/site/src/App.jsx) that allows developers/testers to switch between **Live Firebase** and **Mock DB (Offline)** in 1 click (saved to `localStorage`).
 
+## Phase 8: 3D Rebuild & Netlify Deployment
+### Tasks
+- [x] Downgrade `three` to `0.164.0` for full engine compatibility.
+- [x] Strip remote Google fonts to prevent React Suspense network hangs.
+- [x] Add explicit ref safety checks in `Portal3D` and chart components to fix mounting race conditions.
+- [x] Add safe fallbacks in `BarChart3D` and `PieChart3D` to handle undefined parameters.
+- [x] Compile production bundle using `npm run build`.
+- [x] Deploy the application to Netlify: `https://carbonsync-3d-cosmic.netlify.app`.
+- [x] Git add, commit, and push all modifications to origin repository.
+
+### Implementation Details
+- **Three.js Engine Alignment**: Realigned dependencies by downgrading `three` to version `0.164.0` which is compatible with `@react-three/fiber` (v8) and `@react-three/drei` (v9).
+- **Offline Reliability & Loading Fix**: Sanitized font parameters and environment maps so all assets are bundled locally, eliminating dynamic CDN downloads that hang React Suspense on slow networks.
+- **Robust Ref Validation**: Added guard statements to verify ref attachments before running animations or drawing, correcting the black screen context crash.
+- **Netlify & Version Control**: Created small site named `carbonsync-3d-cosmic` on Netlify, ran production builds successfully, pushed code to GitHub, and completed live deployment.
+
 
 
 
