@@ -158,7 +158,7 @@ export function DashboardScene() {
               <Text position={[0, 0.25, 0.05]} fontSize={0.18} color="#00ff87">
                 {`${dailyFootprintCount.toFixed(1)} KG`}
               </Text>
-              <Text position={[0, -0.25, 0.05]} fontSize={0.09} color="rgba(255,255,255,0.6)" maxWidth={1.2} textAlign="center">
+              <Text position={[0, -0.25, 0.05]} fontSize={0.09} color="#99b0a0" maxWidth={1.2} textAlign="center">
                 TODAY EMISSIONS
               </Text>
             </FloatingCard>
@@ -169,7 +169,7 @@ export function DashboardScene() {
               <Text position={[0, 0.25, 0.05]} fontSize={0.18} color="#00d4ff">
                 {`${totalSavedCount.toFixed(1)} KG`}
               </Text>
-              <Text position={[0, -0.25, 0.05]} fontSize={0.09} color="rgba(255,255,255,0.6)" maxWidth={1.2} textAlign="center">
+              <Text position={[0, -0.25, 0.05]} fontSize={0.09} color="#99b0a0" maxWidth={1.2} textAlign="center">
                 TOTAL CO₂ SAVED
               </Text>
             </FloatingCard>
@@ -180,7 +180,7 @@ export function DashboardScene() {
               <Text position={[0, 0.25, 0.05]} fontSize={0.18} color="#ffb347">
                 {`${(userProfile?.weeklyLimit || 80)} KG`}
               </Text>
-              <Text position={[0, -0.25, 0.05]} fontSize={0.09} color="rgba(255,255,255,0.6)" maxWidth={1.2} textAlign="center">
+              <Text position={[0, -0.25, 0.05]} fontSize={0.09} color="#99b0a0" maxWidth={1.2} textAlign="center">
                 WEEKLY TARGET
               </Text>
             </FloatingCard>

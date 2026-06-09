@@ -54,7 +54,7 @@ function Bar({ label, value, color, targetHeight, x }) {
       <Text
         position={[0, -0.25, 0.05]}
         fontSize={0.09}
-        color="rgba(255,255,255,0.6)"
+        color="#99b0a0"
         anchorX="center"
         anchorY="top"
       >

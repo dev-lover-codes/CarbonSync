@@ -219,7 +219,7 @@ export function OnboardingScene() {
         </group>
 
         <group position={[0, -1.3, 0]}>
-          <Button3D width={1.0} position={[-0.7, 0, 0]} label="← BACK" color="rgba(255,255,255,0.15)" onClick={handleBack} />
+          <Button3D width={1.0} position={[-0.7, 0, 0]} label="← BACK" color="#1a2a20" onClick={handleBack} />
           <Button3D width={1.0} position={[0.7, 0, 0]} label="NEXT →" color="#00ff87" onClick={handleNext} />
         </group>
       </group>
@@ -268,7 +268,7 @@ export function OnboardingScene() {
         </group>
 
         <group position={[0, -1.4, 0]}>
-          <Button3D width={1.0} position={[-0.7, 0, 0]} label="← BACK" color="rgba(255,255,255,0.15)" onClick={handleBack} />
+          <Button3D width={1.0} position={[-0.7, 0, 0]} label="← BACK" color="#1a2a20" onClick={handleBack} />
           <Button3D width={1.0} position={[0.7, 0, 0]} label="NEXT →" color="#00ff87" onClick={handleNext} />
         </group>
       </group>
@@ -314,7 +314,7 @@ export function OnboardingScene() {
         <Sparkles count={20} scale={2} size={3} speed={0.4} color="#00ff87" position={[-1.5, 0.1, 0]} />
 
         <group position={[0, -1.3, 0]}>
-          <Button3D width={1.0} position={[-1.1, 0, 0]} label="← BACK" color="rgba(255,255,255,0.15)" onClick={handleBack} />
+          <Button3D width={1.0} position={[-1.1, 0, 0]} label="← BACK" color="#1a2a20" onClick={handleBack} />
           <Button3D width={1.8} position={[0.7, 0, 0]} label="START TRACKING →" color="#00ff87" onClick={handleNext} />
         </group>
       </group>

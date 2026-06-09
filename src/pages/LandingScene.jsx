@@ -80,7 +80,7 @@ export function LandingScene() {
         <Text
           position={[-1.8, -0.3, 0]}
           fontSize={0.11}
-          color="rgba(255, 255, 255, 0.7)"
+          color="#b3c6bc"
           maxWidth={2.8}
           anchorX="left"
           anchorY="top"
@@ -100,7 +100,7 @@ export function LandingScene() {
             width={1.0}
             position={[1.4, 0, 0]}
             label="SEE DEMO"
-            color="rgba(0, 212, 255, 0.2)"
+            color="#003344"
             textColor="#00d4ff"
             onClick={() => navigate('dashboard')}
           />
@@ -140,7 +140,7 @@ export function LandingScene() {
             <Text position={[0, 0.3, 0.05]} fontSize={0.3} color="#ffffff">
               10 KG
             </Text>
-            <Text position={[0, -0.3, 0.05]} fontSize={0.1} color="rgba(255,255,255,0.6)" maxWidth={1.4} textAlign="center">
+            <Text position={[0, -0.3, 0.05]} fontSize={0.1} color="#99b0a0" maxWidth={1.4} textAlign="center">
               Average personal footprint per day
             </Text>
           </FloatingCard>
@@ -151,7 +151,7 @@ export function LandingScene() {
             <Text position={[0, 0.3, 0.05]} fontSize={0.3} color="#ffffff">
               40%
             </Text>
-            <Text position={[0, -0.3, 0.05]} fontSize={0.1} color="rgba(255,255,255,0.6)" maxWidth={1.4} textAlign="center">
+            <Text position={[0, -0.3, 0.05]} fontSize={0.1} color="#99b0a0" maxWidth={1.4} textAlign="center">
               Reducible with simple lifestyle choices
             </Text>
           </FloatingCard>
@@ -162,7 +162,7 @@ export function LandingScene() {
             <Text position={[0, 0.3, 0.05]} fontSize={0.3} color="#ffffff">
               1.8 T
             </Text>
-            <Text position={[0, -0.3, 0.05]} fontSize={0.1} color="rgba(255,255,255,0.6)" maxWidth={1.4} textAlign="center">
+            <Text position={[0, -0.3, 0.05]} fontSize={0.1} color="#99b0a0" maxWidth={1.4} textAlign="center">
               CO₂ emitted yearly per person in India
             </Text>
           </FloatingCard>
@@ -256,7 +256,7 @@ export function LandingScene() {
           </mesh>
           <Text position={[0, 0, 0.36]} fontSize={0.25} color="#020b06" anchorX="center" anchorY="middle">1</Text>
           <Text position={[0, -0.6, 0]} fontSize={0.12} color="#ffffff" anchorX="center">LOG</Text>
-          <Text position={[0, -0.85, 0]} fontSize={0.09} color="rgba(255,255,255,0.6)" maxWidth={1.2} textAlign="center">Input transport, diet, or electricity logs</Text>
+          <Text position={[0, -0.85, 0]} fontSize={0.09} color="#99b0a0" maxWidth={1.2} textAlign="center">Input transport, diet, or electricity logs</Text>
         </group>
 
         <group position={[0, 0, 0]}>
@@ -266,7 +266,7 @@ export function LandingScene() {
           </mesh>
           <Text position={[0, 0, 0.36]} fontSize={0.25} color="#020b06" anchorX="center" anchorY="middle">2</Text>
           <Text position={[0, -0.6, 0]} fontSize={0.12} color="#ffffff" anchorX="center">ANALYZE</Text>
-          <Text position={[0, -0.85, 0]} fontSize={0.09} color="rgba(255,255,255,0.6)" maxWidth={1.2} textAlign="center">Gemini compiles personalized breakdowns</Text>
+          <Text position={[0, -0.85, 0]} fontSize={0.09} color="#99b0a0" maxWidth={1.2} textAlign="center">Gemini compiles personalized breakdowns</Text>
         </group>
 
         <group position={[2.5, 0, 0]}>
@@ -276,7 +276,7 @@ export function LandingScene() {
           </mesh>
           <Text position={[0, 0, 0.36]} fontSize={0.25} color="#020b06" anchorX="center" anchorY="middle">3</Text>
           <Text position={[0, -0.6, 0]} fontSize={0.12} color="#ffffff" anchorX="center">REDUCE</Text>
-          <Text position={[0, -0.85, 0]} fontSize={0.09} color="rgba(255,255,255,0.6)" maxWidth={1.2} textAlign="center">Complete daily goals and claim streaks</Text>
+          <Text position={[0, -0.85, 0]} fontSize={0.09} color="#99b0a0" maxWidth={1.2} textAlign="center">Complete daily goals and claim streaks</Text>
         </group>
       </group>
 
@@ -286,7 +286,7 @@ export function LandingScene() {
           <Text position={[0, 0.5, 0.05]} fontSize={0.24} color="#ffffff" anchorX="center">
             READY TO JOIN THE COSMOS?
           </Text>
-          <Text position={[0, 0.1, 0.05]} fontSize={0.12} color="rgba(255,255,255,0.7)" anchorX="center">
+          <Text position={[0, 0.1, 0.05]} fontSize={0.12} color="#b3c6bc" anchorX="center">
             Create an account and initialize your footprint target.
           </Text>
           

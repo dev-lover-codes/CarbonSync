@@ -1,7 +1,7 @@
 import React, { Suspense } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { CameraShake, Preload, ScrollControls } from '@react-three/drei';
-import { EffectComposer, Bloom, ChromaticAberration, Vignette } from '@react-three/postprocessing';
+
 import { useStore } from '../store/useStore';
 import * as THREE from 'three';
 
@@ -133,12 +133,7 @@ export function Scene() {
 
           <Preload all />
 
-          {/* Post Processing Composer */}
-          <EffectComposer>
-            <Bloom luminanceThreshold={0.25} intensity={1.3} />
-            <ChromaticAberration offset={new THREE.Vector2(0.0006, 0.0006)} />
-            <Vignette eskil={false} offset={0.12} darkness={0.85} />
-          </EffectComposer>
+          {/* Post-processing removed for WebGL stability */}
         </Suspense>
       </Canvas>
 

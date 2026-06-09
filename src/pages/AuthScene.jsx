@@ -147,7 +147,7 @@ export function AuthScene() {
             height={0.35}
             position={[0, -0.45, 0]}
             label="AUTH WITH GOOGLE"
-            color="rgba(0, 212, 255, 0.2)"
+            color="#003344"
             textColor="#00d4ff"
             onClick={handleGoogleSignIn}
           />

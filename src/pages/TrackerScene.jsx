@@ -288,7 +288,7 @@ export function TrackerScene() {
               <group position={[0, -0.5, 0]}>
                 <Text
                   fontSize={0.085}
-                  color="rgba(255,255,255,0.4)"
+                  color="#666666"
                   maxWidth={1.8}
                   textAlign="center"
                 >

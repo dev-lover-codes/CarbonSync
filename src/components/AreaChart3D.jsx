@@ -64,7 +64,7 @@ export function AreaChart3D({
           key={idx}
           position={[-1.35 + idx * 0.45, -0.55, 0.05]}
           fontSize={0.08}
-          color="rgba(255,255,255,0.5)"
+          color="#808080"
           anchorX="center"
           anchorY="top"
         >

@@ -125,7 +125,7 @@ export function PieChart3D({
             <Text
               position={[0, 0, 0]}
               fontSize={0.1}
-              color="rgba(255,255,255,0.7)"
+              color="#b3c6bc"
               anchorX="left"
               anchorY="middle"
             >

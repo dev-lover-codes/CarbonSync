@@ -110,7 +110,7 @@ export function AICoachScene() {
                   width={2.0}
                   height={0.2}
                   label={s.text}
-                  color="rgba(0, 255, 135, 0.1)"
+                  color="#001f0d"
                   textColor="#00ff87"
                   fontSize={0.055}
                   onClick={() => handleSend(s.q)}

@@ -128,7 +128,7 @@ export function InsightsScene() {
 
               {/* Indian Average Compare Bar */}
               <group position={[0, 0.1, 0.05]}>
-                <Text position={[-1.0, 0.15, 0]} fontSize={0.08} color="rgba(255,255,255,0.6)" anchorX="left">
+                <Text position={[-1.0, 0.15, 0]} fontSize={0.08} color="#99b0a0" anchorX="left">
                   INDIAN REGIONAL AVG (1.8T)
                 </Text>
                 <mesh position={[0, -0.05, 0]}>
@@ -143,7 +143,7 @@ export function InsightsScene() {
 
               {/* Global Average Compare Bar */}
               <group position={[0, -0.5, 0.05]}>
-                <Text position={[-1.0, 0.15, 0]} fontSize={0.08} color="rgba(255,255,255,0.6)" anchorX="left">
+                <Text position={[-1.0, 0.15, 0]} fontSize={0.08} color="#99b0a0" anchorX="left">
                   GLOBAL CO₂ LIMIT (4.0T)
                 </Text>
                 <mesh position={[0, -0.05, 0]}>

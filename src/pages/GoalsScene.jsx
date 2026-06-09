@@ -140,7 +140,7 @@ export function GoalsScene() {
                     <Text position={[0, 0.3, 0.05]} fontSize={0.08} color="#ffffff" maxWidth={1.2} textAlign="center">
                       {goal.title.toUpperCase()}
                     </Text>
-                    <Text position={[0, 0.05, 0.05]} fontSize={0.07} color="rgba(255,255,255,0.5)">
+                    <Text position={[0, 0.05, 0.05]} fontSize={0.07} color="#808080">
                       {goal.deadline}
                     </Text>
                     <group position={[0, -0.22, 0.05]}>

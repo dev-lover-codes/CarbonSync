@@ -1,6 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useSpring, animated } from '@react-spring/three';
 import { RoundedBox, Text } from '@react-three/drei';
+
+// Safely convert any color string (including rgba) to a plain hex/rgb color
+// THREE.Color does not support the alpha channel in rgba() — this strips it.
+function parseColorAndOpacity(colorStr) {
+  if (!colorStr) return { solidColor: '#ffffff', opacity: 1 };
+  const rgbaMatch = colorStr.match(/rgba?\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)(?:\s*,\s*([\d.]+))?\s*\)/);
+  if (rgbaMatch) {
+    const r = parseInt(rgbaMatch[1], 10).toString(16).padStart(2, '0');
+    const g = parseInt(rgbaMatch[2], 10).toString(16).padStart(2, '0');
+    const b = parseInt(rgbaMatch[3], 10).toString(16).padStart(2, '0');
+    const opacity = rgbaMatch[4] !== undefined ? parseFloat(rgbaMatch[4]) : 1;
+    return { solidColor: `#${r}${g}${b}`, opacity };
+  }
+  return { solidColor: colorStr, opacity: 1 };
+}
 
 export function Button3D({
   width = 1.2,
@@ -17,9 +32,12 @@ export function Button3D({
   const [hovered, setHovered] = useState(false);
   const [clicked, setClicked] = useState(false);
 
+  // Memoize parsed color so it doesn't reparse every render
+  const { solidColor, opacity } = useMemo(() => parseColorAndOpacity(color), [color]);
+
   const { scale, emissiveIntensity } = useSpring({
     scale: clicked ? 0.92 : hovered ? 1.08 : 1.0,
-    emissiveIntensity: hovered ? 1.5 : 0.3,
+    emissiveIntensity: hovered ? 1.5 : opacity * 0.3,
     config: { mass: 1, tension: 350, friction: 12 }
   });
 
@@ -49,11 +67,13 @@ export function Button3D({
     >
       <RoundedBox args={[width, height, depth]} radius={0.05} smoothness={4} castShadow>
         <animated.meshStandardMaterial
-          color={color}
-          emissive={color}
+          color={solidColor}
+          emissive={solidColor}
           emissiveIntensity={emissiveIntensity}
           roughness={0.1}
           metalness={0.9}
+          transparent={opacity < 1}
+          opacity={opacity}
         />
       </RoundedBox>
       <Text
