@@ -9,7 +9,7 @@ import {
 } from 'recharts';
 import { 
   Plus, MessageSquare, TrendingDown, TrendingUp, Flame, Award, 
-  Target, ArrowRight, Lightbulb, Zap, Leaf
+  Target, ArrowRight, Lightbulb, Zap, Leaf, Car
 } from 'lucide-react';
 import Card from '../components/ui/Card';
 import Button from '../components/ui/Button';

@@ -1,4 +1,4 @@
-import { Car, Zap, Utensils, ShoppingBag, Trash2 } from 'lucide-react';
+import { Car, Zap, Utensils, ShoppingBag, Trash2, Leaf } from 'lucide-react';
 
 export const formatCO2 = (kg) => {
   if (kg === undefined || kg === null) return '0.0';

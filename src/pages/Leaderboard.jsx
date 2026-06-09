@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { getLeaderboard } from '../lib/firestore';
-import { Trophy, Share2, Medal, Target, Leaf } from 'lucide-react';
+import { Trophy, Share2, Medal, Target, Leaf, Loader2 } from 'lucide-react';
 import Card from '../components/ui/Card';
 import Button from '../components/ui/Button';
 import Avatar from '../components/ui/Avatar';
+import Badge from '../components/ui/Badge';
 import toast from 'react-hot-toast';
 
 export default function Leaderboard() {
