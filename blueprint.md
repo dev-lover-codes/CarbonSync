@@ -106,12 +106,15 @@ CarbonSync is a Carbon Footprint Awareness Platform designed for a competitive h
 ### Tasks
 - [x] Resolve file conflict: Remove placeholder `src/App.tsx` so Vite resolves the full implementation in `src/App.jsx`.
 - [x] Verify build and fix any compile/lint issues.
+- [x] Resolve authentication issues: Add a `localStorage` mock fallback when Firebase environment keys are not configured.
 - [x] Push local changes to Git repository.
 - [x] Run local development server (`npm run dev`).
 - [−] Deploy the project to Vercel (cancelled per user request).
 
 ### Implementation Details
 - **Entry Point Conflict**: Removed the placeholder `src/App.tsx` file, which was overriding `src/App.jsx` and causing the app to load as a blank "Foundation Setup Complete" screen instead of the fully implemented application.
+- **Mock Fallback Engine**: Implemented an automatic local storage fallback in `src/lib/firebase.js`, `src/contexts/AuthContext.jsx`, and `src/lib/firestore.js`. When the environment variables in `.env.local` are left as placeholders (e.g. `your_api_key_here` or `dummy`), the application intercepts Firebase calls and stores user credentials, profiles, activities, goals, and insights in the browser's `localStorage` dynamically. This provides a 100% working local mockup experience without any database setup required.
 - **Local Dev Server**: Started the local development server at `http://localhost:5173/`.
+
 
 
