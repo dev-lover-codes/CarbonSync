@@ -102,13 +102,16 @@ CarbonSync is a Carbon Footprint Awareness Platform designed for a competitive h
 - **Security**: Granular access control enforcing strict privacy on subcollections and public access only for users who opt into the leaderboard.
 - **Routing Fix**: `vercel.json` resolves the "nothing is shown on Vercel" issue typical of Vite/React single-page applications.
 
-## Phase 7: Troubleshooting, Git Sync & Vercel Deployment
+## Phase 7: Troubleshooting, Git Sync & Local Execution
 ### Tasks
 - [x] Resolve file conflict: Remove placeholder `src/App.tsx` so Vite resolves the full implementation in `src/App.jsx`.
 - [x] Verify build and fix any compile/lint issues.
 - [x] Push local changes to Git repository.
-- [ ] Deploy the project to Vercel.
+- [x] Run local development server (`npm run dev`).
+- [−] Deploy the project to Vercel (cancelled per user request).
 
 ### Implementation Details
 - **Entry Point Conflict**: Removed the placeholder `src/App.tsx` file, which was overriding `src/App.jsx` and causing the app to load as a blank "Foundation Setup Complete" screen instead of the fully implemented application.
+- **Local Dev Server**: Started the local development server at `http://localhost:5173/`.
+
 
