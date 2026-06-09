@@ -27,7 +27,7 @@ function CurrentScene({ page }) {
   switch (page) {
     case 'landing':
       return (
-        <ScrollControls pages={5} damping={0.15}>
+        <ScrollControls pages={8} damping={0.15}>
           <LandingScene />
         </ScrollControls>
       );
@@ -84,29 +84,28 @@ export function Scene() {
         dpr={[1, 1.5]} // Cap at 1.5 on mobile/retina for WebGL performance
       >
         <Suspense fallback={<LoadingScreen3D />}>
-          {/* Standard offline-safe lights */}
-          <hemisphereLight color="#00ff87" groundColor="#020b06" intensity={0.4} />
-          <directionalLight position={[5, 10, 3]} color="#ffffff" intensity={1.5} castShadow />
+          {/* === LIGHTING RIG — bright enough to read all glass panels === */}
+          {/* Main fill — raised ambient so nothing is pitch black */}
+          <ambientLight color="#0a2e1a" intensity={1.5} />
+
+          {/* Key light — above and in front */}
+          <pointLight position={[0, 6, 4]} color="#00ff87" intensity={4} castShadow shadow-mapSize={[1024, 1024]} />
+
+          {/* Fill light — below, warm counter */}
+          <pointLight position={[0, -4, 2]} color="#004422" intensity={2} />
+
+          {/* Rim lights — sides for depth */}
+          <pointLight position={[-8, 2, 0]} color="#00d4ff" intensity={2} />
+          <pointLight position={[8, 2, 0]} color="#00d4ff" intensity={2} />
+
+          {/* Panel glow — directly forward of panels */}
+          <pointLight position={[0, 0, 6]} color="#ffffff" intensity={0.8} />
+
+          {/* Directional for shadow quality */}
+          <directionalLight position={[5, 10, 3]} color="#ffffff" intensity={1.0} castShadow />
           
           {/* Floating dust particles */}
           <Particles count={1500} />
-          
-          {/* Lighting rig */}
-          <ambientLight color="#020b06" intensity={0.4} />
-          
-          <pointLight 
-            position={[0, 6, 0]} 
-            color="#00ff87" 
-            intensity={2.8} 
-            castShadow 
-            shadow-mapSize={[1024, 1024]}
-          />
-          
-          <pointLight 
-            position={[-4, 2, 3]} 
-            color="#00d4ff" 
-            intensity={1.2} 
-          />
 
           {/* Gentle HUD camera shake */}
           <CameraShake 

@@ -15,6 +15,7 @@ html, body, #root {
   background-color: #020b06;
   color: #ffffff;
   user-select: none;
+  font-family: 'Space Grotesk', monospace;
 }
 
 canvas {

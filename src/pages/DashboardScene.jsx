@@ -151,45 +151,59 @@ export function DashboardScene() {
           </group>
         </group>
 
-        {/* ================= SCROLL SECTION 1: GRID METRICS (y=0.4) ================= */}
+        {/* ================= SCROLL SECTION 1: GRID METRICS — 2×2 grid ================= */}
         <group position={[0, 0.4, 0]}>
-          <group position={[-1.75, 0.4, 0]} scale={[scale1, scale1, scale1]}>
+          {/* Row 1 */}
+          <group position={[-1.75, 0.65, 0]} scale={[scale1, scale1, scale1]}>
             <FloatingCard width={1.5} height={1.1} glowColor="#00ff87">
-              <Text position={[0, 0.25, 0.05]} fontSize={0.18} color="#00ff87">
+              <Text position={[0, 0.25, 0.05]} fontSize={0.22} color="#00ff87" anchorX="center">
                 {`${dailyFootprintCount.toFixed(1)} KG`}
               </Text>
-              <Text position={[0, -0.25, 0.05]} fontSize={0.09} color="#99b0a0" maxWidth={1.2} textAlign="center">
+              <Text position={[0, -0.22, 0.05]} fontSize={0.09} color="#99b0a0" maxWidth={1.2} textAlign="center">
                 TODAY EMISSIONS
               </Text>
             </FloatingCard>
           </group>
 
-          <group position={[0, 0.4, 0]} scale={[scale2, scale2, scale2]}>
+          <group position={[1.75, 0.65, 0]} scale={[scale2, scale2, scale2]}>
             <FloatingCard width={1.5} height={1.1} glowColor="#00d4ff" speed={1.3}>
-              <Text position={[0, 0.25, 0.05]} fontSize={0.18} color="#00d4ff">
+              <Text position={[0, 0.25, 0.05]} fontSize={0.22} color="#00d4ff" anchorX="center">
                 {`${totalSavedCount.toFixed(1)} KG`}
               </Text>
-              <Text position={[0, -0.25, 0.05]} fontSize={0.09} color="#99b0a0" maxWidth={1.2} textAlign="center">
+              <Text position={[0, -0.22, 0.05]} fontSize={0.09} color="#99b0a0" maxWidth={1.2} textAlign="center">
                 TOTAL CO₂ SAVED
               </Text>
             </FloatingCard>
           </group>
 
-          <group position={[1.75, 0.4, 0]} scale={[scale3, scale3, scale3]}>
+          {/* Row 2 */}
+          <group position={[-1.75, -0.65, 0]} scale={[scale3, scale3, scale3]}>
             <FloatingCard width={1.5} height={1.1} glowColor="#ffb347" speed={1.7}>
-              <Text position={[0, 0.25, 0.05]} fontSize={0.18} color="#ffb347">
+              <Text position={[0, 0.25, 0.05]} fontSize={0.22} color="#ffb347" anchorX="center">
                 {`${(userProfile?.weeklyLimit || 80)} KG`}
               </Text>
-              <Text position={[0, -0.25, 0.05]} fontSize={0.09} color="#99b0a0" maxWidth={1.2} textAlign="center">
+              <Text position={[0, -0.22, 0.05]} fontSize={0.09} color="#99b0a0" maxWidth={1.2} textAlign="center">
                 WEEKLY TARGET
               </Text>
             </FloatingCard>
           </group>
 
-          <group position={[0, -0.8, 0.05]} scale={[scale4, scale4, scale4]}>
+          <group position={[1.75, -0.65, 0]} scale={[scale4, scale4, scale4]}>
+            <FloatingCard width={1.5} height={1.1} glowColor="#ff5e62" speed={2.0}>
+              <Text position={[0, 0.25, 0.05]} fontSize={0.22} color="#ff5e62" anchorX="center">
+                {`${userStats.streak}🔥`}
+              </Text>
+              <Text position={[0, -0.22, 0.05]} fontSize={0.09} color="#99b0a0" maxWidth={1.2} textAlign="center">
+                DAY STREAK
+              </Text>
+            </FloatingCard>
+          </group>
+
+          {/* LOG ACTIVITY button — centered below grid */}
+          <group position={[0, -1.55, 0.05]}>
             <Button3D
-              width={2.8}
-              height={0.34}
+              width={3.0}
+              height={0.36}
               label="+ LOG ACTIVITY"
               color="#00ff87"
               onClick={() => navigate('tracker')}
