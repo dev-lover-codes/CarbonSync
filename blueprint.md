@@ -105,8 +105,8 @@ CarbonSync is a Carbon Footprint Awareness Platform designed for a competitive h
 ## Phase 7: Troubleshooting, Git Sync & Vercel Deployment
 ### Tasks
 - [x] Resolve file conflict: Remove placeholder `src/App.tsx` so Vite resolves the full implementation in `src/App.jsx`.
-- [ ] Verify build and fix any compile/lint issues.
-- [ ] Push local changes to Git repository.
+- [x] Verify build and fix any compile/lint issues.
+- [x] Push local changes to Git repository.
 - [ ] Deploy the project to Vercel.
 
 ### Implementation Details
