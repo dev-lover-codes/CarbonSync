@@ -8,7 +8,7 @@ import {
   signInWithPopup,
   sendPasswordResetEmail
 } from 'firebase/auth';
-import { auth, isMock, getIsMock } from '../lib/firebase';
+import { auth, getIsMock } from '../lib/firebase';
 import { createUserProfile, getUserProfile, updateUserProfile } from '../lib/firestore';
 import { toast } from 'react-hot-toast';
 

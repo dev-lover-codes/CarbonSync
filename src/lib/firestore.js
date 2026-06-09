@@ -11,7 +11,7 @@ import {
   getDocs, 
   serverTimestamp 
 } from "firebase/firestore";
-import { db, isMock, getIsMock } from "./firebase";
+import { db, getIsMock } from "./firebase";
 
 // User Profile Helpers
 export const createUserProfile = async (uid, data) => {

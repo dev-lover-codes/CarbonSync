@@ -12,19 +12,22 @@ const firebaseConfig = {
 };
 
 let app, auth, db;
-const isMock = 
-  import.meta.env.VITE_USE_MOCK === "true" ||
-  !import.meta.env.VITE_FIREBASE_API_KEY || 
-  import.meta.env.VITE_FIREBASE_API_KEY === "your_api_key_here" ||
-  import.meta.env.VITE_FIREBASE_API_KEY === "dummy";
-
-export const getIsMock = () => {
+const getInitialIsMock = () => {
+  const baseMock = 
+    import.meta.env.VITE_USE_MOCK === "true" ||
+    !import.meta.env.VITE_FIREBASE_API_KEY || 
+    import.meta.env.VITE_FIREBASE_API_KEY === "your_api_key_here" ||
+    import.meta.env.VITE_FIREBASE_API_KEY === "dummy";
+  
   if (typeof window !== 'undefined') {
     const forced = localStorage.getItem('force_mock_mode');
     if (forced !== null) return forced === 'true';
   }
-  return isMock;
+  return baseMock;
 };
+
+const isMock = getInitialIsMock();
+export const getIsMock = () => isMock;
 
 try {
   app = initializeApp(firebaseConfig);
