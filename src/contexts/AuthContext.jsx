@@ -8,7 +8,7 @@ import {
   signInWithPopup,
   sendPasswordResetEmail
 } from 'firebase/auth';
-import { auth, isMock } from '../lib/firebase';
+import { auth, isMock, getIsMock } from '../lib/firebase';
 import { createUserProfile, getUserProfile, updateUserProfile } from '../lib/firestore';
 import { toast } from 'react-hot-toast';
 
@@ -24,7 +24,7 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true);
 
   async function signup(email, password, name) {
-    if (isMock) {
+    if (getIsMock()) {
       const creds = JSON.parse(localStorage.getItem('mock_creds') || '{}');
       if (creds[email.toLowerCase()]) {
         throw new Error('Email already in use.');
@@ -72,7 +72,7 @@ export function AuthProvider({ children }) {
   }
 
   async function login(email, password) {
-    if (isMock) {
+    if (getIsMock()) {
       const creds = JSON.parse(localStorage.getItem('mock_creds') || '{}');
       const userCreds = creds[email.toLowerCase()];
       if (!userCreds || userCreds.password !== password) {
@@ -96,7 +96,7 @@ export function AuthProvider({ children }) {
   }
 
   async function loginWithGoogle() {
-    if (isMock) {
+    if (getIsMock()) {
       const uid = 'mock_google_123';
       const email = 'eco.warrior@gmail.com';
       const name = 'Eco Warrior';
@@ -148,7 +148,7 @@ export function AuthProvider({ children }) {
   }
 
   async function logout() {
-    if (isMock) {
+    if (getIsMock()) {
       localStorage.removeItem('mock_current_user');
       setCurrentUser(null);
       setUserProfile(null);
@@ -161,7 +161,7 @@ export function AuthProvider({ children }) {
   }
 
   function resetPassword(email) {
-    if (isMock) {
+    if (getIsMock()) {
       toast.success('Password reset email sent (Mock Mode)!');
       return Promise.resolve();
     }
@@ -170,7 +170,7 @@ export function AuthProvider({ children }) {
   }
 
   async function updateProfile(data) {
-    if (isMock) {
+    if (getIsMock()) {
       if (!currentUser) return;
       await updateUserProfile(currentUser.uid, data);
       setUserProfile(prev => ({ ...prev, ...data }));
@@ -183,7 +183,7 @@ export function AuthProvider({ children }) {
   }
 
   useEffect(() => {
-    if (isMock) {
+    if (getIsMock()) {
       const initMockAuth = async () => {
         try {
           const storedUser = localStorage.getItem('mock_current_user');

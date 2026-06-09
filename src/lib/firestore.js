@@ -11,11 +11,11 @@ import {
   getDocs, 
   serverTimestamp 
 } from "firebase/firestore";
-import { db, isMock } from "./firebase";
+import { db, isMock, getIsMock } from "./firebase";
 
 // User Profile Helpers
 export const createUserProfile = async (uid, data) => {
-  if (isMock) {
+  if (getIsMock()) {
     const users = JSON.parse(localStorage.getItem("mock_users") || "{}");
     users[uid] = {
       ...data,
@@ -46,7 +46,7 @@ export const createUserProfile = async (uid, data) => {
 };
 
 export const getUserProfile = async (uid) => {
-  if (isMock) {
+  if (getIsMock()) {
     const users = JSON.parse(localStorage.getItem("mock_users") || "{}");
     return users[uid] || null;
   }
@@ -63,7 +63,7 @@ export const getUserProfile = async (uid) => {
 };
 
 export const updateUserProfile = async (uid, data) => {
-  if (isMock) {
+  if (getIsMock()) {
     const users = JSON.parse(localStorage.getItem("mock_users") || "{}");
     if (users[uid]) {
       users[uid] = { ...users[uid], ...data };
@@ -87,7 +87,7 @@ export const updateUserProfile = async (uid, data) => {
 
 // Activity Helpers
 export const logActivity = async (uid, activityData) => {
-  if (isMock) {
+  if (getIsMock()) {
     const key = `mock_activities_${uid}`;
     const activities = JSON.parse(localStorage.getItem(key) || "[]");
     const newAct = {
@@ -136,7 +136,7 @@ export const logActivity = async (uid, activityData) => {
 };
 
 export const getActivities = async (uid, limitCount = 10) => {
-  if (isMock) {
+  if (getIsMock()) {
     const activities = JSON.parse(localStorage.getItem(`mock_activities_${uid}`) || "[]");
     return activities.slice(0, limitCount);
   }
@@ -155,7 +155,7 @@ export const getActivities = async (uid, limitCount = 10) => {
 
 // Goals Helpers
 export const saveGoal = async (uid, goalData) => {
-  if (isMock) {
+  if (getIsMock()) {
     const key = `mock_goals_${uid}`;
     const goals = JSON.parse(localStorage.getItem(key) || "[]");
     const newGoal = {
@@ -192,7 +192,7 @@ export const saveGoal = async (uid, goalData) => {
 };
 
 export const getGoals = async (uid) => {
-  if (isMock) {
+  if (getIsMock()) {
     return JSON.parse(localStorage.getItem(`mock_goals_${uid}`) || "[]");
   }
 
@@ -207,7 +207,7 @@ export const getGoals = async (uid) => {
 };
 
 export const updateGoal = async (uid, goalId, data) => {
-  if (isMock) {
+  if (getIsMock()) {
     const key = `mock_goals_${uid}`;
     const goals = JSON.parse(localStorage.getItem(key) || "[]");
     const idx = goals.findIndex(g => g.id === goalId);
@@ -254,7 +254,7 @@ export const updateGoal = async (uid, goalId, data) => {
 
 // Leaderboard Helper
 export const getLeaderboard = async () => {
-  if (isMock) {
+  if (getIsMock()) {
     const users = JSON.parse(localStorage.getItem("mock_users") || "{}");
     const list = Object.keys(users).map(uid => ({ id: uid, ...users[uid] }));
     if (list.length < 5) {
@@ -303,7 +303,7 @@ export const getLeaderboard = async () => {
 
 // Insights Helpers
 export const saveInsight = async (uid, insightData) => {
-  if (isMock) {
+  if (getIsMock()) {
     const key = `mock_insights_${uid}`;
     const insights = JSON.parse(localStorage.getItem(key) || "[]");
     const newInsight = {
@@ -337,7 +337,7 @@ export const saveInsight = async (uid, insightData) => {
 };
 
 export const getInsights = async (uid) => {
-  if (isMock) {
+  if (getIsMock()) {
     const key = `mock_insights_${uid}`;
     const insights = JSON.parse(localStorage.getItem(key) || "[]");
     if (insights.length === 0) {

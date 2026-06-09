@@ -18,6 +18,14 @@ const isMock =
   import.meta.env.VITE_FIREBASE_API_KEY === "your_api_key_here" ||
   import.meta.env.VITE_FIREBASE_API_KEY === "dummy";
 
+export const getIsMock = () => {
+  if (typeof window !== 'undefined') {
+    const forced = localStorage.getItem('force_mock_mode');
+    if (forced !== null) return forced === 'true';
+  }
+  return isMock;
+};
+
 try {
   app = initializeApp(firebaseConfig);
   auth = getAuth(app);
@@ -27,4 +35,3 @@ try {
 }
 
 export { app, auth, db, isMock };
-
