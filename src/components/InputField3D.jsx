@@ -26,7 +26,6 @@ export function InputField3D({
         <Html
           position={[0, 0, 0.02]}
           transform
-          occlude="blending"
           pointerEvents="auto"
           style={{
             width: `${width * 110}px`,

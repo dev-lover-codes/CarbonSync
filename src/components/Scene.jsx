@@ -135,7 +135,7 @@ export function Scene() {
 
           {/* Post Processing Composer */}
           <EffectComposer>
-            <Bloom luminanceThreshold={0.25} intensity={1.3} mipmapBlur />
+            <Bloom luminanceThreshold={0.25} intensity={1.3} />
             <ChromaticAberration offset={new THREE.Vector2(0.0006, 0.0006)} />
             <Vignette eskil={false} offset={0.12} darkness={0.85} />
           </EffectComposer>

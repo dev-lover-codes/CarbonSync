@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useSpring, animated } from '@react-spring/three';
-import { RoundedBox, MeshTransmissionMaterial, Edges } from '@react-three/drei';
+import { RoundedBox, Edges } from '@react-three/drei';
 
 export function GlassPanel({ 
   width = 3, 
@@ -10,9 +10,9 @@ export function GlassPanel({
   rotation = [0, 0, 0], 
   children, 
   glowColor = "#00ff87",
-  transmission = 0.92,
-  roughness = 0.0,
-  thickness = 0.3,
+  transmission = 0.6,
+  roughness = 0.1,
+  thickness = 0.1,
   chromaticAberration = 0.03,
   ...props 
 }) {
@@ -36,17 +36,16 @@ export function GlassPanel({
       {...props}
     >
       <RoundedBox args={[width, height, depth]} radius={0.08} smoothness={4} castShadow receiveShadow>
-        <MeshTransmissionMaterial
+        <meshPhysicalMaterial
           transmission={transmission}
           roughness={roughness}
           thickness={thickness}
-          chromaticAberration={chromaticAberration}
-          backside={true}
-          backsideThickness={0.3}
-          envMapIntensity={2}
-          distortion={0.1}
-          distortionScale={0.1}
-          temporalDistortion={0.0}
+          clearcoat={1.0}
+          clearcoatRoughness={0.1}
+          transparent={true}
+          opacity={0.35}
+          color="#03140a"
+          metalness={0.1}
         />
         {/* Glow border segment utilizing Bloom post-processing */}
         <Edges 
