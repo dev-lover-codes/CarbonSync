@@ -104,16 +104,18 @@ CarbonSync is a Carbon Footprint Awareness Platform designed for a competitive h
 
 ## Phase 7: Login Bug Fixes & Deployment Remediation
 ### Tasks
-- [ ] Remove `src/App.tsx` placeholder file to let Vite resolve `src/App.jsx` as the entry point.
-- [ ] Fix race condition in `src/contexts/AuthContext.jsx` by explicitly setting auth state before returning from `login`, `signup`, and `loginWithGoogle`.
-- [ ] Add `VITE_USE_MOCK` support in `src/lib/firebase.js` and `.env.local` to enable stable offline/mock mode testing.
-- [ ] Commit all changes and push to Git.
-- [ ] Deploy the working build to Vercel.
+- [x] Remove `src/App.tsx` placeholder file to let Vite resolve `src/App.jsx` as the entry point.
+- [x] Fix race condition in `src/contexts/AuthContext.jsx` by explicitly setting auth state before returning from `login`, `signup`, and `loginWithGoogle`.
+- [x] Add `VITE_USE_MOCK` support in `src/lib/firebase.js` and `.env.local` to enable stable offline/mock mode testing.
+- [x] Add an interactive floating `MockModeToggle` UI button.
+- [x] Commit all changes and push to Git.
+- [−] Deploy the working build to Vercel (cancelled per user request).
 
 ### Implementation Details
-- **Entry Point Conflict**: Removing the placeholder `src/App.tsx` file to allow Vite to resolve the full routing implementation in `src/App.jsx`.
-- **Race Condition Resolution**: Fetching user profiles and setting `currentUser`/`userProfile` state synchronously in the context actions before resolving the authentication promises, resolving the redirection bug to `/login`.
-- **Toggleable Mock Fallback**: Adding `VITE_USE_MOCK` support to allow toggling the local storage mock database even when real credentials exist in `.env.local`.
+- **Entry Point Conflict**: Removed the placeholder `src/App.tsx` file to allow Vite to resolve the full routing implementation in `src/App.jsx`.
+- **Race Condition Resolution**: Fetched user profiles and setting `currentUser`/`userProfile` state synchronously in the context actions before resolving the authentication promises, resolving the redirection bug to `/login`.
+- **Interactive UI Mock Toggle**: Created a floating badge in [App.jsx](file:///home/user/site/src/App.jsx) that allows developers/testers to switch between **Live Firebase** and **Mock DB (Offline)** in 1 click (saved to `localStorage`).
+
 
 
 
