@@ -1,6 +1,17 @@
 import React, { useState, useMemo } from 'react';
 import { useCarbon } from '../contexts/CarbonContext';
 import { carbonFactors } from '../config/carbonFactors';
+import { 
+  calcCarCO2, 
+  calcFlightCO2, 
+  calcBusCO2, 
+  calcBikeCO2, 
+  calcElectricityCO2, 
+  calcHeatingCO2, 
+  calcMeatMealCO2, 
+  calcVegMealCO2, 
+  calcShoppingCO2 
+} from '../utils/carbonCalculator';
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend } from 'recharts';
 import { 
   Car, Zap, Utensils, ShoppingBag, Trash2, Plus, Download, 
@@ -117,8 +128,40 @@ export default function Tracker() {
 
   const calculateCurrentCO2 = () => {
     if (!selectedCategory || !selectedType || !amount) return 0;
-    const factor = carbonFactors[selectedCategory]?.[selectedType] || 0;
-    return factor * parseFloat(amount);
+    const val = parseFloat(amount);
+    if (isNaN(val)) return 0;
+
+    switch (selectedType) {
+      case 'car_petrol_km':
+      case 'car_diesel_km':
+        return calcCarCO2(val);
+      case 'flight_km':
+        return calcFlightCO2(val);
+      case 'bus_km':
+      case 'train_km':
+        return calcBusCO2(val);
+      case 'bike_km':
+      case 'walk_km':
+        return calcBikeCO2(val);
+      case 'electricity_kwh':
+        return calcElectricityCO2(val);
+      case 'ac_hour':
+      case 'gas_cubic_m':
+        return calcHeatingCO2(val);
+      case 'beef_meal':
+      case 'chicken_meal':
+      case 'fish_meal':
+        return calcMeatMealCO2(val);
+      case 'vegetarian_meal':
+      case 'vegan_meal':
+        return calcVegMealCO2(val);
+      case 'clothing_item':
+        return calcShoppingCO2(val, 'clothing');
+      case 'electronics_item':
+        return calcShoppingCO2(val, 'electronics');
+      default:
+        return calcShoppingCO2(val, 'other');
+    }
   };
 
   const handleLogActivity = async () => {

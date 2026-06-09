@@ -2,12 +2,12 @@ import React, { createContext, useContext, useState, useEffect, useMemo } from '
 import { useAuth } from './AuthContext';
 import { 
   logActivity, 
-  getActivities, 
-  getGoals, 
-  saveGoal, 
-  updateGoal, 
+  getUserActivities, 
+  getUserGoals, 
+  createGoal, 
+  updateGoalProgress, 
   getInsights 
-} from '../lib/firestore';
+} from '../utils/firestoreHelpers';
 import { calculateFootprint } from '../config/carbonFactors';
 
 const CarbonContext = createContext();
@@ -25,13 +25,13 @@ export function CarbonProvider({ children }) {
 
   const fetchActivities = async () => {
     if (!currentUser) return;
-    const data = await getActivities(currentUser.uid, 50);
+    const data = await getUserActivities(currentUser.uid, 50);
     setActivities(data);
   };
 
   const fetchGoals = async () => {
     if (!currentUser) return;
-    const data = await getGoals(currentUser.uid);
+    const data = await getUserGoals(currentUser.uid);
     setGoals(data);
   };
 
@@ -49,14 +49,14 @@ export function CarbonProvider({ children }) {
 
   const addGoal = async (data) => {
     if (!currentUser) return;
-    await saveGoal(currentUser.uid, data);
+    await createGoal(currentUser.uid, data);
     await fetchGoals();
   };
 
   const toggleGoal = async (goalId, currentStatus) => {
     if (!currentUser) return;
     const newStatus = currentStatus === 'completed' ? 'active' : 'completed';
-    await updateGoal(currentUser.uid, goalId, { status: newStatus });
+    await updateGoalProgress(goalId, newStatus === 'completed' ? 100 : 0);
     await fetchGoals();
   };
 

@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { useCarbon } from '../contexts/CarbonContext';
 import { carbonFactors } from '../config/carbonFactors';
@@ -9,8 +9,9 @@ import {
 } from 'recharts';
 import { 
   Plus, MessageSquare, TrendingDown, TrendingUp, Flame, Award, 
-  Target, ArrowRight, Lightbulb, Zap, Leaf, Car
+  Target, ArrowRight, Lightbulb, Zap, Leaf, Car, Sparkles
 } from 'lucide-react';
+import { getDailyTip } from '../services/geminiService';
 import Card from '../components/ui/Card';
 import Button from '../components/ui/Button';
 import Badge from '../components/ui/Badge';
@@ -34,6 +35,31 @@ export default function Dashboard() {
   const { userProfile } = useAuth();
   const { activities, goals, weeklyTotal } = useCarbon();
   const navigate = useNavigate();
+
+  const [dailyTip, setDailyTip] = useState(null);
+  const [loadingTip, setLoadingTip] = useState(true);
+
+  useEffect(() => {
+    async function fetchTip() {
+      if (!userProfile) return;
+      setLoadingTip(true);
+      try {
+        const today = new Date();
+        today.setHours(0,0,0,0);
+        const todayActs = (activities || []).filter(a => {
+          const d = a.timestamp?.toDate ? a.timestamp.toDate() : new Date(a.timestamp || 0);
+          return d.getTime() >= today.getTime();
+        });
+        const res = await getDailyTip(userProfile, todayActs);
+        setDailyTip(res);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoadingTip(false);
+      }
+    }
+    fetchTip();
+  }, [userProfile, activities]);
 
   // Process data for charts
   const { todayTotal, weeklyData, sparklineData } = useMemo(() => {
@@ -323,13 +349,29 @@ export default function Dashboard() {
             )}
           </Card>
 
-          <Card className="p-6 shadow-sm border border-green-200 bg-green-50/50 overflow-hidden relative">
+          <Card className="p-6 shadow-sm border border-green-200 bg-green-50/50 overflow-hidden relative animate-in fade-in duration-300">
             <div className="absolute -right-6 -top-6 w-24 h-24 bg-green-200 rounded-full blur-2xl opacity-50"></div>
-            <h2 className="text-lg font-bold text-gray-900 mb-2 relative z-10">AI Coach Insight</h2>
-            <p className="text-sm text-gray-700 mb-4 relative z-10 leading-relaxed">
-              Based on your recent transport logs, switching to public transit twice a week could reduce your footprint by 12kg CO₂.
-            </p>
-            <Button className="w-full bg-green-600 hover:bg-green-700 relative z-10 flex items-center justify-center gap-2">
+            <h2 className="text-lg font-bold text-gray-900 mb-2 relative z-10 flex items-center gap-2">
+              <Sparkles className="w-5 h-5 text-green-600 animate-pulse" />
+              AI Coach Insight
+            </h2>
+            {loadingTip ? (
+              <div className="h-12 flex items-center justify-center relative z-10">
+                <div className="w-5 h-5 border-2 border-green-600 border-t-transparent rounded-full animate-spin" />
+              </div>
+            ) : (
+              <>
+                <p className="text-sm text-gray-700 mb-4 relative z-10 leading-relaxed font-medium">
+                  {dailyTip?.tip || "Unplug standby devices to save electricity emissions today."}
+                </p>
+                {dailyTip?.impactKg > 0 && (
+                  <div className="mb-4 relative z-10 text-xs font-bold text-green-700 bg-green-100/60 inline-block px-2.5 py-1 rounded-full">
+                    Estimated savings: {dailyTip.impactKg} kg CO₂
+                  </div>
+                )}
+              </>
+            )}
+            <Button onClick={() => navigate('/coach')} className="w-full bg-green-600 hover:bg-green-700 relative z-10 flex items-center justify-center gap-2">
               <MessageSquare size={16} /> Chat with Coach
             </Button>
           </Card>

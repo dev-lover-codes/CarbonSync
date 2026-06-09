@@ -3,16 +3,18 @@ import { useAuth } from '../contexts/AuthContext';
 import { useCarbon } from '../contexts/CarbonContext';
 import { carbonFactors } from '../config/carbonFactors';
 import { Send, Bot, User, Loader2, Sparkles, MessageSquare } from 'lucide-react';
+import { getChatResponse } from '../services/geminiService';
 import Card from '../components/ui/Card';
 import Input from '../components/ui/Input';
 import Button from '../components/ui/Button';
 import toast from 'react-hot-toast';
 
 const QUICK_CHIPS = [
-  "What's my biggest carbon source?",
-  "Give me 3 tips for today",
-  "How can I improve my transport emissions?",
-  "Suggest a realistic weekend goal"
+  "How can I reduce my transport emissions?",
+  "What's my biggest CO₂ category this week?",
+  "Give me a 7-day eco challenge",
+  "Compare my footprint to the Indian average",
+  "What foods have the highest carbon impact?"
 ];
 
 export default function AICoach() {
@@ -57,42 +59,13 @@ User Context:
 
 Always be encouraging, give actionable, specific advice, and use formatting (bullet points, bold text) for readability. Keep responses under 150 words unless asked for detail. Use emojis appropriately.`;
 
-  const callClaude = async (chatHistory) => {
-    const apiKey = import.meta.env.VITE_CLAUDE_API_KEY;
-    if (!apiKey) {
-      throw new Error("Missing Anthropic API Key (VITE_CLAUDE_API_KEY)");
-    }
-
-    // Filter out initial greeting if desired, or keep it. We pass the whole history.
-    // Ensure we only pass role and content to the API.
-    const apiMessages = chatHistory.filter(m => m.role === 'user' || m.role === 'assistant').map(m => ({
-      role: m.role,
-      content: m.content
-    }));
-
-    const res = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': apiKey,
-        'anthropic-version': '2023-06-01',
-        'anthropic-dangerously-allow-browser': 'true'
-      },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 1024,
-        system: systemPrompt,
-        messages: apiMessages
-      })
-    });
-
-    if (!res.ok) {
-      const errorData = await res.json();
-      throw new Error(errorData.error?.message || 'Failed to connect to AI Coach');
-    }
-
-    const data = await res.json();
-    return data.content[0].text;
+  const callGemini = async (chatHistory) => {
+    const userStats = {
+      monthlyCO2: weeklyTotal * 4.3,
+      streak: userProfile?.streak || 0,
+      level: userProfile?.level || 'Seedling'
+    };
+    return getChatResponse(input, userStats, chatHistory);
   };
 
   const handleSend = async (e, textOverride = null) => {
@@ -106,7 +79,7 @@ Always be encouraging, give actionable, specific advice, and use formatting (bul
     setIsLoading(true);
 
     try {
-      const responseText = await callClaude(newMessages);
+      const responseText = await callGemini(newMessages);
       setMessages(prev => [...prev, { role: 'assistant', content: responseText }]);
     } catch (error) {
       console.error('AI Coach Error:', error);
@@ -126,7 +99,7 @@ Always be encouraging, give actionable, specific advice, and use formatting (bul
         </div>
         <div>
           <h1 className="text-3xl font-bold text-gray-900 tracking-tight">AI Coach</h1>
-          <p className="text-gray-500 text-sm mt-1">Personalized sustainability guidance powered by Claude</p>
+          <p className="text-gray-500 text-sm mt-1">Personalized sustainability guidance powered by Google Gemini</p>
         </div>
       </div>
 
@@ -212,7 +185,7 @@ Always be encouraging, give actionable, specific advice, and use formatting (bul
           </form>
           <div className="text-center mt-3">
             <p className="text-[11px] text-gray-400 font-medium flex items-center justify-center gap-1">
-              <Sparkles size={10} /> Powered by Claude-3.5 Sonnet
+              <Sparkles size={10} /> Powered by Gemini 1.5 Flash
             </p>
           </div>
         </div>

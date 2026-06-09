@@ -1,0 +1,1 @@
+import{j as o}from"./index-66c1c1e5.js";const d=({children:r,className:s="",padding:a="p-6"})=>o.jsx("div",{className:`bg-surface-card rounded-2xl shadow-sm border border-gray-100 ${a} ${s}`,children:r}),t=d;export{t as C};

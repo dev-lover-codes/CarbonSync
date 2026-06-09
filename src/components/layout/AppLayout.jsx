@@ -23,7 +23,7 @@ import Badge from '../ui/Badge';
 const navItems = [
   { icon: LayoutDashboard, label: 'Dashboard', path: '/dashboard' },
   { icon: Map, label: 'Tracker', path: '/tracker' },
-  { icon: Bot, label: 'AI Coach', path: '/ai-coach' },
+  { icon: Bot, label: 'AI Coach', path: '/coach' },
   { icon: Lightbulb, label: 'Insights', path: '/insights' },
   { icon: Target, label: 'Goals', path: '/goals' },
   { icon: Trophy, label: 'Leaderboard', path: '/leaderboard' },
@@ -40,7 +40,7 @@ const AppLayout = () => {
   const handleLogout = async () => {
     try {
       await logout();
-      navigate('/login');
+      navigate('/auth');
     } catch (error) {
       console.error("Logout failed", error);
     }

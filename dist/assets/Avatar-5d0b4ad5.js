@@ -1,0 +1,5 @@
+import{c as g}from"./createLucideIcon-c888ca34.js";import{j as r}from"./index-66c1c1e5.js";const h=g("Trophy",[["path",{d:"M6 9H4.5a2.5 2.5 0 0 1 0-5H6",key:"17hqa7"}],["path",{d:"M18 9h1.5a2.5 2.5 0 0 0 0-5H18",key:"lmptdp"}],["path",{d:"M4 22h16",key:"57wxv0"}],["path",{d:"M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22",key:"1nw9bq"}],["path",{d:"M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22",key:"1np0yb"}],["path",{d:"M18 2H6v7a6 6 0 0 0 12 0V2Z",key:"u46fv3"}]]),l=({name:t,level:n="Seedling",size:i="md"})=>{const s=e=>e?e.split(" ").map(p=>p[0]).join("").toUpperCase().substring(0,2):"?",a={sm:"h-8 w-8 text-xs",md:"h-12 w-12 text-sm",lg:"h-16 w-16 text-base"},o={Seedling:"ring-green-300",Sprout:"ring-green-400",Sapling:"ring-green-500",Tree:"ring-green-600",Forest:"ring-green-700"};return r.jsx("div",{className:"relative inline-block",children:r.jsx("div",{className:`
+        ${a[i]} 
+        rounded-full flex items-center justify-center font-bold text-primary-dark bg-primary-light/30
+        ring-2 ring-offset-2 ${o[n]||"ring-primary-light"}
+      `,children:s(t)})})},m=l;export{m as A,h as T};
