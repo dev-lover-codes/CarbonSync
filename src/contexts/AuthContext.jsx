@@ -66,6 +66,7 @@ export function AuthProvider({ children }) {
     };
     
     await createUserProfile(user.uid, profileData);
+    setCurrentUser(user);
     setUserProfile(profileData);
     return user;
   }
@@ -86,7 +87,12 @@ export function AuthProvider({ children }) {
       return mockUser;
     }
 
-    return signInWithEmailAndPassword(auth, email, password);
+    const result = await signInWithEmailAndPassword(auth, email, password);
+    const user = result.user;
+    const profile = await getUserProfile(user.uid);
+    setCurrentUser(user);
+    setUserProfile(profile);
+    return user;
   }
 
   async function loginWithGoogle() {
@@ -123,8 +129,9 @@ export function AuthProvider({ children }) {
     const user = result.user;
     
     const profile = await getUserProfile(user.uid);
+    let profileData = profile;
     if (!profile) {
-      const profileData = {
+      profileData = {
         name: user.displayName,
         email: user.email,
         totalSaved: 0,
@@ -134,14 +141,13 @@ export function AuthProvider({ children }) {
         onboardingComplete: false
       };
       await createUserProfile(user.uid, profileData);
-      setUserProfile(profileData);
-    } else {
-      setUserProfile(profile);
     }
+    setCurrentUser(user);
+    setUserProfile(profileData);
     return user;
   }
 
-  function logout() {
+  async function logout() {
     if (isMock) {
       localStorage.removeItem('mock_current_user');
       setCurrentUser(null);
@@ -149,7 +155,9 @@ export function AuthProvider({ children }) {
       return Promise.resolve();
     }
 
-    return signOut(auth);
+    await signOut(auth);
+    setCurrentUser(null);
+    setUserProfile(null);
   }
 
   function resetPassword(email) {

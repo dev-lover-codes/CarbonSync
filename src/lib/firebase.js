@@ -13,6 +13,7 @@ const firebaseConfig = {
 
 let app, auth, db;
 const isMock = 
+  import.meta.env.VITE_USE_MOCK === "true" ||
   !import.meta.env.VITE_FIREBASE_API_KEY || 
   import.meta.env.VITE_FIREBASE_API_KEY === "your_api_key_here" ||
   import.meta.env.VITE_FIREBASE_API_KEY === "dummy";
