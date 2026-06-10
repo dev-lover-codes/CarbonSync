@@ -61,7 +61,7 @@ function CurrentScene({ page }) {
       return <AICoachScene />;
     default:
       return (
-        <ScrollControls pages={5} damping={0.15}>
+        <ScrollControls pages={8} damping={0.15}>
           <LandingScene />
         </ScrollControls>
       );
@@ -72,54 +72,59 @@ export function Scene() {
   const currentPage = useStore((state) => state.currentPage);
 
   return (
-    <div className="relative w-full h-full bg-[#020b06] overflow-hidden select-none">
+    <div className="relative w-full h-full overflow-hidden select-none" style={{ background: '#020b06' }}>
       <Canvas
-        gl={{ 
-          antialias: true, 
-          toneMapping: THREE.ACESFilmicToneMapping, 
-          toneMappingExposure: 1.15 
+        gl={{
+          antialias: true,
+          toneMapping: THREE.ACESFilmicToneMapping,
+          toneMappingExposure: 1.2,
+          alpha: false,
         }}
         shadows
         camera={{ fov: 55, near: 0.1, far: 500, position: [0, 0, 8] }}
-        dpr={[1, 1.5]} // Cap at 1.5 on mobile/retina for WebGL performance
+        dpr={[1, 1.5]}
       >
         <Suspense fallback={<LoadingScreen3D />}>
-          {/* === LIGHTING RIG — bright enough to read all glass panels === */}
-          {/* Main fill — raised ambient so nothing is pitch black */}
-          <ambientLight color="#0a2e1a" intensity={1.5} />
+          {/* ═══════════════════ LIGHTING RIG ═══════════════════ */}
 
-          {/* Key light — above and in front */}
-          <pointLight position={[0, 6, 4]} color="#00ff87" intensity={4} castShadow shadow-mapSize={[1024, 1024]} />
+          {/* Ambient — prevents pitch-black shadows */}
+          <ambientLight color="#0d2e1a" intensity={1.8} />
 
-          {/* Fill light — below, warm counter */}
-          <pointLight position={[0, -4, 2]} color="#004422" intensity={2} />
+          {/* Key light — neon green from above-front */}
+          <pointLight position={[0, 7, 5]} color="#00ff87" intensity={5.0} castShadow shadow-mapSize={[2048, 2048]} />
 
-          {/* Rim lights — sides for depth */}
-          <pointLight position={[-8, 2, 0]} color="#00d4ff" intensity={2} />
-          <pointLight position={[8, 2, 0]} color="#00d4ff" intensity={2} />
+          {/* Fill light — deep green counter from below */}
+          <pointLight position={[0, -5, 3]} color="#004422" intensity={2.5} />
 
-          {/* Panel glow — directly forward of panels */}
-          <pointLight position={[0, 0, 6]} color="#ffffff" intensity={0.8} />
+          {/* Rim lights — cyan sides for depth and volumetric look */}
+          <pointLight position={[-9, 3, 1]} color="#00d4ff" intensity={2.5} />
+          <pointLight position={[9, 3, 1]} color="#00d4ff" intensity={2.5} />
 
-          {/* Directional for shadow quality */}
-          <directionalLight position={[5, 10, 3]} color="#ffffff" intensity={1.0} castShadow />
-          
+          {/* Front white — ensures text panels stay readable */}
+          <pointLight position={[0, 0, 7]} color="#ffffff" intensity={1.0} />
+
+          {/* Warm accent — amber for depth variation */}
+          <pointLight position={[5, -2, -3]} color="#ffb347" intensity={1.0} />
+
+          {/* Directional shadow caster */}
+          <directionalLight position={[5, 12, 4]} color="#ffffff" intensity={1.2} castShadow />
+
           {/* Floating dust particles */}
-          <Particles count={1500} />
+          <Particles count={2000} />
 
-          {/* Gentle HUD camera shake */}
-          <CameraShake 
-            intensity={0.06} 
+          {/* Subtle HUD camera shake */}
+          <CameraShake
+            intensity={0.05}
             decay={false}
-            maxYaw={0.015} 
-            maxPitch={0.015} 
-            maxRoll={0.015} 
-            yawFrequency={0.08} 
-            pitchFrequency={0.08} 
-            rollFrequency={0.08} 
+            maxYaw={0.012}
+            maxPitch={0.012}
+            maxRoll={0.010}
+            yawFrequency={0.07}
+            pitchFrequency={0.07}
+            rollFrequency={0.07}
           />
 
-          {/* HUD Navigation overlay */}
+          {/* HUD Navigation overlay — desktop */}
           {currentPage !== 'landing' && currentPage !== 'auth' && currentPage !== 'onboarding' && (
             <NavBar3D />
           )}
@@ -131,8 +136,6 @@ export function Scene() {
           <CurrentScene page={currentPage} />
 
           <Preload all />
-
-          {/* Post-processing removed for WebGL stability */}
         </Suspense>
       </Canvas>
 

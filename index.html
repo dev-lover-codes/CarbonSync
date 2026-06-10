@@ -2,29 +2,48 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌱</text></svg>" />
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌿</text></svg>" />
+    
+    <!-- Google Fonts: Inter + Space Grotesk -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <!-- Competition SEO Metadata -->
-    <title>CarbonSync — 3D Carbon Footprint Platform</title>
-    <meta name="description" content="An immersive 3D Carbon Footprint Calculator and Gamification Dashboard for Hack2skill PromptWars competition built with R3F and Gemini AI." />
-    
-    <!-- Open Graph Social Metadata -->
-    <meta property="og:title" content="CarbonSync — 3D Carbon Footprint Platform" />
-    <meta property="og:description" content="Calculate, monitor, and reduce your carbon emissions in an interactive 3D WebGL cosmos dashboard." />
+    <!-- SEO -->
+    <title>CarbonSync — 3D Carbon Footprint Tracker & AI Coach</title>
+    <meta name="description" content="CarbonSync: An immersive 3D carbon footprint platform powered by Gemini AI. Track emissions, get AI coaching, compete on leaderboards. Built for Hack2skill PromptWars." />
+    <meta name="theme-color" content="#020b06" />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="CarbonSync — 3D Carbon Footprint Tracker" />
+    <meta property="og:description" content="Track, analyze, and gamify your carbon reductions in an immersive 3D WebGL cosmos powered by Gemini AI." />
     <meta property="og:type" content="website" />
-    
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="CarbonSync — 3D Carbon Footprint Tracker" />
+    <meta name="twitter:description" content="Immersive 3D carbon footprint tracking with AI coaching. Join thousands making real climate impact." />
+
     <style>
+      *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
       body {
         background-color: #020b06;
         margin: 0;
         overflow: hidden;
+        -webkit-font-smoothing: antialiased;
+        font-family: 'Inter', 'Space Grotesk', system-ui, sans-serif;
       }
-      canvas {
-        display: block !important;
+      canvas { display: block !important; }
+      
+      /* Critical loading state */
+      #root:empty::after {
+        content: '';
+        position: fixed;
+        inset: 0;
+        background: #020b06;
+        display: block;
       }
     </style>
   </head>

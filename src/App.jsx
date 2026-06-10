@@ -52,16 +52,66 @@ const MockModeToggle = () => {
   };
 
   return (
-    <div className="fixed bottom-6 right-6 z-[9999] flex items-center gap-2 bg-[#020b06]/85 backdrop-blur-md border border-[#00ff87]/30 px-3.5 py-2.5 rounded-xl shadow-[0_0_20px_rgba(0,255,135,0.2)]">
-      <span className={`w-2 h-2 rounded-full ${isMockActive ? 'bg-emerald-400 animate-pulse' : 'bg-cyan-400 animate-pulse'}`} />
-      <span className="text-[10px] font-mono font-bold text-white select-none mr-2">
-        {isMockActive ? 'OFFLINE MOCK' : 'LIVE FIREBASE'}
+    <div style={{
+      position: 'fixed',
+      bottom: '24px',
+      right: '24px',
+      zIndex: 9999,
+      display: 'flex',
+      alignItems: 'center',
+      gap: '10px',
+      background: 'rgba(2,11,6,0.88)',
+      backdropFilter: 'blur(20px)',
+      WebkitBackdropFilter: 'blur(20px)',
+      border: `1px solid ${isMockActive ? 'rgba(16,185,129,0.35)' : 'rgba(0,212,255,0.35)'}`,
+      borderRadius: '14px',
+      padding: '8px 14px',
+      boxShadow: isMockActive
+        ? '0 0 20px rgba(16,185,129,0.2), 0 4px 20px rgba(0,0,0,0.4)'
+        : '0 0 20px rgba(0,212,255,0.2), 0 4px 20px rgba(0,0,0,0.4)',
+      fontFamily: "'Space Grotesk', monospace",
+    }}>
+      {/* Status dot */}
+      <div style={{
+        width: '7px', height: '7px', borderRadius: '50%',
+        background: isMockActive ? '#10b981' : '#00d4ff',
+        boxShadow: isMockActive ? '0 0 8px #10b981' : '0 0 8px #00d4ff',
+        animation: 'pulse 1.5s ease-in-out infinite',
+      }} />
+      <style>{`@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }`}</style>
+      
+      {/* Label */}
+      <span style={{
+        fontSize: '10px',
+        fontWeight: '700',
+        color: isMockActive ? '#10b981' : '#00d4ff',
+        letterSpacing: '0.1em',
+        userSelect: 'none',
+        textTransform: 'uppercase',
+      }}>
+        {isMockActive ? '⚡ Offline Mock' : '🔥 Live Firebase'}
       </span>
-      <button 
+
+      {/* Toggle button */}
+      <button
         onClick={handleToggle}
-        className="text-[9px] font-mono font-bold uppercase text-[#020b06] bg-[#00ff87] hover:bg-[#00ff87]/80 px-2 py-0.5 rounded transition-all active:scale-95"
+        style={{
+          fontSize: '9px',
+          fontWeight: '700',
+          letterSpacing: '0.08em',
+          textTransform: 'uppercase',
+          color: '#020b06',
+          background: isMockActive ? '#10b981' : '#00d4ff',
+          border: 'none',
+          borderRadius: '8px',
+          padding: '3px 10px',
+          cursor: 'pointer',
+          fontFamily: "'Space Grotesk', monospace",
+          transition: 'all 0.2s ease',
+          boxShadow: isMockActive ? '0 0 8px rgba(16,185,129,0.4)' : '0 0 8px rgba(0,212,255,0.4)',
+        }}
       >
-        Toggle
+        Switch
       </button>
     </div>
   );
