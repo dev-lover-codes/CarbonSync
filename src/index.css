@@ -11,8 +11,8 @@
 
 :root {
   /* ── Brand Palette ─────────────────────────────────────────── */
-  --c-bg:           #020b06;
-  --c-bg-deep:      #010806;
+  --c-bg:           #08140D;
+  --c-bg-deep:      #040A06;
   --c-surface:      #0a1a0e;
   --c-surface-2:    #0d2316;
   --c-surface-3:    #112a1a;
@@ -548,3 +548,9 @@ canvas {
 @media (max-width: 768px) {
   .stat-number { font-size: 1.8rem; }
 }
+
+/* ─── Custom shadow-glow-green ───────────────────────────────── */
+.shadow-glow-green {
+  box-shadow: 0 0 8px rgba(0, 255, 135, 0.45), 0 0 16px rgba(0, 255, 135, 0.25);
+}
+

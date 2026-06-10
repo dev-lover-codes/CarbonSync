@@ -72,7 +72,7 @@ export function Scene() {
   const currentPage = useStore((state) => state.currentPage);
 
   return (
-    <div className="relative w-full h-full overflow-hidden select-none" style={{ background: '#020b06' }}>
+    <div className="relative w-full h-full overflow-hidden select-none" style={{ background: 'var(--c-bg)' }}>
       <Canvas
         gl={{
           antialias: true,
