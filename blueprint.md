@@ -108,7 +108,6 @@ CarbonSync is a Carbon Footprint Awareness Platform designed for a competitive h
 - [x] Fix race condition in `src/contexts/AuthContext.jsx` by explicitly setting auth state before returning from `login`, `signup`, and `loginWithGoogle`.
 - [x] Add `VITE_USE_MOCK` support in `src/lib/firebase.js` and `.env.local` to enable stable offline/mock mode testing.
 - [x] Add an interactive floating `MockModeToggle` UI button.
-- [x] Commit all changes and push to Git.
 - [−] Deploy the working build to Vercel (cancelled per user request).
 
 ### Implementation Details
@@ -132,7 +131,32 @@ CarbonSync is a Carbon Footprint Awareness Platform designed for a competitive h
 - **Robust Ref Validation**: Added guard statements to verify ref attachments before running animations or drawing, correcting the black screen context crash.
 - **Netlify & Version Control**: Created small site named `carbonsync-3d-cosmic` on Netlify, ran production builds successfully, pushed code to GitHub, and completed live deployment.
 
+## Phase 9: Debug/Mock Code Cleanup
+### Tasks
+- [x] Search for all elements or performance monitor references ("OFFLINE MOCK", "PTS", "CYC", "CLK", "IDLE") and verify if any UI elements exist.
+- [x] Remove unused `getIsMock` import from `src/App.jsx`.
+- [x] Remove the mock-mode authentication interceptors in `src/contexts/AuthContext.jsx`.
+- [x] Strip out all mock localStorage code paths and catch-block mock fallbacks in `src/lib/firestore.js`.
+- [x] Strip out all `getIsMock` checks and helper functions `getMockStorage` / `setMockStorage` in `src/utils/firestoreHelpers.js`.
+- [x] Clean up mock exports and initialization logic from `src/lib/firebase.js`.
+- [x] Conduct a global codebase search for remaining "mock" and "debug" strings to flag for manual review.
+- [x] Style the Dashboard stats cards (TODAY, WEEKLY, SAVED, STREAK) and add the smartphone charging equivalency metric in `src/pages/Dashboard.jsx`.
+- [x] Refactor the Login screen layout in `src/pages/auth/Login.jsx` to use a unified split card design, custom inputs, and button glows.
 
+### Implementation Details
+- **Mock Mode Elimination**: Transition from local-storage fallback mock database architecture to direct, strict Firebase API transactions. 
+- **Code Hygiene**: Delete dead import dependencies and unused mock state handlers, establishing strict reliance on environment variables for live connection.
+- **Dashboard Stats Cards Polish**: Customized the container class names of stats cards to use a premium backdrop-blur styling, formatted typography tracking, and added dynamic environmental equivalence messages.
+- **Login Layout Polish**: Reconstructed the layout in [Login.jsx](file:///home/user/site/src/pages/auth/Login.jsx) to group form controls and platform features into a single, high-fidelity glassmorphic backdrop-blur wrapper. Custom styled inputs and buttons to match system dark-mode themes.
 
+## Phase 10: Landing Hero Overlay & Pointer Events Fix
+### Tasks
+- [x] Configure Landing page parent `<header>` layout wrapper to use `relative`.
+- [x] Render absolute-positioned overlay `div` containing the carbon action statement over the right illustration column.
+- [x] Append an absolute bounce-animated scroll down indicator at the bottom center of the hero section.
+- [x] Explicitly ensure that all CTA and interactive navigation buttons (e.g. "Start for free", "See how it works", "Get Started — Free", "View Demo", "Create Free Account") in `Landing.jsx` and `LandingScene.jsx` have `pointer-events-auto` or `pointerEvents: 'auto'` styles to remain clickable over/under overlays.
 
-
+### Implementation Details
+- **Parent Layout Structure**: Ensured that the main `<header>` container in [Landing.jsx](file:///home/user/site/src/pages/Landing.jsx) uses the `relative` class to correctly orient absolute child containers.
+- **Title Overlay Positioning**: Placed a text overlay absolute-positioned box within the right SVG illustration column of the landing section to display high-fidelity carbon impact headings and descriptions.
+- **Navigation Safety & Interactivity**: Added standard tailwind `pointer-events-auto` classes to CTA links and buttons in [Landing.jsx](file:///home/user/site/src/pages/Landing.jsx) and styled inline `pointerEvents: 'auto'` attributes in [LandingScene.jsx](file:///home/user/site/src/pages/LandingScene.jsx) to guarantee user clicks execute correctly under z-index overlay structures.

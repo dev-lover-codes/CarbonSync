@@ -65,7 +65,6 @@ Format as a JSON array of objects with keys: "id" (generate unique string starti
       setAiTips(JSON.parse(text));
       toast.success('Generated custom tips for you! 🌟');
     } catch (error) {
-      console.error(error);
       toast.error('Failed to generate AI tips.');
     } finally {
       setIsGenerating(false);

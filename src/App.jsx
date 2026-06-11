@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Toaster } from 'react-hot-toast';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
-import { getIsMock } from './lib/firebase';
 import { seedTips } from './utils/firestoreHelpers';
 import Scene from './components/Scene';
 import useStore from './store/useStore';

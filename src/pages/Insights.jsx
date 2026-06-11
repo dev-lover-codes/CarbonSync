@@ -118,7 +118,6 @@ export default function Insights() {
         const score = await getFootprintScore(activities);
         setScoreData(score);
       } catch (err) {
-        console.error(err);
       } finally {
         setLoadingScore(false);
       }
@@ -146,7 +145,6 @@ export default function Insights() {
       await fetchInsights();
       toast.success('AI Report generated successfully! 📊');
     } catch (error) {
-      console.error(error);
       toast.error('Failed to generate AI report.');
     } finally {
       setIsGenerating(false);

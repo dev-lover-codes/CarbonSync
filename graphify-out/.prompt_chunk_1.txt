@@ -6,9 +6,13 @@ Files (chunk 1 of 6):
 /home/user/site/.idx/mcp.json
 /home/user/site/.planning/config.json
 /home/user/site/.vscode/settings.json
+/home/user/site/cloud-deploy.sh
+/home/user/site/firebase.json
+/home/user/site/firestore.indexes.json
 /home/user/site/package.json
 /home/user/site/postcss.config.js
 /home/user/site/scripts/dev-wrapper.js
+/home/user/site/scripts/netlify-deploy.mjs
 /home/user/site/scripts/remove-remote-fonts.js
 /home/user/site/src/App.jsx
 /home/user/site/src/components/AchievementBadge3D.jsx
@@ -23,7 +27,6 @@ Files (chunk 1 of 6):
 /home/user/site/src/components/InputField3D.jsx
 /home/user/site/src/components/LeafParticle.jsx
 /home/user/site/src/components/LoadingScreen3D.jsx
-/home/user/site/src/components/NavBar3D.jsx
 
 Rules:
 - EXTRACTED: relationship explicit in source (import, call, citation, "see §3.2")

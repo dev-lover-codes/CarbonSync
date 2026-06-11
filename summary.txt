@@ -1,0 +1,308 @@
+
+--- src/main.tsx ---
+IMPORT: react
+IMPORT: react-dom/client
+IMPORT: ./App
+CALLS: Root, ElementById
+
+--- src/pages/AICoach.jsx ---
+IMPORT: react
+IMPORT: ../contexts/AuthContext
+IMPORT: ../contexts/CarbonContext
+IMPORT: ../config/carbonFactors
+IMPORT: lucide-react
+IMPORT: ../services/geminiService
+IMPORT: ../components/ui/Card
+IMPORT: ../components/ui/Input
+IMPORT: ../components/ui/Button
+IMPORT: react-hot-toast
+EXPORT: AICoach
+CALLS: AICoach, useAuth, useCarbon, useState, useRef, IntoView, useEffect, ToBottom, useMemo, Each, Fixed, ChatResponse, Default, Messages, Input, IsLoading, Gemini, Send
+
+--- src/pages/AICoachScene.jsx ---
+IMPORT: react
+IMPORT: @react-three/fiber
+IMPORT: @react-three/drei
+IMPORT: ../contexts/AuthContext
+IMPORT: ../store/useStore
+IMPORT: ../services/geminiService
+IMPORT: ../components/GlassPanel
+IMPORT: ../components/Button3D
+IMPORT: ../components/ChatBubble3D
+IMPORT: ../components/InputField3D
+IMPORT: ../components/ProgressRing3D
+IMPORT: three
+EXPORT: AICoachScene
+CALLS: AICoachScene, useAuth, useStore, useState, useRef, useFrame, ChatMessage, InputMessage, Loading, ChatResponse, Send
+
+--- src/pages/Auth.jsx ---
+IMPORT: react
+IMPORT: react-router-dom
+IMPORT: ../contexts/AuthContext
+IMPORT: ../lib/firestore
+IMPORT: lucide-react
+IMPORT: react-hot-toast
+IMPORT: framer-motion
+IMPORT: ../components/ui/Button
+IMPORT: ../components/ui/Input
+EXPORT: Auth
+CALLS: Auth, useState, useAuth, useNavigate, Errors, UserProfile, Default, Loading, AuthSuccess, WithGoogle, ActiveTab, Name, Email, Password, ConfirmPassword
+
+--- src/pages/AuthScene.jsx ---
+IMPORT: react
+IMPORT: ../contexts/AuthContext
+IMPORT: ../store/useStore
+IMPORT: @react-three/drei
+IMPORT: ../components/GlassPanel
+IMPORT: ../components/EarthGlobe
+EXPORT: AuthScene
+CALLS: FocusInput, useState, Focused, AuthScene, useAuth, useStore, Loading, WithGoogle, IsSignIn, Name, Email, Password
+
+--- src/pages/Dashboard.jsx ---
+IMPORT: react
+IMPORT: ../contexts/AuthContext
+IMPORT: ../contexts/CarbonContext
+IMPORT: ../config/carbonFactors
+IMPORT: react-router-dom
+IMPORT: ../services/geminiService
+IMPORT: ../components/ui/Card
+IMPORT: ../components/ui/Button
+IMPORT: ../components/ui/Badge
+IMPORT: ../components/ui/ProgressBar
+EXPORT: Dashboard
+CALLS: Dashboard, useAuth, useCarbon, useNavigate, useState, useEffect, fetchTip, LoadingTip, Hours, Time, DailyTip, useMemo, LocaleDateString, Each, Fixed
+
+--- src/pages/DashboardScene.jsx ---
+IMPORT: react
+IMPORT: @react-three/fiber
+IMPORT: @react-three/drei
+IMPORT: ../contexts/AuthContext
+IMPORT: ../store/useStore
+IMPORT: ../components/FloatingCard
+IMPORT: ../components/GlassPanel
+IMPORT: ../components/Button3D
+IMPORT: ../components/AreaChart3D
+IMPORT: ../components/ProgressRing3D
+IMPORT: three
+EXPORT: DashboardScene
+CALLS: DashboardScrollHandler, useScroll, useFrame, SpinningGem, useRef, DashboardScene, useAuth, useStore, useState, Hours, TimeGreeting, UpperCase, useEffect, Interval, Greeting, Timeout, Scale1, Scale2, Scale3, Scale4, TotalSavedCount, DailyFootprintCount, Fixed
+
+--- src/pages/Goals.jsx ---
+IMPORT: react
+IMPORT: ../contexts/AuthContext
+IMPORT: ../contexts/CarbonContext
+IMPORT: ../config/carbonFactors
+IMPORT: lucide-react
+IMPORT: framer-motion
+IMPORT: ../utils/animations
+IMPORT: ../components/ui/Card
+IMPORT: ../components/ui/Button
+IMPORT: ../components/ui/ProgressBar
+IMPORT: ../components/ui/Modal
+IMPORT: ../components/ui/Input
+IMPORT: react-hot-toast
+EXPORT: Goals
+CALLS: Goals, useAuth, useCarbon, useState, useMemo, Goal, IsModalOpen, Title, Target, Unit, SuggestedGoals, LowerCase, Fixed, IsSuggesting, Each, fetch, AddGoal
+
+--- src/pages/GoalsScene.jsx ---
+IMPORT: react
+IMPORT: @react-three/fiber
+IMPORT: @react-three/drei
+IMPORT: ../components/GlassPanel
+IMPORT: ../components/Button3D
+IMPORT: ../components/ProgressRing3D
+IMPORT: ../components/AchievementBadge3D
+IMPORT: ../components/StreakCalendar3D
+IMPORT: three
+EXPORT: GoalsScene
+CALLS: GoalsScrollHandler, useScroll, useFrame, GoalPlant3D, GoalsScene, useRef, useState, UpperCase
+
+--- src/pages/Insights.jsx ---
+IMPORT: react
+IMPORT: ../contexts/AuthContext
+IMPORT: ../contexts/CarbonContext
+IMPORT: ../config/carbonFactors
+IMPORT: ../utils/firestoreHelpers
+IMPORT: ../services/geminiService
+IMPORT: lucide-react
+IMPORT: ../components/ui/Card
+IMPORT: ../components/ui/Button
+IMPORT: react-hot-toast
+EXPORT: Insights
+CALLS: Insights, useAuth, useCarbon, useState, useMemo, Hours, LocaleDateString, Each, DateString, At, UpperCase, Float, Fixed, useEffect, fetchScore, LoadingScore, FootprintScore, ScoreData, IsGenerating, WeeklyInsight, Insight, fetchInsights, Range
+
+--- src/pages/InsightsScene.jsx ---
+IMPORT: react
+IMPORT: @react-three/fiber
+IMPORT: @react-three/drei
+IMPORT: ../contexts/AuthContext
+IMPORT: ../store/useStore
+IMPORT: ../components/PieChart3D
+IMPORT: ../components/BarChart3D
+IMPORT: ../components/ProgressRing3D
+IMPORT: ../components/GlassPanel
+IMPORT: ../components/Button3D
+IMPORT: three
+EXPORT: InsightsScene
+CALLS: InsightsScrollHandler, useScroll, useFrame, InsightsScene, useAuth, useStore, useRef, useState, useEffect, Interval, Score, UpperCase, Range
+
+--- src/pages/Landing.jsx ---
+IMPORT: react
+IMPORT: react-router-dom
+IMPORT: lucide-react
+IMPORT: framer-motion
+EXPORT: Landing
+CALLS: Landing, ElementById, IntoView, FullYear
+
+--- src/pages/LandingScene.jsx ---
+IMPORT: react
+IMPORT: @react-three/fiber
+IMPORT: @react-three/drei
+IMPORT: ../store/useStore
+IMPORT: ../components/EarthGlobe
+IMPORT: ../components/LeafParticle
+IMPORT: ../components/Button3D
+IMPORT: ../components/GlassPanel
+IMPORT: ../components/FloatingCard
+EXPORT: LandingScene
+CALLS: ScrollHandler, useScroll, useFrame, MiniBarChart, MiniWorkflow, SpinningAI, useRef, OrbitRing, OrbitRing2, OrbitDot, ElapsedTime, LandingScene, useStore, useMemo, Y
+
+--- src/pages/Leaderboard.jsx ---
+IMPORT: react
+IMPORT: ../contexts/AuthContext
+IMPORT: ../lib/firestore
+IMPORT: lucide-react
+IMPORT: ../components/ui/Card
+IMPORT: ../components/ui/Button
+IMPORT: ../components/ui/Avatar
+IMPORT: ../components/ui/Badge
+IMPORT: react-hot-toast
+EXPORT: Leaderboard
+CALLS: Leaderboard, useAuth, useState, useEffect, Leaders, Loading, fetchLeaders, Index, useMemo, Fixed, Text, MedalColor
+
+--- src/pages/LeaderboardScene.jsx ---
+IMPORT: react
+IMPORT: @react-spring/three
+IMPORT: @react-three/drei
+IMPORT: ../contexts/AuthContext
+IMPORT: ../components/GlassPanel
+IMPORT: ../components/Button3D
+IMPORT: three
+EXPORT: LeaderboardScene
+CALLS: LeaderboardScene, useAuth, useState, useSpring, Filter
+
+--- src/pages/NotFound.jsx ---
+IMPORT: react
+IMPORT: react-router-dom
+IMPORT: lucide-react
+IMPORT: ../components/ui/Button
+EXPORT: NotFound
+CALLS: NotFound
+
+--- src/pages/Onboarding.jsx ---
+IMPORT: react
+IMPORT: react-router-dom
+IMPORT: framer-motion
+IMPORT: ../contexts/AuthContext
+IMPORT: ../contexts/CarbonContext
+IMPORT: ../components/ui/Button
+IMPORT: ../components/ui/Card
+CALLS: useState, useAuth, useCarbon, useNavigate, Goal, Profile, Selections, Step, Int
+
+--- src/pages/OnboardingScene.jsx ---
+IMPORT: react
+IMPORT: @react-three/fiber
+IMPORT: @react-three/drei
+IMPORT: ../contexts/AuthContext
+IMPORT: ../store/useStore
+IMPORT: ../lib/firestore
+IMPORT: ../components/Button3D
+IMPORT: ../components/GlassPanel
+IMPORT: ../components/FloatingCard
+IMPORT: ../components/ProgressRing3D
+IMPORT: three
+EXPORT: OnboardingScene
+CALLS: OnboardingScene, useAuth, useStore, useState, useRef, useFrame, Z, Y, Step, Complete, ISOString, UserProfile, Propagation, FootprintTarget, Transport, Diet, HomeType, EnergySource
+
+--- src/pages/Profile.jsx ---
+IMPORT: react
+IMPORT: ../contexts/AuthContext
+IMPORT: ../contexts/CarbonContext
+IMPORT: ../utils/helpers
+IMPORT: lucide-react
+IMPORT: ../components/ui/Card
+IMPORT: ../components/ui/Button
+IMPORT: ../components/ui/Input
+IMPORT: ../components/ui/ProgressBar
+IMPORT: ../components/layout/PageHeader
+IMPORT: react-hot-toast
+EXPORT: Profile
+CALLS: Level, Profile, useAuth, useCarbon, useState, IsEditing, ActiveAccordion, At, Name, FullYear, Fixed, Accordion
+
+--- src/pages/Tips.jsx ---
+IMPORT: react
+IMPORT: ../contexts/AuthContext
+IMPORT: ../data/tips
+IMPORT: lucide-react
+IMPORT: ../components/ui/Card
+IMPORT: ../components/ui/Button
+IMPORT: ../components/ui/Input
+IMPORT: ../components/ui/Badge
+IMPORT: ../components/layout/PageHeader
+IMPORT: react-hot-toast
+EXPORT: Tips
+CALLS: Tips, useAuth, useState, Profile, IsGenerating, AiTips, fetch, useMemo, LowerCase, Lifestyle, ActiveTab, Search, SortBy, Filter, With, ToggleSave
+
+--- src/pages/Tracker.jsx ---
+IMPORT: react
+IMPORT: ../contexts/CarbonContext
+IMPORT: ../config/carbonFactors
+IMPORT: recharts
+IMPORT: react-hot-toast
+IMPORT: ../components/ui/Button
+IMPORT: ../components/ui/Modal
+IMPORT: ../components/ui/Card
+IMPORT: ../components/ui/Input
+IMPORT: ../components/ui/Badge
+EXPORT: Tracker
+CALLS: Tracker, useCarbon, useState, useMemo, Each, Float, NaN, CarCO2, FlightCO2, BusCO2, BikeCO2, ElectricityCO2, HeatingCO2, MeatMealCO2, VegMealCO2, ShoppingCO2, Activity, CurrentCO2, IsModalOpen, Modal, Step, SelectedCategory, SelectedType, Amount, ISOString, Fixed, Blob, ObjectURL, Element, Attribute, Child, LocaleDateString, Filter
+
+--- src/pages/TrackerScene.jsx ---
+IMPORT: react
+IMPORT: ../contexts/AuthContext
+IMPORT: ../store/useStore
+IMPORT: ../lib/firestore
+IMPORT: @react-three/drei
+IMPORT: ../components/GlassPanel
+IMPORT: ../components/Button3D
+IMPORT: ../components/InputField3D
+IMPORT: ../components/ProgressRing3D
+EXPORT: TrackerScene
+CALLS: TrackerScene, useAuth, useStore, useState, useEffect, fetchLogs, Activities, RecentLogs, Float, CarCO2, BusCO2, FlightCO2, MeatMealCO2, VegMealCO2, ElectricityCO2, ShoppingCO2, LiveCO2, AnimatingSubmit, SubmitPercent, Interval, Submit, UpperCase, Activity, UserStats, Timeout, InputValue, ActiveTab, SubType, Fixed
+
+--- src/pages/auth/AuthIllustration.jsx ---
+IMPORT: react
+IMPORT: framer-motion
+CALLS: 
+
+--- src/pages/auth/ForgotPassword.jsx ---
+IMPORT: react
+IMPORT: react-router-dom
+IMPORT: framer-motion
+IMPORT: lucide-react
+IMPORT: react-hot-toast
+IMPORT: ../../contexts/AuthContext
+IMPORT: ../../components/ui/Button
+IMPORT: ../../components/ui/Input
+IMPORT: ../../components/ui/Card
+CALLS: useState, useAuth, Default, Loading, Password, Email
+
+--- src/pages/auth/Login.jsx ---
+IMPORT: react
+IMPORT: react-router-dom
+IMPORT: framer-motion
+IMPORT: lucide-react
+IMPORT: react-hot-toast
+IMPORT: ../../contexts/AuthContext
+IMPORT: ../../components/ui/Button
+CALLS: useState, useAuth, useNavigate, Default, Loading, WithGoogle, Email, Password

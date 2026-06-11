@@ -30,7 +30,7 @@ export default function Landing() {
       </nav>
 
       {/* Hero Section */}
-      <header className="max-w-7xl mx-auto px-6 pt-16 pb-24 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+      <header className="relative max-w-7xl mx-auto px-6 pt-16 pb-24 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
         <motion.div 
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -47,13 +47,13 @@ export default function Landing() {
           <div className="flex flex-wrap gap-4">
             <Link 
               to="/auth" 
-              className="bg-[#2D6A4F] text-white rounded-xl px-7 py-4 hover:bg-[#1B4332] font-bold text-base transition-all shadow-lg hover:shadow-xl flex items-center gap-2"
+              className="bg-[#2D6A4F] text-white rounded-xl px-7 py-4 hover:bg-[#1B4332] font-bold text-base transition-all shadow-lg hover:shadow-xl flex items-center gap-2 pointer-events-auto"
             >
               Start for free <ArrowRight className="w-5 h-5" />
             </Link>
             <button 
               onClick={scrollToFeatures}
-              className="bg-white border border-gray-200 text-gray-700 rounded-xl px-7 py-4 hover:bg-gray-50 font-semibold text-base transition-all shadow-sm"
+              className="bg-white border border-gray-200 text-gray-700 rounded-xl px-7 py-4 hover:bg-gray-50 font-semibold text-base transition-all shadow-sm pointer-events-auto"
             >
               See how it works
             </button>
@@ -64,7 +64,7 @@ export default function Landing() {
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8 }}
-          className="flex justify-center"
+          className="flex justify-center relative w-full h-[400px]"
         >
           {/* Animated SVG Tree/Leaf illustration */}
           <svg viewBox="0 0 500 500" className="w-full max-w-md drop-shadow-2xl">
@@ -142,7 +142,26 @@ export default function Landing() {
               transition={{ type: "spring", stiffness: 100, delay: 0.9 }}
             />
           </svg>
+
+          {/* Absolute overlay over the 3D content area */}
+          <div className="absolute inset-0 flex flex-col items-center justify-center z-10 pointer-events-none text-center px-4">
+            <h1 className="text-5xl md:text-7xl font-black text-white leading-tight">
+              Intercept Your Footprint.<br/>
+              <span className="text-emerald-400">Change Your Future.</span>
+            </h1>
+            <p className="text-gray-400 text-lg mt-4 max-w-xl">
+              Real-time AI that catches high-emission habits before you act — 
+              not after.
+            </p>
+          </div>
         </motion.div>
+
+        {/* Scroll Indicator */}
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce z-10">
+          <svg width="24" height="24" fill="none" stroke="#10b981" strokeWidth="2" viewBox="0 0 24 24">
+            <path d="M12 5v14M5 12l7 7 7-7"/>
+          </svg>
+        </div>
       </header>
 
       {/* Stats Bar */}

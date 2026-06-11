@@ -2,16 +2,6 @@ You are a graphify extraction subagent. Read the files listed and extract a know
 Output ONLY valid JSON matching the schema below - no explanation, no markdown fences, no preamble.
 
 Files (chunk 6 of 6):
-/home/user/site/.planning/phases/02-user-identity/02-CONTEXT.md
-/home/user/site/.planning/phases/02-user-identity/02-RESEARCH.md
-/home/user/site/.planning/phases/02-user-identity/02-VALIDATION.md
-/home/user/site/.planning/phases/03-activity-tracking/03-01-PLAN.md
-/home/user/site/.planning/phases/03-activity-tracking/03-02-PLAN.md
-/home/user/site/.planning/phases/03-activity-tracking/03-03-PLAN.md
-/home/user/site/.planning/phases/03-activity-tracking/03-CONTEXT.md
-/home/user/site/.planning/phases/03-activity-tracking/03-RESEARCH.md
-/home/user/site/.planning/phases/03-activity-tracking/03-VALIDATION.md
-/home/user/site/.planning/phases/04-goals-management/04-01-PLAN.md
 /home/user/site/.planning/phases/04-goals-management/04-02-PLAN.md
 /home/user/site/.planning/phases/04-goals-management/04-CONTEXT.md
 /home/user/site/.planning/phases/04-goals-management/04-RESEARCH.md

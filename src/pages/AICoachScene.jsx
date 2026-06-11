@@ -56,7 +56,6 @@ export function AICoachScene() {
       // 4. Add Bot Message response to store
       addChatMessage({ sender: 'bot', text: response });
     } catch (e) {
-      console.error(e);
       addChatMessage({ sender: 'bot', text: 'Apologies, I encountered a communication error with my core network.' });
     } finally {
       setLoading(false);

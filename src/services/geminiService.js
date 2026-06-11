@@ -1,19 +1,30 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
 const getApiKey = () => {
-  return import.meta.env.VITE_GEMINI_API_KEY || "";
+  return sessionStorage.getItem('judge_gemini_key')
+    || import.meta.env.VITE_GEMINI_API_KEY
+    || "";
 };
 
 const initGemini = () => {
   const apiKey = getApiKey();
   if (!apiKey) {
-    console.warn("VITE_GEMINI_API_KEY is not defined. Gemini features will use mock/fallback data.");
     return null;
   }
   return new GoogleGenerativeAI(apiKey);
 };
 
-const genAI = initGemini();
+let _genAI = null;
+let _lastKey = null;
+
+const getGenAI = () => {
+  const currentKey = getApiKey();
+  if (currentKey !== _lastKey) {
+    _lastKey = currentKey;
+    _genAI = initGemini();
+  }
+  return _genAI;
+};
 
 function cleanAndParseJSON(text) {
   try {
@@ -23,13 +34,13 @@ function cleanAndParseJSON(text) {
     }
     return JSON.parse(clean.trim());
   } catch (e) {
-    console.error("Failed to parse Gemini response as JSON:", text, e);
     throw e;
   }
 }
 
 export async function getDailyTip(userProfile, todayActivities) {
   try {
+    const genAI = getGenAI();
     if (!genAI) throw new Error("GenAI not initialized");
     const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
@@ -51,7 +62,6 @@ Do not return any other text, markdown blocks, or explanation.`;
     const text = result.response.text();
     return cleanAndParseJSON(text);
   } catch (error) {
-    console.error("Error in getDailyTip:", error);
     // Fallback response
     return {
       tip: "Unplug standby home electronics like TVs and chargers when not in use. It can save up to 1.2kg of CO2 today.",
@@ -63,6 +73,7 @@ Do not return any other text, markdown blocks, or explanation.`;
 
 export async function getWeeklyInsight(weekData, prevWeekData) {
   try {
+    const genAI = getGenAI();
     if (!genAI) throw new Error("GenAI not initialized");
     const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
@@ -84,7 +95,6 @@ Do not return any other text.`;
     const text = result.response.text();
     return cleanAndParseJSON(text);
   } catch (error) {
-    console.error("Error in getWeeklyInsight:", error);
     return {
       insight: "Great job keeping your food-related emissions low this week! Your transport emissions increased slightly due to commute distance. Consider carpooling or using public transit next week.",
       trend: "steady",
@@ -95,6 +105,7 @@ Do not return any other text.`;
 
 export async function getChatResponse(userMessage, userStats, chatHistory) {
   try {
+    const genAI = getGenAI();
     if (!genAI) throw new Error("GenAI not initialized");
     const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
@@ -118,13 +129,13 @@ Response:`;
     const result = await model.generateContent(prompt);
     return result.response.text();
   } catch (error) {
-    console.error("Error in getChatResponse:", error);
     return "I am currently running in offline/local helper mode, but I'm here to support your green journey! Reducing transport emissions by walking and switching off appliances are great first steps to save CO2.";
   }
 }
 
 export async function getFootprintScore(monthlyData) {
   try {
+    const genAI = getGenAI();
     if (!genAI) throw new Error("GenAI not initialized");
     const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
@@ -144,7 +155,6 @@ Do not include any explanation or extra text outside the JSON.`;
     const text = result.response.text();
     return cleanAndParseJSON(text);
   } catch (error) {
-    console.error("Error in getFootprintScore:", error);
     return {
       score: 65,
       grade: "B",

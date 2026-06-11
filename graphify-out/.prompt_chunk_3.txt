@@ -2,8 +2,6 @@ You are a graphify extraction subagent. Read the files listed and extract a know
 Output ONLY valid JSON matching the schema below - no explanation, no markdown fences, no preamble.
 
 Files (chunk 3 of 6):
-/home/user/site/src/lib/firebase.js
-/home/user/site/src/lib/firestore.js
 /home/user/site/src/main.tsx
 /home/user/site/src/pages/AICoach.jsx
 /home/user/site/src/pages/AICoachScene.jsx
@@ -24,6 +22,11 @@ Files (chunk 3 of 6):
 /home/user/site/src/pages/OnboardingScene.jsx
 /home/user/site/src/pages/Profile.jsx
 /home/user/site/src/pages/Tips.jsx
+/home/user/site/src/pages/Tracker.jsx
+/home/user/site/src/pages/TrackerScene.jsx
+/home/user/site/src/pages/auth/AuthIllustration.jsx
+/home/user/site/src/pages/auth/ForgotPassword.jsx
+/home/user/site/src/pages/auth/Login.jsx
 
 Rules:
 - EXTRACTED: relationship explicit in source (import, call, citation, "see §3.2")

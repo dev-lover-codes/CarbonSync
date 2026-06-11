@@ -1,0 +1,1 @@
+{"nodes": [{"id": "common_emptystate_emptystate", "label": "EmptyState", "file_type": "code", "source_file": "src/components/common/EmptyState.jsx"}], "edges": [{"source": "common_emptystate_emptystate", "target": "ui_button_button", "relation": "calls", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "src/components/common/EmptyState.jsx"}], "hyperedges": []}

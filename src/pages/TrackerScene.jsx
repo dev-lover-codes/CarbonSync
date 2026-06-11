@@ -40,7 +40,6 @@ export function TrackerScene() {
       const logs = await getActivities(currentUser.uid, 5);
       setRecentLogs(logs || []);
     } catch (e) {
-      console.warn('Failed to fetch activities:', e);
     }
   };
 
@@ -124,7 +123,6 @@ export function TrackerScene() {
       }, 600);
 
     } catch (e) {
-      console.error(e);
       setAnimatingSubmit(false);
     }
   };

@@ -2,14 +2,10 @@ You are a graphify extraction subagent. Read the files listed and extract a know
 Output ONLY valid JSON matching the schema below - no explanation, no markdown fences, no preamble.
 
 Files (chunk 4 of 6):
-/home/user/site/src/pages/Tracker.jsx
-/home/user/site/src/pages/TrackerScene.jsx
-/home/user/site/src/pages/auth/AuthIllustration.jsx
-/home/user/site/src/pages/auth/ForgotPassword.jsx
-/home/user/site/src/pages/auth/Login.jsx
 /home/user/site/src/pages/auth/Signup.jsx
 /home/user/site/src/services/geminiService.js
 /home/user/site/src/store/useStore.js
+/home/user/site/src/utils/animations.js
 /home/user/site/src/utils/carbonCalculator.js
 /home/user/site/src/utils/firestoreHelpers.js
 /home/user/site/src/utils/helpers.js
@@ -24,6 +20,13 @@ Files (chunk 4 of 6):
 /home/user/site/.planning/codebase/CONCERNS.md
 /home/user/site/.planning/codebase/CONVENTIONS.md
 /home/user/site/.planning/codebase/INTEGRATIONS.md
+/home/user/site/.planning/codebase/STACK.md
+/home/user/site/.planning/codebase/STRUCTURE.md
+/home/user/site/.planning/codebase/TESTING.md
+/home/user/site/.planning/phase-01/01-01-PLAN.md
+/home/user/site/.planning/phase-01/01-02-PLAN.md
+/home/user/site/.planning/phase-01/01-CONTEXT.md
+/home/user/site/.planning/phase-05/05-01-PLAN.md
 
 Rules:
 - EXTRACTED: relationship explicit in source (import, call, citation, "see §3.2")

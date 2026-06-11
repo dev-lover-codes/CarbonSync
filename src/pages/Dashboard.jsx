@@ -53,7 +53,6 @@ export default function Dashboard() {
         const res = await getDailyTip(userProfile, todayActs);
         setDailyTip(res);
       } catch (err) {
-        console.error(err);
       } finally {
         setLoadingTip(false);
       }
@@ -199,22 +198,22 @@ export default function Dashboard() {
 
         {/* Stats Row */}
         <div className="md:col-span-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          <Card className="p-5 shadow-xl hover:shadow-glow-green/10 transition-all duration-300">
+          <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-3xl p-6 flex flex-col gap-2">
             <div className="flex justify-between items-start mb-2">
               <h3 className="text-xs font-semibold tracking-widest text-gray-400 uppercase">TODAY</h3>
               <div className={`p-1.5 rounded-lg ${todayTotal < dailyBudget ? 'bg-primary/20 text-primary-light' : 'bg-red-500/20 text-red-400'}`}>
                 {todayTotal < dailyBudget ? <TrendingDown size={18} /> : <TrendingUp size={18} />}
               </div>
             </div>
-            <div className="text-4xl font-bold text-gray-900 mt-1">
+            <div className="text-4xl font-bold text-white tracking-tight">
               {todayTotal.toFixed(1)} <span className="text-xs font-semibold tracking-widest text-gray-400 uppercase ml-1">kg</span>
             </div>
-            <span className="text-xs text-primary-light mt-3 block">
-              ≈ Equivalent to charging {Math.max(1, Math.round(todayTotal / 0.004)).toLocaleString()} smartphones
+            <span className="text-xs text-emerald-400 mt-1 block">
+              ≈ {Math.round(todayTotal * 4.3)} smartphones fully charged
             </span>
-          </Card>
+          </div>
 
-          <Card className="p-5 shadow-xl hover:shadow-glow-green/10 transition-all duration-300">
+          <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-3xl p-6 flex flex-col gap-2">
             <div className="flex justify-between items-start mb-2">
               <h3 className="text-xs font-semibold tracking-widest text-gray-400 uppercase">WEEKLY</h3>
               <div className="w-16 h-8">
@@ -225,34 +224,40 @@ export default function Dashboard() {
                 </ResponsiveContainer>
               </div>
             </div>
-            <div className="text-4xl font-bold text-gray-900 mt-1">
+            <div className="text-4xl font-bold text-white tracking-tight">
               {weeklyTotal.toFixed(1)} <span className="text-xs font-semibold tracking-widest text-gray-400 uppercase ml-1">kg</span>
             </div>
-          </Card>
+            <span className="text-xs text-emerald-400 mt-1 block">
+              ≈ {Math.round(weeklyTotal * 4.3)} smartphones fully charged
+            </span>
+          </div>
 
-          <Card className="p-5 shadow-xl hover:shadow-glow-green/10 transition-all duration-300">
+          <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-3xl p-6 flex flex-col gap-2">
             <div className="flex justify-between items-start mb-2">
               <h3 className="text-xs font-semibold tracking-widest text-gray-400 uppercase">SAVED</h3>
               <div className="p-1.5 rounded-lg bg-primary/20 text-primary-light">
                 <Award size={18} />
               </div>
             </div>
-            <div className="text-4xl font-bold text-gray-900 mt-1">
+            <div className="text-4xl font-bold text-white tracking-tight">
               {(userProfile?.totalSaved || 0).toFixed(1)} <span className="text-xs font-semibold tracking-widest text-gray-400 uppercase ml-1">kg</span>
             </div>
-          </Card>
+            <span className="text-xs text-emerald-400 mt-1 block">
+              ≈ {Math.round((userProfile?.totalSaved || 0) * 4.3)} smartphones fully charged
+            </span>
+          </div>
 
-          <Card className="p-5 shadow-xl hover:shadow-glow-green/10 transition-all duration-300">
+          <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-3xl p-6 flex flex-col gap-2">
             <div className="flex justify-between items-start mb-2">
               <h3 className="text-xs font-semibold tracking-widest text-gray-400 uppercase">STREAK</h3>
               <div className="p-1.5 rounded-lg bg-orange-500/20 text-orange-400">
                 <Flame size={18} />
               </div>
             </div>
-            <div className="text-4xl font-bold text-gray-900 mt-1">
+            <div className="text-4xl font-bold text-white tracking-tight">
               {userProfile?.streak || 0} <span className="text-xs font-semibold tracking-widest text-gray-400 uppercase ml-1">days</span>
             </div>
-          </Card>
+          </div>
         </div>
 
         {/* Main Content Bento Box Grid */}
@@ -315,58 +320,61 @@ export default function Dashboard() {
           )}
         </Card>
 
-        <Card className="md:col-span-2 p-6 shadow-sm border border-gray-100 hover:shadow-md transition-shadow flex flex-col">
+        <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-3xl p-6 col-span-2">
           <div className="flex justify-between items-center mb-4">
             <div>
-              <h2 className="text-lg font-bold text-gray-900">This Week's CO₂ Profile</h2>
-              <p className="text-xs text-gray-500 mt-0.5">Daily emission trend over the last 7 days</p>
+              <h2 className="text-lg font-bold text-white">This Week's CO₂ Profile</h2>
+              <p className="text-xs text-gray-400 mt-0.5">Daily emission trend over the last 7 days</p>
             </div>
             <Badge variant="neutral" className="bg-primary/10 text-primary font-semibold">7-Day Trend</Badge>
           </div>
-          <div className="flex-1 min-h-[200px] w-full">
-            <ResponsiveContainer width="100%" height="100%">
+          <div className="w-full">
+            <ResponsiveContainer width="100%" height={220}>
               <LineChart data={weeklyData} margin={{ top: 8, right: 16, left: -20, bottom: 0 }}>
                 <defs>
                   <linearGradient id="co2ProfileGradient" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#52B788" stopOpacity={0.3} />
-                    <stop offset="95%" stopColor="#52B788" stopOpacity={0} />
+                    <stop offset="5%" stopColor="#10b981" stopOpacity={0.3} />
+                    <stop offset="95%" stopColor="#10b981" stopOpacity={0} />
                   </linearGradient>
                 </defs>
-                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E5E7EB" />
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#ffffff05" />
                 <XAxis
                   dataKey="dayStr"
-                  axisLine={false}
+                  tick={{ fill: '#9ca3af', fontSize: 11 }}
+                  axisLine={{ stroke: '#ffffff10' }}
                   tickLine={false}
-                  tick={{ fill: '#6B7280', fontSize: 12 }}
                   dy={8}
                 />
                 <YAxis
-                  axisLine={false}
+                  tick={{ fill: '#9ca3af', fontSize: 11 }}
+                  axisLine={{ stroke: '#ffffff10' }}
                   tickLine={false}
-                  tick={{ fill: '#6B7280', fontSize: 12 }}
                 />
                 <Tooltip
                   contentStyle={{
                     borderRadius: '12px',
                     border: 'none',
                     boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)',
-                    background: '#fff'
+                    background: '#0d2417',
+                    color: '#fff'
                   }}
+                  itemStyle={{ color: '#fff' }}
+                  labelStyle={{ color: '#9ca3af' }}
                   formatter={(value) => [`${value.toFixed(2)} kg`, 'Total CO₂']}
                 />
                 <Line
                   type="monotone"
                   dataKey="total"
-                  stroke="#2D6A4F"
-                  strokeWidth={2.5}
-                  dot={{ fill: '#52B788', stroke: '#2D6A4F', strokeWidth: 2, r: 4 }}
-                  activeDot={{ fill: '#2D6A4F', stroke: '#fff', strokeWidth: 2, r: 6 }}
+                  stroke="#10b981"
+                  strokeWidth={2}
+                  dot={{ fill: '#10b981', stroke: '#10b981', strokeWidth: 1, r: 3 }}
+                  activeDot={{ fill: '#10b981', stroke: '#fff', strokeWidth: 2, r: 5 }}
                   fill="url(#co2ProfileGradient)"
                 />
               </LineChart>
             </ResponsiveContainer>
           </div>
-        </Card>
+        </div>
 
         <Card className="md:col-span-1 p-6 shadow-sm border border-green-200 bg-green-50/50 overflow-hidden relative animate-in fade-in duration-300 flex flex-col">
           <div className="absolute -right-6 -top-6 w-24 h-24 bg-green-200 rounded-full blur-2xl opacity-50"></div>

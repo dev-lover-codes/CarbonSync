@@ -82,7 +82,6 @@ Always be encouraging, give actionable, specific advice, and use formatting (bul
       const responseText = await callGemini(newMessages);
       setMessages(prev => [...prev, { role: 'assistant', content: responseText }]);
     } catch (error) {
-      console.error('AI Coach Error:', error);
       toast.error(error.message || 'Trouble reaching the AI Coach. Try again.');
       setMessages(prev => [...prev, { role: 'assistant', content: "Oops, I'm having trouble connecting right now. Please check your API key or try again later. 🍃" }]);
     } finally {

@@ -2,13 +2,6 @@ You are a graphify extraction subagent. Read the files listed and extract a know
 Output ONLY valid JSON matching the schema below - no explanation, no markdown fences, no preamble.
 
 Files (chunk 5 of 6):
-/home/user/site/.planning/codebase/STACK.md
-/home/user/site/.planning/codebase/STRUCTURE.md
-/home/user/site/.planning/codebase/TESTING.md
-/home/user/site/.planning/phase-01/01-01-PLAN.md
-/home/user/site/.planning/phase-01/01-02-PLAN.md
-/home/user/site/.planning/phase-01/01-CONTEXT.md
-/home/user/site/.planning/phase-05/05-01-PLAN.md
 /home/user/site/.planning/phase-05/05-02-PLAN.md
 /home/user/site/.planning/phase-05/05-CONTEXT.md
 /home/user/site/.planning/phase-05/05-VALIDATION.md
@@ -24,6 +17,16 @@ Files (chunk 5 of 6):
 /home/user/site/.planning/phases/02-user-identity/02-02-PLAN.md
 /home/user/site/.planning/phases/02-user-identity/02-03-PLAN.md
 /home/user/site/.planning/phases/02-user-identity/02-04-PLAN.md
+/home/user/site/.planning/phases/02-user-identity/02-CONTEXT.md
+/home/user/site/.planning/phases/02-user-identity/02-RESEARCH.md
+/home/user/site/.planning/phases/02-user-identity/02-VALIDATION.md
+/home/user/site/.planning/phases/03-activity-tracking/03-01-PLAN.md
+/home/user/site/.planning/phases/03-activity-tracking/03-02-PLAN.md
+/home/user/site/.planning/phases/03-activity-tracking/03-03-PLAN.md
+/home/user/site/.planning/phases/03-activity-tracking/03-CONTEXT.md
+/home/user/site/.planning/phases/03-activity-tracking/03-RESEARCH.md
+/home/user/site/.planning/phases/03-activity-tracking/03-VALIDATION.md
+/home/user/site/.planning/phases/04-goals-management/04-01-PLAN.md
 
 Rules:
 - EXTRACTED: relationship explicit in source (import, call, citation, "see §3.2")

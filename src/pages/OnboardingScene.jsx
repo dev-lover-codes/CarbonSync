@@ -78,7 +78,6 @@ export function OnboardingScene() {
       await updateUserProfile(currentUser.uid, onboardData);
       navigate('dashboard');
     } catch (e) {
-      console.error('Failed to complete onboarding:', e);
       navigate('dashboard'); // fallback
     }
   };

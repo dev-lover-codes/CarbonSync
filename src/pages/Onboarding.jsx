@@ -50,7 +50,6 @@ const Onboarding = () => {
 
       navigate('/dashboard');
     } catch (error) {
-      console.error("Failed to complete onboarding", error);
     }
   };
 

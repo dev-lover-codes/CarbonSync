@@ -56,7 +56,6 @@ export default function Goals() {
       setUnit('');
       setSuggestedGoals([]);
     } catch (error) {
-      console.error('Error adding goal', error);
       toast.error('Failed to add goal');
     }
   };
@@ -128,7 +127,6 @@ Format the response strictly as a JSON array of objects with keys: "title" (stri
       const parsed = JSON.parse(text);
       setSuggestedGoals(parsed);
     } catch (error) {
-      console.error(error);
       toast.error('Failed to generate AI suggestions.');
     } finally {
       setIsSuggesting(false);
@@ -167,14 +165,14 @@ Format the response strictly as a JSON array of objects with keys: "title" (stri
           </span>
         </div>
         
-        <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-4">
           {activeGoals.length > 0 ? activeGoals.map(goal => {
             const progress = Math.min((goal.current / goal.target) * 100, 100);
             return (
               <motion.div
                 key={goal.id}
                 whileHover={{ y: -4, scale: 1.01 }}
-                className="bg-white/5 backdrop-blur-md rounded-3xl border border-white/10 p-6 flex flex-col justify-between hover:shadow-glow-green/10 transition-all duration-300 relative overflow-hidden"
+                className="bg-white/5 backdrop-blur-md border border-white/10 rounded-3xl p-5 flex flex-col gap-3"
               >
                 <div>
                   <div className="flex justify-between items-start mb-4">
@@ -184,12 +182,17 @@ Format the response strictly as a JSON array of objects with keys: "title" (stri
                     </div>
                   </div>
                   
-                  <div className="mb-6">
+                  <div>
                     <div className="flex justify-between text-xs mb-2 font-semibold tracking-wider uppercase">
                       <span className="text-gray-400">Progress</span>
                       <span className="text-primary-light">{goal.current} / {goal.target} {goal.unit}</span>
                     </div>
-                    <ProgressBar progress={progress} color="bg-primary-light" className="shadow-glow-green" />
+                    <div className="w-full bg-white/10 rounded-full h-2">
+                      <div
+                        className="bg-emerald-400 h-2 rounded-full transition-all duration-700 shadow-[0_0_8px_rgba(16,185,129,0.6)]"
+                        style={{ width: `${progress}%` }}
+                      />
+                    </div>
                   </div>
                 </div>
                 
@@ -235,11 +238,11 @@ Format the response strictly as a JSON array of objects with keys: "title" (stri
           </span>
         </div>
         
-        <div className="relative z-10 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+        <div className="relative z-10 grid grid-cols-2 md:grid-cols-4 gap-4">
           {computedBadges.map(badge => (
             <div
               key={badge.id}
-              className={`bg-white/5 backdrop-blur-md rounded-3xl border border-white/10 p-5 text-center flex flex-col items-center justify-between transition-all duration-300 relative group overflow-hidden ${
+              className={`bg-white/5 border border-white/10 rounded-2xl p-4 flex flex-col items-center gap-2 text-center transition-all duration-300 relative group overflow-hidden ${
                 badge.earned 
                   ? 'shadow-lg shadow-primary/5 border-primary-light/20' 
                   : 'opacity-40 grayscale border-white/5'

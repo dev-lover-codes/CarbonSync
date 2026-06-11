@@ -19,7 +19,6 @@ export default function Leaderboard() {
         const data = await getLeaderboard();
         setLeaders(data);
       } catch (error) {
-        console.error("Failed to fetch leaderboard", error);
         toast.error("Could not load leaderboard");
       } finally {
         setLoading(false);

@@ -42,7 +42,6 @@ const AppLayout = () => {
       await logout();
       navigate('/auth');
     } catch (error) {
-      console.error("Logout failed", error);
     }
   };
 

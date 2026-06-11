@@ -252,6 +252,7 @@ export function LandingScene() {
                   boxShadow: '0 0 35px rgba(0,255,135,0.4), 0 4px 24px rgba(0,0,0,0.35)',
                   transition: 'all 0.3s cubic-bezier(0.4,0,0.2,1)',
                   textTransform: 'uppercase',
+                  pointerEvents: 'auto',
                 }}
                 onMouseEnter={e => {
                   e.currentTarget.style.transform = 'translateY(-3px) scale(1.02)';
@@ -281,6 +282,7 @@ export function LandingScene() {
                   transition: 'all 0.3s ease',
                   textTransform: 'uppercase',
                   backdropFilter: 'blur(10px)',
+                  pointerEvents: 'auto',
                 }}
                 onMouseEnter={e => {
                   e.currentTarget.style.background = 'rgba(0,212,255,0.14)';
@@ -730,6 +732,7 @@ export function LandingScene() {
                   boxShadow: '0 0 40px rgba(0,255,135,0.45), 0 4px 24px rgba(0,0,0,0.35)',
                   transition: 'all 0.3s ease',
                   textTransform: 'uppercase',
+                  pointerEvents: 'auto',
                 }}
                 onMouseEnter={e => {
                   e.target.style.transform = 'translateY(-3px) scale(1.03)';

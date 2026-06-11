@@ -2,6 +2,7 @@ You are a graphify extraction subagent. Read the files listed and extract a know
 Output ONLY valid JSON matching the schema below - no explanation, no markdown fences, no preamble.
 
 Files (chunk 2 of 6):
+/home/user/site/src/components/NavBar3D.jsx
 /home/user/site/src/components/Particles.jsx
 /home/user/site/src/components/PieChart3D.jsx
 /home/user/site/src/components/Portal3D.jsx
@@ -24,6 +25,8 @@ Files (chunk 2 of 6):
 /home/user/site/src/contexts/AuthContext.jsx
 /home/user/site/src/contexts/CarbonContext.jsx
 /home/user/site/src/data/tips.js
+/home/user/site/src/lib/firebase.js
+/home/user/site/src/lib/firestore.js
 
 Rules:
 - EXTRACTED: relationship explicit in source (import, call, citation, "see §3.2")

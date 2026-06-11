@@ -179,7 +179,6 @@ export default function Tracker() {
       resetModal();
     } catch (error) {
       toast.error('Failed to log activity');
-      console.error(error);
     }
   };
 

@@ -2,9 +2,13 @@
 /home/user/site/.idx/mcp.json
 /home/user/site/.planning/config.json
 /home/user/site/.vscode/settings.json
+/home/user/site/cloud-deploy.sh
+/home/user/site/firebase.json
+/home/user/site/firestore.indexes.json
 /home/user/site/package.json
 /home/user/site/postcss.config.js
 /home/user/site/scripts/dev-wrapper.js
+/home/user/site/scripts/netlify-deploy.mjs
 /home/user/site/scripts/remove-remote-fonts.js
 /home/user/site/src/App.jsx
 /home/user/site/src/components/AchievementBadge3D.jsx
@@ -72,6 +76,7 @@
 /home/user/site/src/pages/auth/Signup.jsx
 /home/user/site/src/services/geminiService.js
 /home/user/site/src/store/useStore.js
+/home/user/site/src/utils/animations.js
 /home/user/site/src/utils/carbonCalculator.js
 /home/user/site/src/utils/firestoreHelpers.js
 /home/user/site/src/utils/helpers.js

@@ -46,7 +46,6 @@ export default function Auth() {
         navigate('/dashboard');
       }
     } catch (err) {
-      console.error("Profile check error:", err);
       // Fallback
       navigate('/onboarding');
     }
