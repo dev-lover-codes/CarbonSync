@@ -15,9 +15,9 @@
     "semantic_hash": "949ed6a4766b6865c727e5b4129c3d53"
   },
   "/home/user/site/package.json": {
-    "mtime": 1780990450.6993718,
-    "ast_hash": "a13dc9f808f22c6579822ae98f8ad97f",
-    "semantic_hash": "a13dc9f808f22c6579822ae98f8ad97f"
+    "mtime": 1781258021.1177998,
+    "ast_hash": "a9fe09ace3154948777487316ca6a21c",
+    "semantic_hash": ""
   },
   "/home/user/site/AGENTS.md": {
     "mtime": 1780936922.2467315,
@@ -35,9 +35,9 @@
     "semantic_hash": "c54bb3e12585f3695ec802663b261f6b"
   },
   "/home/user/site/README.md": {
-    "mtime": 1780988470.6761615,
-    "ast_hash": "43e32f67a45d51e7fbcf8cdbfcb90a07",
-    "semantic_hash": "43e32f67a45d51e7fbcf8cdbfcb90a07"
+    "mtime": 1781258225.454632,
+    "ast_hash": "8be789a31978fe03ee74a99f5948c6f5",
+    "semantic_hash": ""
   },
   "/home/user/site/.planning/config.json": {
     "mtime": 1780934507.8118644,
@@ -135,8 +135,8 @@
     "semantic_hash": "e161d7ea63d485474efd330b2bbca272"
   },
   "/home/user/site/src/lib/firebase.js": {
-    "mtime": 1781119704.0588872,
-    "ast_hash": "927e8765732c0b85926b90bec5265fa5",
+    "mtime": 1781262424.535516,
+    "ast_hash": "dee60aea5440a4c1a95d2fdf651b07c8",
     "semantic_hash": ""
   },
   "/home/user/site/src/lib/firestore.js": {
@@ -160,8 +160,8 @@
     "semantic_hash": ""
   },
   "/home/user/site/src/pages/Dashboard.jsx": {
-    "mtime": 1781119709.7818773,
-    "ast_hash": "15fe2b94784bd8962c18f65cfd2e4bc4",
+    "mtime": 1781259870.7181594,
+    "ast_hash": "99bf752637df442a60802fc2b60f948d",
     "semantic_hash": ""
   },
   "/home/user/site/src/pages/Goals.jsx": {
@@ -585,8 +585,8 @@
     "semantic_hash": "144b3114e3345965a46b5ea55da243e4"
   },
   "/home/user/site/src/components/Scene.jsx": {
-    "mtime": 1781255775.2877986,
-    "ast_hash": "2ab572502368d78b744c48ef9335a6f4",
+    "mtime": 1781262222.3178587,
+    "ast_hash": "49070800e242a5ededa1d441b1ae167d",
     "semantic_hash": ""
   },
   "/home/user/site/src/components/StreakCalendar3D.jsx": {
@@ -600,13 +600,13 @@
     "semantic_hash": ""
   },
   "/home/user/site/src/pages/AuthScene.jsx": {
-    "mtime": 1781255562.0182314,
-    "ast_hash": "e9154e7f3e3eaf6022116ac97ed8c96f",
+    "mtime": 1781257685.118122,
+    "ast_hash": "53232e9fd144929f82d459d8d1d8e115",
     "semantic_hash": ""
   },
   "/home/user/site/src/pages/DashboardScene.jsx": {
-    "mtime": 1781255790.1820257,
-    "ast_hash": "e5ab61f42652d051b0cd85ed2cea897d",
+    "mtime": 1781262338.427423,
+    "ast_hash": "659b694b3e4ce605c62551444bc1fe17",
     "semantic_hash": ""
   },
   "/home/user/site/src/pages/GoalsScene.jsx": {
@@ -620,8 +620,8 @@
     "semantic_hash": "c2336652657ea4f0962d35a0cd84bfe0"
   },
   "/home/user/site/src/pages/LandingScene.jsx": {
-    "mtime": 1781255784.1645298,
-    "ast_hash": "ef9c1973523d60a8c4fc48ce53410965",
+    "mtime": 1781262306.1657655,
+    "ast_hash": "0cc501ffbd63e02653f67f416685dada",
     "semantic_hash": ""
   },
   "/home/user/site/src/pages/LeaderboardScene.jsx": {
@@ -640,9 +640,9 @@
     "semantic_hash": ""
   },
   "/home/user/site/src/store/useStore.js": {
-    "mtime": 1780988272.428341,
-    "ast_hash": "86f31126918f70910f41790d93ba337f",
-    "semantic_hash": "86f31126918f70910f41790d93ba337f"
+    "mtime": 1781259599.8838499,
+    "ast_hash": "d8865276212f1c4bee0f5b42ac38c475",
+    "semantic_hash": ""
   },
   "/home/user/site/scripts/dev-wrapper.js": {
     "mtime": 1780988687.2539656,

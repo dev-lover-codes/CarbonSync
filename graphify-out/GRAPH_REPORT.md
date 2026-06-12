@@ -1,16 +1,16 @@
 # Graph Report - site  (2026-06-12)
 
 ## Corpus Check
-- 136 files · ~63,740 words
+- 136 files · ~64,343 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 960 nodes · 1274 edges · 112 communities (72 shown, 40 thin omitted)
+- 962 nodes · 1287 edges · 112 communities (72 shown, 40 thin omitted)
 - Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 8 edges (avg confidence: 0.85)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `4d762bf5`
+- Built from commit: `c157f8d8`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -119,7 +119,7 @@
 1. `useAuth()` - 45 edges
 2. `Tracker` - 33 edges
 3. `TrackerScene` - 28 edges
-4. `useStore` - 24 edges
+4. `useStore` - 25 edges
 5. `DashboardScene` - 22 edges
 6. `Insights` - 22 edges
 7. `useState` - 20 edges
@@ -155,16 +155,16 @@
 ## Communities (112 total, 40 thin omitted)
 
 ### Community 0 - "Authentication Flow"
-Cohesion: 0.15
-Nodes (6): Signup(), EmptyState(), tips, Tips(), Button(), Input()
+Cohesion: 0.14
+Nodes (7): ForgotPassword(), Signup(), EmptyState(), tips, Tips(), Button(), Input()
 
 ### Community 1 - "AI Coach Interface"
 Cohesion: 0.09
 Nodes (30): AICoachScene, ChatMessage, ChatResponse, DailyFootprintCount, DashboardScene, DashboardScrollHandler, GoalPlant3D, GoalsScene (+22 more)
 
 ### Community 2 - "Carbon Footprint Context"
-Cohesion: 0.14
-Nodes (13): calculateFootprint(), carbonFactors, CarbonProvider(), useCarbon(), AICoach(), QUICK_CHIPS, CATEGORY_COLORS, Dashboard() (+5 more)
+Cohesion: 0.13
+Nodes (16): calculateFootprint(), carbonFactors, CarbonProvider(), useCarbon(), AICoach(), QUICK_CHIPS, CATEGORY_COLORS, Dashboard() (+8 more)
 
 ### Community 3 - "Firebase Integration"
 Cohesion: 0.05
@@ -263,16 +263,16 @@ Cohesion: 0.22
 Nodes (11): CarbonContext, createGoal(), getInsights(), getUserActivities(), getUserGoals(), INITIAL_TIPS, logActivity(), updateGoalProgress() (+3 more)
 
 ### Community 61 - "Community 61"
-Cohesion: 0.22
-Nodes (8): ForgotPassword(), Login(), useAuth(), Auth(), LeaderboardScene(), App(), AuthSync(), seedTips()
+Cohesion: 0.26
+Nodes (7): Login(), useAuth(), Auth(), LeaderboardScene(), App(), AuthSync(), seedTips()
 
 ### Community 62 - "Community 62"
 Cohesion: 0.14
 Nodes (13): Anti-Patterns, Architectural Constraints, Architecture, Component Responsibilities, Cross-Cutting Concerns, Data Flow, Entry Points, Error Handling (+5 more)
 
 ### Community 63 - "Community 63"
-Cohesion: 0.29
-Nodes (12): GREENS, Insights(), cleanAndParseJSON(), genAI, getApiKey(), getChatResponse(), getDailyTip(), getFootprintScore() (+4 more)
+Cohesion: 0.44
+Nodes (9): cleanAndParseJSON(), genAI, getApiKey(), getChatResponse(), getDailyTip(), getFootprintScore(), getGenAI(), getWeeklyInsight() (+1 more)
 
 ### Community 64 - "Community 64"
 Cohesion: 0.14
@@ -287,8 +287,8 @@ Cohesion: 0.18
 Nodes (11): Complete, Diet, EnergySource, FootprintTarget, HomeType, ISOString, OnboardingScene, Propagation (+3 more)
 
 ### Community 67 - "Community 67"
-Cohesion: 0.18
-Nodes (10): 1. Configure Environment Variables, 2. Install Dependencies, 3. Run Locally (Dev Mode), 4. Build for Production, CarbonSync 3D — Carbon Footprint awareness Platform, 🎨 Design System: "Eco Cosmos", 📦 Installation & Setup, 🏆 Key Features (+2 more)
+Cohesion: 0.26
+Nodes (12): 1. Configure Environment Variables, 2. Install Dependencies, 3. Run Locally (Dev Mode), 4. Build for Production, 📖 About The Project, CarbonSync 3D — Carbon Footprint awareness Platform, 🎨 Design System: "Eco Cosmos", 📦 Installation & Setup (+4 more)
 
 ### Community 68 - "Community 68"
 Cohesion: 0.20
@@ -391,7 +391,7 @@ Cohesion: 0.50
 Nodes (3): Active Phase State, Next Action, Project State
 
 ## Knowledge Gaps
-- **510 isolated node(s):** `BeforeTool`, `npx`, `mode`, `granularity`, `parallelization` (+505 more)
+- **503 isolated node(s):** `BeforeTool`, `npx`, `mode`, `granularity`, `parallelization` (+498 more)
   These have ≤1 connection - possible missing edges or undocumented components.
 - **40 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
@@ -405,10 +405,10 @@ _Questions this graph is uniquely positioned to answer:_
 - **Why does `useAuth` connect `Auth State Management` to `AI Coach Interface`, `Community 66`, `Activity Tracking`, `Dashboard Insights`, `Interactive Goals`, `Leaderboard Fetching`, `Leaderboard Display`?**
   _High betweenness centrality (0.030) - this node is a cross-community bridge._
 - **What connects `BeforeTool`, `npx`, `mode` to the rest of the system?**
-  _515 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _508 weakly-connected nodes found - possible documentation gaps or missing edges._
+- **Should `Authentication Flow` be split into smaller, more focused modules?**
+  _Cohesion score 0.1368421052631579 - nodes in this community are weakly interconnected._
 - **Should `AI Coach Interface` be split into smaller, more focused modules?**
   _Cohesion score 0.0896551724137931 - nodes in this community are weakly interconnected._
 - **Should `Carbon Footprint Context` be split into smaller, more focused modules?**
-  _Cohesion score 0.1422924901185771 - nodes in this community are weakly interconnected._
-- **Should `Firebase Integration` be split into smaller, more focused modules?**
-  _Cohesion score 0.05405405405405406 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.12535612535612536 - nodes in this community are weakly interconnected._
