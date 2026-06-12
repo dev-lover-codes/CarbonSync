@@ -82,8 +82,16 @@ export function Scene() {
   }, []);
 
   return (
-    <div className="relative w-full h-full overflow-hidden select-none" style={{ background: 'var(--c-bg)' }}>
+    <div 
+      className="relative w-full h-full select-none" 
+      style={{ 
+        background: 'var(--c-bg)', 
+        overflow: 'hidden',
+        isolation: 'isolate'
+      }}
+    >
       <Canvas
+        style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
         gl={{
           antialias: true,
           toneMapping: THREE.ACESFilmicToneMapping,

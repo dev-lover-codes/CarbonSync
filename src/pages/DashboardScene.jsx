@@ -102,8 +102,21 @@ function SpinningGem({ color = '#00d4ff' }) {
 
 export function DashboardScene() {
   const { currentUser, userProfile } = useAuth();
-  const { userStats, navigate } = useStore();
+  const { user, fetchUserStats, subscribeToLogs, userStats, navigate, isLoading, error } = useStore();
   const layoutRef = useRef();
+
+  useEffect(() => {
+    if (!user?.uid) return;
+    
+    // Fetch initial stats
+    fetchUserStats(user.uid);
+    
+    // Subscribe to real-time log updates
+    const unsubscribe = subscribeToLogs(user.uid);
+    
+    // Cleanup subscription on unmount
+    return () => unsubscribe();
+  }, [user?.uid]);
 
   const [isMobile, setIsMobile] = useState(false);
   const [isTablet, setIsTablet] = useState(false);
@@ -160,8 +173,8 @@ export function DashboardScene() {
     setTimeout(() => setScale3(1), 410);
     setTimeout(() => setScale4(1), 540);
 
-    const targetSaved = userProfile?.totalSaved || userStats.totalSaved;
-    const targetDaily = userStats.dailyFootprint;
+    const targetSaved = userStats?.totalSaved || 0;
+    const targetDaily = userStats?.dailyFootprint || 0;
 
     let saved = 0;
     const intervalSaved = setInterval(() => {
@@ -180,9 +193,31 @@ export function DashboardScene() {
     return () => { clearInterval(intervalSaved); clearInterval(intervalDaily); };
   }, [userProfile, userStats]);
 
-  const streakCount = userProfile?.streak || userStats.streak || 0;
-  const levelName = userProfile?.level || 'Seed';
-  const weeklyLimit = userProfile?.weeklyLimit || 80;
+  const streakCount = userStats?.streak || 0;
+  const levelName = userStats?.level || 'Seed';
+  const weeklyLimit = userStats?.weeklyLimit || 80;
+
+  if (isLoading) return (
+    <Html portal={{ current: document.body }}
+           center>
+      <div className="flex items-center justify-center min-w-[300px]">
+        <div style={{ color: '#00ff87', fontSize: '14px', letterSpacing: '0.1em', fontFamily: "'Space Grotesk', monospace" }}>
+          LOADING YOUR CARBON DATA...
+        </div>
+      </div>
+    </Html>
+  );
+
+  if (error) return (
+    <Html portal={{ current: document.body }}
+           center>
+      <div className="flex items-center justify-center min-w-[300px]">
+        <div style={{ color: '#ff5e62', fontSize: '14px', fontFamily: "'Space Grotesk', monospace" }}>
+          Error loading data. Please refresh.
+        </div>
+      </div>
+    </Html>
+  );
 
   return (
     <group>
@@ -205,7 +240,8 @@ export function DashboardScene() {
           </Text>
 
           {/* Subtitle line */}
-          <Html 
+          <Html portal={{ current: document.body }}
+           
             position={isMobile ? [0, 0.45, 0.05] : isTablet ? [-2.0, -0.12, 0.05] : [-2.8, -0.12, 0.05]} 
             center={isMobile}
             distanceFactor={5} 
@@ -219,7 +255,8 @@ export function DashboardScene() {
 
           {/* Streak Badge */}
           <group position={isMobile ? [-0.75, 0.1, 0.05] : isTablet ? [1.0, 0.18, 0.05] : [1.8, 0.18, 0.05]}>
-            <Html center distanceFactor={5} transform zIndexRange={[100, 0]} style={{ pointerEvents: 'none', width: '160px' }}>
+            <Html portal={{ current: document.body }}
+           center distanceFactor={5} transform zIndexRange={[100, 0]} style={{ pointerEvents: 'none', width: '160px' }}>
               <div className="dash-sec1" style={{
                 ...htmlContainerStyle,
                 display: 'inline-flex', alignItems: 'center', gap: '6px',
@@ -243,7 +280,8 @@ export function DashboardScene() {
           {/* Level Badge */}
           <group position={isMobile ? [0.75, 0.1, 0.05] : isTablet ? [2.1, 0.18, 0.05] : [3.0, 0.18, 0.05]}>
             <SpinningGem color="#00d4ff" />
-            <Html position={[0.22, 0, 0]} distanceFactor={5} transform zIndexRange={[100, 0]} style={{ pointerEvents: 'none', width: '140px' }}>
+            <Html portal={{ current: document.body }}
+           position={[0.22, 0, 0]} distanceFactor={5} transform zIndexRange={[100, 0]} style={{ pointerEvents: 'none', width: '140px' }}>
               <div className="dash-sec1" style={{
                 ...htmlContainerStyle,
                 display: 'inline-flex', alignItems: 'center',
@@ -273,7 +311,8 @@ export function DashboardScene() {
             scale={isMobile ? [scale1 * 0.85, scale1 * 0.85, scale1 * 0.85] : [scale1, scale1, scale1]}
           >
             <FloatingCard width={1.55} height={1.15} glowColor="#00ff87">
-              <Html position={[0, 0, 0.06]} center distanceFactor={4} transform zIndexRange={[100, 0]} style={{ width: '120px', textAlign: 'center', pointerEvents: 'none' }}>
+              <Html portal={{ current: document.body }}
+           position={[0, 0, 0.06]} center distanceFactor={4} transform zIndexRange={[100, 0]} style={{ width: '120px', textAlign: 'center', pointerEvents: 'none' }}>
                 <div className="dash-sec1" style={{ ...htmlContainerStyle, fontFamily: "'Space Grotesk', monospace", width: '100%' }}>
                   <div style={{ fontSize: '8px', color: 'rgba(0,255,135,0.6)', letterSpacing: '0.15em', textTransform: 'uppercase', marginBottom: '4px' }}>TODAY</div>
                   <div style={{ fontSize: '26px', fontWeight: '800', color: '#00ff87', textShadow: '0 0 15px rgba(0,255,135,0.5)', lineHeight: 1, letterSpacing: '-1px' }}>
@@ -291,7 +330,8 @@ export function DashboardScene() {
             scale={isMobile ? [scale2 * 0.85, scale2 * 0.85, scale2 * 0.85] : [scale2, scale2, scale2]}
           >
             <FloatingCard width={1.55} height={1.15} glowColor="#00d4ff" speed={1.3}>
-              <Html position={[0, 0, 0.06]} center distanceFactor={4} transform zIndexRange={[100, 0]} style={{ width: '120px', textAlign: 'center', pointerEvents: 'none' }}>
+              <Html portal={{ current: document.body }}
+           position={[0, 0, 0.06]} center distanceFactor={4} transform zIndexRange={[100, 0]} style={{ width: '120px', textAlign: 'center', pointerEvents: 'none' }}>
                 <div className="dash-sec1" style={{ ...htmlContainerStyle, fontFamily: "'Space Grotesk', monospace", width: '100%' }}>
                   <div style={{ fontSize: '8px', color: 'rgba(0,212,255,0.6)', letterSpacing: '0.15em', textTransform: 'uppercase', marginBottom: '4px' }}>SAVED</div>
                   <div style={{ fontSize: '26px', fontWeight: '800', color: '#00d4ff', textShadow: '0 0 15px rgba(0,212,255,0.5)', lineHeight: 1, letterSpacing: '-1px' }}>
@@ -309,7 +349,8 @@ export function DashboardScene() {
             scale={isMobile ? [scale3 * 0.85, scale3 * 0.85, scale3 * 0.85] : [scale3, scale3, scale3]}
           >
             <FloatingCard width={1.55} height={1.15} glowColor="#ffb347" speed={1.7}>
-              <Html position={[0, 0, 0.06]} center distanceFactor={4} transform zIndexRange={[100, 0]} style={{ width: '120px', textAlign: 'center', pointerEvents: 'none' }}>
+              <Html portal={{ current: document.body }}
+           position={[0, 0, 0.06]} center distanceFactor={4} transform zIndexRange={[100, 0]} style={{ width: '120px', textAlign: 'center', pointerEvents: 'none' }}>
                 <div className="dash-sec1" style={{ ...htmlContainerStyle, fontFamily: "'Space Grotesk', monospace", width: '100%' }}>
                   <div style={{ fontSize: '8px', color: 'rgba(255,179,71,0.6)', letterSpacing: '0.15em', textTransform: 'uppercase', marginBottom: '4px' }}>TARGET</div>
                   <div style={{ fontSize: '26px', fontWeight: '800', color: '#ffb347', textShadow: '0 0 15px rgba(255,179,71,0.5)', lineHeight: 1, letterSpacing: '-1px' }}>
@@ -327,7 +368,8 @@ export function DashboardScene() {
             scale={isMobile ? [scale4 * 0.85, scale4 * 0.85, scale4 * 0.85] : [scale4, scale4, scale4]}
           >
             <FloatingCard width={1.55} height={1.15} glowColor="#ff5e62" speed={2.0}>
-              <Html position={[0, 0, 0.06]} center distanceFactor={4} transform zIndexRange={[100, 0]} style={{ width: '120px', textAlign: 'center', pointerEvents: 'none' }}>
+              <Html portal={{ current: document.body }}
+           position={[0, 0, 0.06]} center distanceFactor={4} transform zIndexRange={[100, 0]} style={{ width: '120px', textAlign: 'center', pointerEvents: 'none' }}>
                 <div className="dash-sec1" style={{ ...htmlContainerStyle, fontFamily: "'Space Grotesk', monospace", width: '100%' }}>
                   <div style={{ fontSize: '8px', color: 'rgba(255,94,98,0.6)', letterSpacing: '0.15em', textTransform: 'uppercase', marginBottom: '4px' }}>STREAK</div>
                   <div style={{ fontSize: '26px', fontWeight: '800', color: '#ff5e62', textShadow: '0 0 15px rgba(255,94,98,0.5)', lineHeight: 1, letterSpacing: '-1px' }}>
@@ -358,7 +400,8 @@ export function DashboardScene() {
 
         {/* ═══════════════════════════════ RECENT ACTIVITIES ═══════════════════════════════ */}
         <group position={[0, -4.0, -5.0]}>
-          <Html position={[0, 1.0, 0.05]} center distanceFactor={5} transform zIndexRange={[100, 0]} style={{ pointerEvents: 'none', width: '240px' }}>
+          <Html portal={{ current: document.body }}
+           position={[0, 1.0, 0.05]} center distanceFactor={5} transform zIndexRange={[100, 0]} style={{ pointerEvents: 'none', width: '240px' }}>
             <div className="dash-sec2" style={{ ...htmlContainerStyle, fontFamily: "'Space Grotesk', monospace", fontSize: '12px', color: 'rgba(255,255,255,0.5)', letterSpacing: '0.15em', textTransform: 'uppercase', textAlign: 'center' }}>
               ◆ TODAY'S ACTIVITIES
             </div>
@@ -372,7 +415,8 @@ export function DashboardScene() {
           ].map((item, i) => (
             <group key={i} position={[0, 0.3 - i * 0.48, 0]}>
               <GlassPanel width={isMobile ? 3.0 : 3.4} height={0.38} glowColor={item.color}>
-                <Html position={[0, 0, 0.06]} center distanceFactor={5} transform zIndexRange={[100, 0]} style={{ width: isMobile ? '230px' : '270px', pointerEvents: 'none' }}>
+                <Html portal={{ current: document.body }}
+           position={[0, 0, 0.06]} center distanceFactor={5} transform zIndexRange={[100, 0]} style={{ width: isMobile ? '230px' : '270px', pointerEvents: 'none' }}>
                   <div className="dash-sec2" style={{
                     ...htmlContainerStyle,
                     display: 'flex', justifyContent: 'space-between', alignItems: 'center',
@@ -407,7 +451,8 @@ export function DashboardScene() {
               <Sparkles count={8} scale={0.8} size={2} speed={0.5} color="#00ff87" position={[0, 0, 0.1]} />
             </group>
 
-            <Html position={isMobile ? [0.35, 0, 0.06] : [0.2, 0, 0.06]} distanceFactor={5} transform zIndexRange={[100, 0]} style={{ width: isMobile ? '170px' : '240px', pointerEvents: 'none' }}>
+            <Html portal={{ current: document.body }}
+           position={isMobile ? [0.35, 0, 0.06] : [0.2, 0, 0.06]} distanceFactor={5} transform zIndexRange={[100, 0]} style={{ width: isMobile ? '170px' : '240px', pointerEvents: 'none' }}>
               <div className="dash-sec3" style={{ ...htmlContainerStyle, fontFamily: "'Space Grotesk', monospace", width: '100%' }}>
                 <div style={{ fontSize: '9px', color: '#00ff87', letterSpacing: '0.15em', fontWeight: '700', marginBottom: '6px', textTransform: 'uppercase' }}>
                   🤖 EcoBot AI Tip

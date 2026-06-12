@@ -3,6 +3,7 @@ import { useAuth } from '../contexts/AuthContext';
 import { useCarbon } from '../contexts/CarbonContext';
 import { carbonFactors } from '../config/carbonFactors';
 import { Link, useNavigate } from 'react-router-dom';
+import useStore from '../store/useStore';
 import { 
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, 
   LineChart, Line 
@@ -33,11 +34,25 @@ const CATEGORY_COLORS = {
 
 export default function Dashboard() {
   const { userProfile } = useAuth();
+  const { user, fetchUserStats, subscribeToLogs, userStats, isLoading, error } = useStore();
   const { activities, goals, weeklyTotal } = useCarbon();
   const navigate = useNavigate();
 
   const [dailyTip, setDailyTip] = useState(null);
   const [loadingTip, setLoadingTip] = useState(true);
+
+  useEffect(() => {
+    if (!user?.uid) return;
+    
+    // Fetch initial stats
+    fetchUserStats(user.uid);
+    
+    // Subscribe to real-time log updates
+    const unsubscribe = subscribeToLogs(user.uid);
+    
+    // Cleanup subscription on unmount
+    return () => unsubscribe();
+  }, [user?.uid]);
 
   useEffect(() => {
     async function fetchTip() {
@@ -136,6 +151,22 @@ export default function Dashboard() {
     return date.toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
   };
 
+  if (isLoading) return (
+    <div className="min-h-screen flex items-center justify-center">
+      <div className="text-emerald-400 text-sm tracking-widest animate-pulse">
+        LOADING YOUR CARBON DATA...
+      </div>
+    </div>
+  );
+
+  if (error) return (
+    <div className="min-h-screen flex items-center justify-center">
+      <div className="text-red-400 text-sm">
+        Error loading data. Please refresh.
+      </div>
+    </div>
+  );
+
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 animate-in fade-in duration-500">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -201,15 +232,15 @@ export default function Dashboard() {
           <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-3xl p-6 flex flex-col gap-2">
             <div className="flex justify-between items-start mb-2">
               <h3 className="text-xs font-semibold tracking-widest text-gray-400 uppercase">TODAY</h3>
-              <div className={`p-1.5 rounded-lg ${todayTotal < dailyBudget ? 'bg-primary/20 text-primary-light' : 'bg-red-500/20 text-red-400'}`}>
-                {todayTotal < dailyBudget ? <TrendingDown size={18} /> : <TrendingUp size={18} />}
+              <div className={`p-1.5 rounded-lg ${userStats?.dailyFootprint < dailyBudget ? 'bg-primary/20 text-primary-light' : 'bg-red-500/20 text-red-400'}`}>
+                {userStats?.dailyFootprint < dailyBudget ? <TrendingDown size={18} /> : <TrendingUp size={18} />}
               </div>
             </div>
             <div className="text-4xl font-bold text-white tracking-tight">
-              {todayTotal.toFixed(1)} <span className="text-xs font-semibold tracking-widest text-gray-400 uppercase ml-1">kg</span>
+              {(userStats?.dailyFootprint || 0).toFixed(1)} <span className="text-xs font-semibold tracking-widest text-gray-400 uppercase ml-1">kg</span>
             </div>
             <span className="text-xs text-emerald-400 mt-1 block">
-              ≈ {Math.round(todayTotal * 4.3)} smartphones fully charged
+              ≈ {Math.round((userStats?.dailyFootprint || 0) * 4.3)} smartphones fully charged
             </span>
           </div>
 
@@ -225,10 +256,10 @@ export default function Dashboard() {
               </div>
             </div>
             <div className="text-4xl font-bold text-white tracking-tight">
-              {weeklyTotal.toFixed(1)} <span className="text-xs font-semibold tracking-widest text-gray-400 uppercase ml-1">kg</span>
+              {(userStats?.weeklyFootprint?.reduce((a,b)=>a+b,0) || 0).toFixed(1)} <span className="text-xs font-semibold tracking-widest text-gray-400 uppercase ml-1">kg</span>
             </div>
             <span className="text-xs text-emerald-400 mt-1 block">
-              ≈ {Math.round(weeklyTotal * 4.3)} smartphones fully charged
+              ≈ {Math.round((userStats?.weeklyFootprint?.reduce((a,b)=>a+b,0) || 0) * 4.3)} smartphones fully charged
             </span>
           </div>
 
@@ -240,10 +271,10 @@ export default function Dashboard() {
               </div>
             </div>
             <div className="text-4xl font-bold text-white tracking-tight">
-              {(userProfile?.totalSaved || 0).toFixed(1)} <span className="text-xs font-semibold tracking-widest text-gray-400 uppercase ml-1">kg</span>
+              {(userStats?.totalSaved || 0).toFixed(1)} <span className="text-xs font-semibold tracking-widest text-gray-400 uppercase ml-1">kg</span>
             </div>
             <span className="text-xs text-emerald-400 mt-1 block">
-              ≈ {Math.round((userProfile?.totalSaved || 0) * 4.3)} smartphones fully charged
+              ≈ {Math.round((userStats?.totalSaved || 0) * 4.3)} smartphones fully charged
             </span>
           </div>
 
@@ -255,7 +286,7 @@ export default function Dashboard() {
               </div>
             </div>
             <div className="text-4xl font-bold text-white tracking-tight">
-              {userProfile?.streak || 0} <span className="text-xs font-semibold tracking-widest text-gray-400 uppercase ml-1">days</span>
+              {userStats?.streak || 0} <span className="text-xs font-semibold tracking-widest text-gray-400 uppercase ml-1">days</span>
             </div>
           </div>
         </div>
