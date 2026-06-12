@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react';
+import React, { Suspense, useState, useEffect } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { CameraShake, Preload, ScrollControls } from '@react-three/drei';
 
@@ -70,6 +70,16 @@ function CurrentScene({ page }) {
 
 export function Scene() {
   const currentPage = useStore((state) => state.currentPage);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   return (
     <div className="relative w-full h-full overflow-hidden select-none" style={{ background: 'var(--c-bg)' }}>
@@ -125,7 +135,7 @@ export function Scene() {
           />
 
           {/* HUD Navigation overlay — desktop */}
-          {currentPage !== 'landing' && currentPage !== 'auth' && currentPage !== 'onboarding' && (
+          {currentPage !== 'landing' && currentPage !== 'auth' && currentPage !== 'onboarding' && !isMobile && (
             <NavBar3D />
           )}
 

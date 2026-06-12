@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { useStore } from '../store/useStore';
 import { Html, Sparkles } from '@react-three/drei';
@@ -46,6 +46,19 @@ function FocusInput({ placeholder, type = 'text', value, onChange }) {
 export function AuthScene() {
   const { login, signup, loginWithGoogle } = useAuth();
   const { navigate } = useStore();
+
+  const [isMobile, setIsMobile] = useState(false);
+  const [isTablet, setIsTablet] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+      setIsTablet(window.innerWidth >= 768 && window.innerWidth < 1024);
+    };
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
   
   const [isSignIn, setIsSignIn] = useState(true);
   const [email, setEmail] = useState('');
@@ -92,7 +105,10 @@ export function AuthScene() {
   return (
     <group>
       {/* Background Earth — dimmed */}
-      <group position={[3.5, 0.2, -5]}>
+      <group 
+        position={isMobile ? [0, 2.3, -6] : isTablet ? [1.8, 0.4, -5] : [3.5, 0.2, -5]}
+        scale={isMobile ? 0.68 : isTablet ? 0.85 : 1.0}
+      >
         <EarthGlobe scale={2.2} />
         <mesh position={[0, 0, 2.5]}>
           <planeGeometry args={[30, 25]} />
@@ -105,16 +121,16 @@ export function AuthScene() {
       <Sparkles count={40} scale={5} size={1.5} speed={0.2} color="#00d4ff" position={[-2, 0, -1]} />
 
       {/* Auth Panel */}
-      <GlassPanel width={4.2} height={6.2} depth={0.06} position={[-1, 0, 0]} glowColor="#00ff87">
+      <GlassPanel width={isMobile ? 3.4 : 4.2} height={isMobile ? 5.2 : 6.2} depth={0.06} position={isMobile ? [0, -0.4, 0] : isTablet ? [-0.8, 0, 0] : [-1, 0, 0]} glowColor="#00ff87">
         <Html
           position={[0, 0, 0.1]}
           center
-          distanceFactor={4}
-          style={{ width: '360px', pointerEvents: 'auto' }}
+          zIndexRange={[100, 0]}
+          style={{ width: isMobile ? '280px' : '360px', pointerEvents: 'auto' }}
           transform
         >
           <div style={{
-            width: '360px',
+            width: isMobile ? '280px' : '360px',
             padding: '0 4px',
             fontFamily: "'Space Grotesk', 'Inter', monospace",
             color: 'white',
@@ -341,7 +357,7 @@ export function AuthScene() {
       {/* Right side info panel */}
       <group position={[3.0, 0, -0.5]}>
         <GlassPanel width={2.8} height={5.0} depth={0.04} glowColor="#00d4ff">
-          <Html position={[0, 0, 0.06]} center distanceFactor={4} transform style={{ width: '210px', pointerEvents: 'none', textAlign: 'center' }}>
+          <Html position={[0, 0, 0.06]} center distanceFactor={4} transform zIndexRange={[100, 0]} style={{ width: '210px', pointerEvents: 'none', textAlign: 'center' }}>
             <div style={{ fontFamily: "'Space Grotesk', monospace", color: 'white' }}>
               <div style={{ fontSize: '11px', color: 'rgba(0,212,255,0.6)', letterSpacing: '0.15em', textTransform: 'uppercase', marginBottom: '20px' }}>◆ WHY CARBONSYNC ◆</div>
               

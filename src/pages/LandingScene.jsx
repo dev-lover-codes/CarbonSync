@@ -10,9 +10,66 @@ import FloatingCard from '../components/FloatingCard';
 
 function ScrollHandler() {
   const scroll = useScroll();
+  const elementsRef = useRef({ sec1: null, sec2: null, sec3: null, sec4: null, sec5: null });
+
   useFrame((state) => {
-    state.camera.position.z = 10 - scroll.offset * 95;
+    const cameraZ = 10 - scroll.offset * 95;
+    state.camera.position.z = cameraZ;
     state.camera.position.y = Math.sin(scroll.offset * Math.PI) * 0.35;
+
+    // Cache lookup on the fly
+    if (!elementsRef.current.sec1) {
+      elementsRef.current.sec1 = document.querySelectorAll('.landing-sec1');
+      elementsRef.current.sec2 = document.querySelectorAll('.landing-sec2');
+      elementsRef.current.sec3 = document.querySelectorAll('.landing-sec3');
+      elementsRef.current.sec4 = document.querySelectorAll('.landing-sec4');
+      elementsRef.current.sec5 = document.querySelectorAll('.landing-sec5');
+    }
+
+    const updateSectionOpacity = (elements, opacity, pointerEventsAuto = false) => {
+      if (elements) {
+        // Quantize opacity to prevent microscopic layout shifts
+        const roundedOpacity = Math.round(opacity * 1000) / 1000;
+        const visibilityVal = roundedOpacity > 0 ? 'visible' : 'hidden';
+        const pointerVal = (roundedOpacity > 0.15 && pointerEventsAuto) ? 'auto' : 'none';
+
+        for (let i = 0; i < elements.length; i++) {
+          const el = elements[i];
+          if (el.style.opacity !== roundedOpacity.toString()) {
+            el.style.opacity = roundedOpacity.toString();
+          }
+          if (el.style.visibility !== visibilityVal) {
+            el.style.visibility = visibilityVal;
+          }
+          if (el.style.pointerEvents !== pointerVal) {
+            el.style.pointerEvents = pointerVal;
+          }
+        }
+      }
+    };
+
+    // Calculate opacities based on physical distance to match WebGL fog
+    const getOpacity = (elementZ) => {
+      const distance = cameraZ - elementZ;
+      if (distance > 38) return 0; // Beyond fog
+      if (distance > 18) return Math.max(0, (38 - distance) / 20); // Fade in with fog
+      if (distance > 2) return 1; // Fully visible
+      if (distance > -2) return Math.max(0, (distance - (-2)) / 4); // Smooth fade out as we pass it
+      return 0; // Behind camera
+    };
+
+    const opacity1 = getOpacity(0);
+    const opacity2 = getOpacity(-20);
+    const opacity3 = getOpacity(-40);
+    const opacity4 = getOpacity(-60);
+    const opacity5 = getOpacity(-80);
+
+    // Apply opacities
+    updateSectionOpacity(elementsRef.current.sec1, opacity1, true);
+    updateSectionOpacity(elementsRef.current.sec2, opacity2, false);
+    updateSectionOpacity(elementsRef.current.sec3, opacity3, false);
+    updateSectionOpacity(elementsRef.current.sec4, opacity4, false);
+    updateSectionOpacity(elementsRef.current.sec5, opacity5, true);
   });
   return null;
 }
@@ -125,6 +182,25 @@ function OrbitDot({ radius = 2, speed = 0.5, color = '#00ff87', offset = 0 }) {
 export function LandingScene() {
   const { navigate } = useStore();
 
+  const [isMobile, setIsMobile] = useState(false);
+  const [isTablet, setIsTablet] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+      setIsTablet(window.innerWidth >= 768 && window.innerWidth < 1024);
+    };
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const htmlContainerStyle = {
+    backfaceVisibility: 'hidden',
+    transformStyle: 'preserve-3d',
+    WebkitFontSmoothing: 'antialiased',
+  };
+
   const leaves = useMemo(() => {
     return Array.from({ length: 22 }, () => ({
       pos: [(Math.random() - 0.5) * 12, -3 + Math.random() * 7, -0.5 - Math.random() * 5],
@@ -156,16 +232,22 @@ export function LandingScene() {
 
         {/* ── HTML Hero Overlay ── */}
         <Html
-          position={[-3.2, 0.4, 0]}
+          position={isMobile ? [0, -1.1, 0] : isTablet ? [-2.0, 0.4, 0] : [-3.2, 0.4, 0]}
           distanceFactor={5}
           transform
-          style={{ width: '540px', pointerEvents: 'auto' }}
+          zIndexRange={[100, 0]}
+          style={{ width: isMobile ? '320px' : isTablet ? '420px' : '540px', pointerEvents: 'none' }}
         >
-          <div style={{
-            fontFamily: "'Inter', 'Space Grotesk', sans-serif",
-            color: 'white',
-            pointerEvents: 'auto',
-          }}>
+          <div 
+            className="landing-sec1"
+            style={{
+              ...htmlContainerStyle,
+              fontFamily: "'Inter', 'Space Grotesk', sans-serif",
+              color: 'white',
+              pointerEvents: 'auto',
+              width: '100%',
+            }}
+          >
             {/* Badge */}
             <div style={{
               display: 'inline-flex', alignItems: 'center', gap: '8px',
@@ -194,7 +276,7 @@ export function LandingScene() {
 
             {/* Main Heading */}
             <h1 style={{
-              fontSize: '58px',
+              fontSize: isMobile ? '36px' : isTablet ? '46px' : '58px',
               fontWeight: '900',
               lineHeight: '1.05',
               letterSpacing: '-0.035em',
@@ -358,7 +440,10 @@ export function LandingScene() {
         </Html>
 
         {/* Earth Globe — right side with orbit rings */}
-        <group position={[4.2, 0, -1]}>
+        <group 
+          position={isMobile ? [0, 1.7, -1.5] : isTablet ? [2.2, 0.5, -1] : [4.2, 0, -1]}
+          scale={isMobile ? 0.75 : isTablet ? 1.05 : 1.2}
+        >
           <EarthGlobe scale={1.5} />
           <OrbitRing />
           <OrbitRing2 />
@@ -383,8 +468,8 @@ export function LandingScene() {
           SECTION 2 — STATS (z = -20)
           ══════════════════════════════════════════════════════════ */}
       <group position={[0, 0, -20]}>
-        <Html position={[0, 3.0, 0]} center distanceFactor={5} transform style={{ pointerEvents: 'none' }}>
-          <div style={{ textAlign: 'center', fontFamily: "'Space Grotesk', monospace" }}>
+        <Html position={[0, isMobile ? 3.3 : 3.0, 0]} center distanceFactor={5} transform zIndexRange={[100, 0]} style={{ pointerEvents: 'none', width: isMobile ? '320px' : '500px' }}>
+          <div className="landing-sec2" style={{ ...htmlContainerStyle, textAlign: 'center', fontFamily: "'Space Grotesk', monospace" }}>
             <div style={{
               fontSize: '10px',
               color: 'rgba(255,255,255,0.4)',
@@ -406,10 +491,13 @@ export function LandingScene() {
           </div>
         </Html>
 
-        <group position={[-4, 0, 0]}>
+        <group 
+          position={isMobile ? [0, 1.8, 0] : isTablet ? [-2.8, 0, 0] : [-4, 0, 0]}
+          scale={isMobile ? 0.72 : isTablet ? 0.9 : 1.0}
+        >
           <FloatingCard width={2.5} height={2.6} glowColor="#00ff87">
-            <Html position={[0, 0, 0.05]} center distanceFactor={3} transform style={{ pointerEvents: 'none', width: '190px', textAlign: 'center' }}>
-              <div style={{ fontFamily: "'Space Grotesk', monospace", color: 'white' }}>
+            <Html position={[0, 0, 0.05]} center distanceFactor={3} transform zIndexRange={[100, 0]} style={{ pointerEvents: 'none', width: '190px', textAlign: 'center' }}>
+              <div className="landing-sec2" style={{ ...htmlContainerStyle, fontFamily: "'Space Grotesk', monospace", color: 'white', width: '100%' }}>
                 <div style={{
                   fontSize: '48px', fontWeight: '800',
                   color: '#00ff87',
@@ -429,10 +517,13 @@ export function LandingScene() {
           </FloatingCard>
         </group>
 
-        <group position={[0, 0, 0]}>
+        <group 
+          position={isMobile ? [0, 0, 0] : isTablet ? [0, 0, 0] : [0, 0, 0]}
+          scale={isMobile ? 0.72 : isTablet ? 0.9 : 1.0}
+        >
           <FloatingCard width={2.5} height={2.6} glowColor="#00d4ff" speed={1.8}>
-            <Html position={[0, 0, 0.05]} center distanceFactor={3} transform style={{ pointerEvents: 'none', width: '190px', textAlign: 'center' }}>
-              <div style={{ fontFamily: "'Space Grotesk', monospace", color: 'white' }}>
+            <Html position={[0, 0, 0.05]} center distanceFactor={3} transform zIndexRange={[100, 0]} style={{ pointerEvents: 'none', width: '190px', textAlign: 'center' }}>
+              <div className="landing-sec2" style={{ ...htmlContainerStyle, fontFamily: "'Space Grotesk', monospace", color: 'white', width: '100%' }}>
                 <div style={{
                   fontSize: '48px', fontWeight: '800',
                   color: '#00d4ff',
@@ -452,10 +543,13 @@ export function LandingScene() {
           </FloatingCard>
         </group>
 
-        <group position={[4, 0, 0]}>
+        <group 
+          position={isMobile ? [0, -1.8, 0] : isTablet ? [2.8, 0, 0] : [4, 0, 0]}
+          scale={isMobile ? 0.72 : isTablet ? 0.9 : 1.0}
+        >
           <FloatingCard width={2.5} height={2.6} glowColor="#ffb347" speed={1.3}>
-            <Html position={[0, 0, 0.05]} center distanceFactor={3} transform style={{ pointerEvents: 'none', width: '190px', textAlign: 'center' }}>
-              <div style={{ fontFamily: "'Space Grotesk', monospace", color: 'white' }}>
+            <Html position={[0, 0, 0.05]} center distanceFactor={3} transform zIndexRange={[100, 0]} style={{ pointerEvents: 'none', width: '190px', textAlign: 'center' }}>
+              <div className="landing-sec2" style={{ ...htmlContainerStyle, fontFamily: "'Space Grotesk', monospace", color: 'white', width: '100%' }}>
                 <div style={{
                   fontSize: '48px', fontWeight: '800',
                   color: '#ffb347',
@@ -480,8 +574,8 @@ export function LandingScene() {
           SECTION 3 — FEATURES (z = -40)
           ══════════════════════════════════════════════════════════ */}
       <group position={[0, 0, -40]}>
-        <Html position={[0, 2.8, 0]} center distanceFactor={5} transform style={{ pointerEvents: 'none' }}>
-          <div style={{ textAlign: 'center', fontFamily: "'Space Grotesk', monospace" }}>
+        <Html position={[0, isMobile ? 3.3 : 2.8, 0]} center distanceFactor={5} transform zIndexRange={[100, 0]} style={{ pointerEvents: 'none', width: isMobile ? '320px' : '500px' }}>
+          <div className="landing-sec3" style={{ ...htmlContainerStyle, textAlign: 'center', fontFamily: "'Space Grotesk', monospace" }}>
             <div style={{ fontSize: '10px', color: 'rgba(255,255,255,0.35)', letterSpacing: '0.22em', textTransform: 'uppercase', marginBottom: '10px' }}>◆ CORE FEATURES ◆</div>
             <div style={{
               fontSize: '26px', fontWeight: '800', color: 'white', letterSpacing: '-0.02em',
@@ -493,12 +587,15 @@ export function LandingScene() {
         </Html>
 
         {/* Panel 1 */}
-        <group position={[-5.5, 0, 0]}>
+        <group 
+          position={isMobile ? [0, 2.2, 0] : isTablet ? [-3.8, 0, 0] : [-5.5, 0, 0]}
+          scale={isMobile ? 0.75 : isTablet ? 0.9 : 1.0}
+        >
           <GlassPanel width={3.2} height={3.8} glowColor="#00ff87">
             <MiniBarChart />
           </GlassPanel>
-          <Html position={[0, -2.4, 0.06]} center distanceFactor={5} transform style={{ pointerEvents: 'none', width: '260px', textAlign: 'center' }}>
-            <div style={{ fontFamily: "'Space Grotesk', monospace" }}>
+          <Html position={[0, -2.4, 0.06]} center distanceFactor={5} transform zIndexRange={[100, 0]} style={{ pointerEvents: 'none', width: '260px', textAlign: 'center' }}>
+            <div className="landing-sec3" style={{ ...htmlContainerStyle, fontFamily: "'Space Grotesk', monospace" }}>
               <div style={{ fontSize: '13px', fontWeight: '700', color: '#00ff87', letterSpacing: '0.1em', textTransform: 'uppercase' }}>3D Emissions Profiler</div>
               <div style={{ fontSize: '10px', color: 'rgba(153,176,160,0.65)', marginTop: '6px', letterSpacing: '0.04em', lineHeight: 1.5 }}>Real-time carbon breakdown across all activities</div>
             </div>
@@ -506,12 +603,15 @@ export function LandingScene() {
         </group>
 
         {/* Panel 2 */}
-        <group position={[0, 0, 0]}>
+        <group 
+          position={[0, 0, 0]}
+          scale={isMobile ? 0.75 : isTablet ? 0.9 : 1.0}
+        >
           <GlassPanel width={3.2} height={3.8} glowColor="#00d4ff">
             <MiniWorkflow />
           </GlassPanel>
-          <Html position={[0, -2.4, 0.06]} center distanceFactor={5} transform style={{ pointerEvents: 'none', width: '260px', textAlign: 'center' }}>
-            <div style={{ fontFamily: "'Space Grotesk', monospace" }}>
+          <Html position={[0, -2.4, 0.06]} center distanceFactor={5} transform zIndexRange={[100, 0]} style={{ pointerEvents: 'none', width: '260px', textAlign: 'center' }}>
+            <div className="landing-sec3" style={{ ...htmlContainerStyle, fontFamily: "'Space Grotesk', monospace" }}>
               <div style={{ fontSize: '13px', fontWeight: '700', color: '#00d4ff', letterSpacing: '0.1em', textTransform: 'uppercase' }}>Smart Sync Workflow</div>
               <div style={{ fontSize: '10px', color: 'rgba(153,176,160,0.65)', marginTop: '6px', letterSpacing: '0.04em', lineHeight: 1.5 }}>Log, analyze, and reduce — seamlessly connected</div>
             </div>
@@ -519,12 +619,15 @@ export function LandingScene() {
         </group>
 
         {/* Panel 3 */}
-        <group position={[5.5, 0, 0]}>
+        <group 
+          position={isMobile ? [0, -2.2, 0] : isTablet ? [3.8, 0, 0] : [5.5, 0, 0]}
+          scale={isMobile ? 0.75 : isTablet ? 0.9 : 1.0}
+        >
           <GlassPanel width={3.2} height={3.8} glowColor="#ffb347">
             <SpinningAI />
           </GlassPanel>
-          <Html position={[0, -2.4, 0.06]} center distanceFactor={5} transform style={{ pointerEvents: 'none', width: '260px', textAlign: 'center' }}>
-            <div style={{ fontFamily: "'Space Grotesk', monospace" }}>
+          <Html position={[0, -2.4, 0.06]} center distanceFactor={5} transform zIndexRange={[100, 0]} style={{ pointerEvents: 'none', width: '260px', textAlign: 'center' }}>
+            <div className="landing-sec3" style={{ ...htmlContainerStyle, fontFamily: "'Space Grotesk', monospace" }}>
               <div style={{ fontSize: '13px', fontWeight: '700', color: '#ffb347', letterSpacing: '0.1em', textTransform: 'uppercase' }}>Gemini AI Advisor</div>
               <div style={{ fontSize: '10px', color: 'rgba(153,176,160,0.65)', marginTop: '6px', letterSpacing: '0.04em', lineHeight: 1.5 }}>Personalized eco-coaching powered by Google AI</div>
             </div>
@@ -536,8 +639,8 @@ export function LandingScene() {
           SECTION 4 — HOW IT WORKS (z = -60)
           ══════════════════════════════════════════════════════════ */}
       <group position={[0, 0, -60]}>
-        <Html position={[0, 3.0, 0]} center distanceFactor={5} transform style={{ pointerEvents: 'none' }}>
-          <div style={{ textAlign: 'center', fontFamily: "'Space Grotesk', monospace" }}>
+        <Html position={[0, isMobile ? 3.3 : 3.0, 0]} center distanceFactor={5} transform zIndexRange={[100, 0]} style={{ pointerEvents: 'none', width: isMobile ? '320px' : '500px' }}>
+          <div className="landing-sec4" style={{ ...htmlContainerStyle, textAlign: 'center', fontFamily: "'Space Grotesk', monospace" }}>
             <div style={{ fontSize: '10px', color: 'rgba(255,255,255,0.35)', letterSpacing: '0.22em', textTransform: 'uppercase', marginBottom: '10px' }}>◆ HOW IT WORKS ◆</div>
             <div style={{
               fontSize: '26px', fontWeight: '800', color: 'white', letterSpacing: '-0.02em',
@@ -549,24 +652,33 @@ export function LandingScene() {
         </Html>
 
         {/* Connectors */}
-        <mesh position={[-2.0, 0, -0.05]} rotation={[0, 0, Math.PI / 2]}>
-          <cylinderGeometry args={[0.018, 0.018, 4.0]} />
+        <mesh 
+          position={isMobile ? [0, 0.95, -0.05] : isTablet ? [-1.4, 0, -0.05] : [-2.0, 0, -0.05]} 
+          rotation={isMobile ? [0, 0, 0] : [0, 0, Math.PI / 2]}
+        >
+          <cylinderGeometry args={[0.018, 0.018, isMobile ? 1.9 : isTablet ? 2.8 : 4.0]} />
           <meshBasicMaterial color="#00ff87" transparent opacity={0.35} />
         </mesh>
-        <mesh position={[2.0, 0, -0.05]} rotation={[0, 0, Math.PI / 2]}>
-          <cylinderGeometry args={[0.018, 0.018, 4.0]} />
+        <mesh 
+          position={isMobile ? [0, -0.95, -0.05] : isTablet ? [1.4, 0, -0.05] : [2.0, 0, -0.05]} 
+          rotation={isMobile ? [0, 0, 0] : [0, 0, Math.PI / 2]}
+        >
+          <cylinderGeometry args={[0.018, 0.018, isMobile ? 1.9 : isTablet ? 2.8 : 4.0]} />
           <meshBasicMaterial color="#00d4ff" transparent opacity={0.35} />
         </mesh>
 
         {/* Step 1 */}
-        <group position={[-4, 0, 0]}>
+        <group 
+          position={isMobile ? [0, 1.9, 0] : isTablet ? [-2.8, 0, 0] : [-4, 0, 0]}
+          scale={isMobile ? 0.85 : isTablet ? 0.95 : 1.0}
+        >
           <mesh castShadow>
             <sphereGeometry args={[0.52, 32, 32]} />
             <meshStandardMaterial color="#00ff87" roughness={0.05} metalness={0.95} emissive="#00ff87" emissiveIntensity={0.35} />
           </mesh>
           <Sparkles count={8} scale={1.5} size={2} speed={0.3} color="#00ff87" />
-          <Html position={[0, -1.1, 0]} center distanceFactor={5} transform style={{ pointerEvents: 'none', width: '220px', textAlign: 'center' }}>
-            <div style={{ fontFamily: "'Space Grotesk', monospace" }}>
+          <Html position={[0, -1.1, 0]} center distanceFactor={5} transform zIndexRange={[100, 0]} style={{ pointerEvents: 'none', width: '220px', textAlign: 'center' }}>
+            <div className="landing-sec4" style={{ ...htmlContainerStyle, fontFamily: "'Space Grotesk', monospace", width: '100%' }}>
               <div style={{
                 display: 'inline-block',
                 padding: '2px 10px',
@@ -587,14 +699,17 @@ export function LandingScene() {
         </group>
 
         {/* Step 2 */}
-        <group position={[0, 0, 0]}>
+        <group 
+          position={[0, 0, 0]}
+          scale={isMobile ? 0.85 : isTablet ? 0.95 : 1.0}
+        >
           <mesh castShadow>
             <sphereGeometry args={[0.52, 32, 32]} />
             <meshStandardMaterial color="#00d4ff" roughness={0.05} metalness={0.95} emissive="#00d4ff" emissiveIntensity={0.35} />
           </mesh>
           <Sparkles count={8} scale={1.5} size={2} speed={0.3} color="#00d4ff" />
-          <Html position={[0, -1.1, 0]} center distanceFactor={5} transform style={{ pointerEvents: 'none', width: '220px', textAlign: 'center' }}>
-            <div style={{ fontFamily: "'Space Grotesk', monospace" }}>
+          <Html position={[0, -1.1, 0]} center distanceFactor={5} transform zIndexRange={[100, 0]} style={{ pointerEvents: 'none', width: '220px', textAlign: 'center' }}>
+            <div className="landing-sec4" style={{ ...htmlContainerStyle, fontFamily: "'Space Grotesk', monospace", width: '100%' }}>
               <div style={{
                 display: 'inline-block',
                 padding: '2px 10px',
@@ -615,14 +730,17 @@ export function LandingScene() {
         </group>
 
         {/* Step 3 */}
-        <group position={[4, 0, 0]}>
+        <group 
+          position={isMobile ? [0, -1.9, 0] : isTablet ? [2.8, 0, 0] : [4, 0, 0]}
+          scale={isMobile ? 0.85 : isTablet ? 0.95 : 1.0}
+        >
           <mesh castShadow>
             <sphereGeometry args={[0.52, 32, 32]} />
             <meshStandardMaterial color="#ffb347" roughness={0.05} metalness={0.95} emissive="#ffb347" emissiveIntensity={0.35} />
           </mesh>
           <Sparkles count={8} scale={1.5} size={2} speed={0.3} color="#ffb347" />
-          <Html position={[0, -1.1, 0]} center distanceFactor={5} transform style={{ pointerEvents: 'none', width: '220px', textAlign: 'center' }}>
-            <div style={{ fontFamily: "'Space Grotesk', monospace" }}>
+          <Html position={[0, -1.1, 0]} center distanceFactor={5} transform zIndexRange={[100, 0]} style={{ pointerEvents: 'none', width: '220px', textAlign: 'center' }}>
+            <div className="landing-sec4" style={{ ...htmlContainerStyle, fontFamily: "'Space Grotesk', monospace", width: '100%' }}>
               <div style={{
                 display: 'inline-block',
                 padding: '2px 10px',
@@ -647,9 +765,9 @@ export function LandingScene() {
           SECTION 5 — CTA (z = -80)
           ══════════════════════════════════════════════════════════ */}
       <group position={[0, 0, -80]}>
-        <GlassPanel width={6.5} height={4.0} glowColor="#00ff87">
-          <Html center distanceFactor={5} position={[0, 0, 0.1]} transform style={{ width: '520px', pointerEvents: 'auto', textAlign: 'center' }}>
-            <div style={{ fontFamily: "'Space Grotesk', monospace", color: 'white', padding: '10px 0' }}>
+        <GlassPanel width={isMobile ? 3.4 : isTablet ? 5.2 : 6.5} height={isMobile ? 4.8 : isTablet ? 4.2 : 4.0} glowColor="#00ff87">
+          <Html center distanceFactor={5} position={[0, 0, 0.1]} transform zIndexRange={[100, 0]} style={{ width: isMobile ? '280px' : isTablet ? '420px' : '520px', pointerEvents: 'none', textAlign: 'center' }}>
+            <div className="landing-sec5" style={{ ...htmlContainerStyle, fontFamily: "'Space Grotesk', monospace", color: 'white', padding: '10px 0', width: '100%' }}>
               {/* Badge */}
               <div style={{
                 display: 'inline-flex', alignItems: 'center', gap: '6px',
@@ -666,7 +784,7 @@ export function LandingScene() {
 
               {/* Title */}
               <div style={{
-                fontSize: '32px', fontWeight: '900',
+                fontSize: isMobile ? '22px' : '32px', fontWeight: '900',
                 marginBottom: '14px', letterSpacing: '-0.025em', lineHeight: 1.15,
                 fontFamily: "'Syne', 'Inter', sans-serif",
               }}>
@@ -684,14 +802,14 @@ export function LandingScene() {
 
               <div style={{
                 fontSize: '13px', color: 'rgba(153,176,160,0.7)',
-                marginBottom: '30px', lineHeight: '1.65', maxWidth: '380px', margin: '0 auto 30px',
+                marginBottom: isMobile ? '18px' : '30px', lineHeight: '1.65', maxWidth: '380px', margin: '0 auto 20px',
               }}>
                 Join thousands tracking their footprint. Build a sustainable future one log at a time.
               </div>
 
               {/* Stats row */}
               <div style={{
-                display: 'flex', justifyContent: 'center', gap: '28px',
+                display: 'flex', justifyContent: 'center', gap: isMobile ? '16px' : '28px',
                 marginBottom: '28px',
               }}>
                 {[
@@ -701,7 +819,7 @@ export function LandingScene() {
                 ].map(({ num, label }) => (
                   <div key={label} style={{ textAlign: 'center' }}>
                     <div style={{
-                      fontSize: '20px', fontWeight: '800',
+                      fontSize: isMobile ? '16px' : '20px', fontWeight: '800',
                       color: '#00ff87',
                       textShadow: '0 0 12px rgba(0,255,135,0.4)',
                       fontFamily: "'Syne', sans-serif",
@@ -720,7 +838,7 @@ export function LandingScene() {
               <button
                 onClick={() => navigate('auth')}
                 style={{
-                  padding: '16px 42px',
+                  padding: isMobile ? '12px 24px' : '16px 42px',
                   background: 'linear-gradient(135deg, #00ff87 0%, #00c46b 100%)',
                   color: '#020b06',
                   fontWeight: '800',

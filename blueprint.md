@@ -160,3 +160,19 @@ CarbonSync is a Carbon Footprint Awareness Platform designed for a competitive h
 - **Parent Layout Structure**: Ensured that the main `<header>` container in [Landing.jsx](file:///home/user/site/src/pages/Landing.jsx) uses the `relative` class to correctly orient absolute child containers.
 - **Title Overlay Positioning**: Placed a text overlay absolute-positioned box within the right SVG illustration column of the landing section to display high-fidelity carbon impact headings and descriptions.
 - **Navigation Safety & Interactivity**: Added standard tailwind `pointer-events-auto` classes to CTA links and buttons in [Landing.jsx](file:///home/user/site/src/pages/Landing.jsx) and styled inline `pointerEvents: 'auto'` attributes in [LandingScene.jsx](file:///home/user/site/src/pages/LandingScene.jsx) to guarantee user clicks execute correctly under z-index overlay structures.
+
+## Phase 11: Scroll Stabilization & Responsive Layout Fixes
+### Tasks
+- [x] Remove conflicting CSS transitions on `opacity` and `transform` from 3D HTML containers to eliminate layout jitter and misalignment.
+- [x] Implement mathematical continuous opacity fade formulas in `LandingScene.jsx` and `DashboardScene.jsx` scroll handlers to prevent clipping and sudden popping.
+- [x] Guard interactive pointer events on fading HTML elements to ensure they do not block clicks on 3D meshes when they are invisible.
+- [x] Optimize scroll updates by only writing styles to the DOM when values actually change (style write throttling).
+- [x] Prevent navigation bar layout overlap on mobile screens by checking viewport width in `Scene.jsx` and hiding the desktop `NavBar3D` accordingly.
+
+### Implementation Details
+- **Elimination of CSS Transitions**: Removed `transition: opacity 0.2s ease, transform 0.25s ease` from the local `htmlContainerStyle` objects. This stops the browser's transition engine from conflicting with high-frequency 60fps script updates, eliminating scroll alignment drift and stutter.
+- **Continuous Opacity Interpolation**: Designed custom mathematical interpolation functions based on camera Z depth (for Landing) and layout Y-offset (for Dashboard) to calculate exact opacity values on every frame.
+- **Z-Index & Raycast Pass-Through**: Tied element pointer events to their actual visibility (`pointerEvents: opacity > 0.15 ? 'auto' : 'none'`) and hid them completely when fully transparent (`display: 'none'`), resolving invisible HTML panels blocking 3D scene clicks.
+- **Mobile Navigation Safety**: Integrated dynamic resize hook in `Scene.jsx` to disable the 3D desktop HUD navigation when screen width is smaller than 768px, ensuring only the clean DOM bottom nav is used.
+
+
