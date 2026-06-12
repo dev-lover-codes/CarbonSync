@@ -1,5 +1,5 @@
 import React, { Suspense, useState, useEffect } from 'react';
-import { Canvas } from '@react-three/fiber';
+import { Canvas, useThree } from '@react-three/fiber';
 import { CameraShake, Preload, ScrollControls } from '@react-three/drei';
 
 import { useStore } from '../store/useStore';
@@ -22,6 +22,21 @@ const InsightsScene = React.lazy(() => import('../pages/InsightsScene'));
 const GoalsScene = React.lazy(() => import('../pages/GoalsScene'));
 const LeaderboardScene = React.lazy(() => import('../pages/LeaderboardScene'));
 const AICoachScene = React.lazy(() => import('../pages/AICoachScene'));
+
+function CameraReset() {
+  const { camera } = useThree();
+  const currentPage = useStore((state) => state.currentPage);
+
+  useEffect(() => {
+    // Reset camera position and target whenever page changes
+    // This fixes the issue where LandingScene's ScrollControls leaves the camera out of view
+    camera.position.set(0, 0, 8);
+    camera.lookAt(0, 0, 0);
+    camera.updateProjectionMatrix();
+  }, [currentPage, camera]);
+
+  return null;
+}
 
 function CurrentScene({ page }) {
   switch (page) {
@@ -103,6 +118,7 @@ export function Scene() {
         dpr={[1, 1.5]}
       >
         <Suspense fallback={<LoadingScreen3D />}>
+          <CameraReset />
           {/* ═══════════════════ LIGHTING RIG ═══════════════════ */}
 
           {/* Ambient — prevents pitch-black shadows */}

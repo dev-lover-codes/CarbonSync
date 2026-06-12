@@ -123,8 +123,10 @@ export function AuthScene() {
       {/* Auth Panel */}
       <GlassPanel width={isMobile ? 3.4 : 4.2} height={isMobile ? 5.2 : 6.2} depth={0.06} position={isMobile ? [0, -0.4, 0] : isTablet ? [-0.8, 0, 0] : [-1, 0, 0]} glowColor="#00ff87">
         <Html
+          portal={{ current: document.body }}
           position={[0, 0, 0.1]}
           center
+          distanceFactor={5}
           zIndexRange={[100, 0]}
           style={{ width: isMobile ? '280px' : '360px', pointerEvents: 'auto' }}
           transform

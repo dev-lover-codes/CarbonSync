@@ -176,3 +176,13 @@ CarbonSync is a Carbon Footprint Awareness Platform designed for a competitive h
 - **Mobile Navigation Safety**: Integrated dynamic resize hook in `Scene.jsx` to disable the 3D desktop HUD navigation when screen width is smaller than 768px, ensuring only the clean DOM bottom nav is used.
 
 
+
+## Phase 10: Auth Panel Visibility Fix
+### Tasks
+- [x] Reset camera position in `Scene.jsx` on every page change.
+- [x] Corrected `Html` scaling in `AuthScene.jsx` using `distanceFactor`.
+- [x] Portalled `Html` to `document.body` for better DOM layering.
+
+### Implementation Details
+- **Camera Management**: Added a `CameraReset` component within the R3F Canvas that detects `currentPage` changes and snaps the camera back to its home coordinates `[0,0,8]`. This prevents the `LandingScene` scroll position from leaving the camera in a location where the `AuthScene` elements were out of view (or behind the camera).
+- **Scale Normalization**: Added `distanceFactor={5}` to the `Html` component in `AuthScene.jsx`. Without this, the panel was rendering at an absolute pixel width (360px) mapped directly to 3D units, making it massive (360 units wide) relative to the 4-unit wide `GlassPanel`.
