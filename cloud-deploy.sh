@@ -25,7 +25,8 @@ gcloud artifacts repositories create $SERVICE_NAME-repo \
 
 # 4. Build and Push using Cloud Build
 echo "🏗️ Building container image..."
-gcloud builds submit --tag $REGION-docker.pkg.dev/$PROJECT_ID/$SERVICE_NAME-repo/$SERVICE_NAME .
+gcloud builds submit --config cloudbuild.yaml \
+    --substitutions=_REGION=$REGION,_PROJECT_ID=$PROJECT_ID,_SERVICE_NAME=$SERVICE_NAME,_VITE_FIREBASE_API_KEY=$VITE_FIREBASE_API_KEY,_VITE_FIREBASE_AUTH_DOMAIN=$VITE_FIREBASE_AUTH_DOMAIN,_VITE_FIREBASE_PROJECT_ID=$VITE_FIREBASE_PROJECT_ID,_VITE_FIREBASE_STORAGE_BUCKET=$VITE_FIREBASE_STORAGE_BUCKET,_VITE_FIREBASE_MESSAGING_SENDER_ID=$VITE_FIREBASE_MESSAGING_SENDER_ID,_VITE_FIREBASE_APP_ID=$VITE_FIREBASE_APP_ID .
 
 # 5. Deploy to Cloud Run
 echo "🚀 Deploying to Cloud Run..."
