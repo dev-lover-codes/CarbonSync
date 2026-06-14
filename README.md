@@ -16,7 +16,7 @@
 
 ## 📖 About The Project
 
-**CarbonSync 3D** was developed for the **Hack2skill PromptWars Competition (Challenge 3)**. It transcends standard 2D web interfaces by delivering a complete spatial computing experience right in your browser. 
+**CarbonSync 3D** was developed for the **Hack2skill PromptWars Competition (Challenge 3)**. It transcends standard 2D web interfaces by delivering a complete Spatial Computing experience right in your browser. 
 
 By leveraging the power of WebGL, CarbonSync gamifies the process of logging, tracking, and understanding your carbon footprint through stunning 3D visual data representations, glassmorphic interactive UI, and Google AI-powered personalized insights.
 
