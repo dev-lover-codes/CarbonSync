@@ -1,85 +1,26 @@
-# Coding Conventions
+# Codebase Conventions
 
-**Analysis Date:** 2026-06-02
+## Overview
+This document outlines the coding conventions, styling guidelines, and linting setup used within the project. 
 
-## Naming Patterns
+## Language & Framework
+- **Core Stack**: React 18, Vite, and JavaScript (ES6+).
+- **TypeScript**: The project was initialized with a Vite React-TS template (having `main.tsx` and `vite.config.ts`), but development heavily favors standard JavaScript with JSX (`.jsx` and `.js` files in `src/`). TypeScript typing is generally bypassed.
+- **Component Style**: Components are strictly functional and utilize React Hooks (`useState`, `useMemo`, `useEffect`).
+- **State Management**: Zustand is used for global state. The store is located in `src/store/useStore.js`. State definitions and async side-effects (e.g., Firebase queries, real-time subscriptions) are bundled together inside the Zustand store actions.
+- **Firebase**: The project relies on the modular Firebase v9+ SDK for authentication and Firestore database operations.
 
-**Files:**
-- Route segments use standard Next.js names: `page.tsx`, `layout.tsx` in `src/app/`.
-- Global styles in `src/app/globals.css`.
+## UI, Styling & Animation
+- **CSS Framework**: Tailwind CSS is used globally. Custom themes (colors and fonts like `Plus Jakarta Sans`) are configured in `tailwind.config.js`.
+- **3D & Animations**: A significant part of the UI utilizes WebGL via `@react-three/fiber` and `@react-three/drei`. Animation logic is handled with `@react-spring/three`, `gsap`, and `framer-motion`.
+- **File Naming**: 3D components generally have a `3D` suffix (e.g., `Button3D.jsx`, `Scene.jsx`). Subdirectories inside `components` are categorized by function (`ui`, `layout`, `common`).
 
-**Functions:**
-- React components use PascalCase: e.g., `RootLayout`, `Home` in `src/app/layout.tsx` and `src/app/page.tsx`.
-- Standard functions use camelCase.
-
-**Variables:**
-- Configuration and local variables use camelCase: e.g., `geistSans`, `geistMono` in `src/app/layout.tsx`.
-- CSS variables use kebab-case: e.g., `--font-geist-sans`, `--background`.
-
-**Types:**
-- Interfaces and types are not explicitly defined in many places yet, but follow standard TypeScript conventions (PascalCase).
-- Use of `Metadata` from `next`.
-
-## Code Style
-
-**Formatting:**
-- No explicit Prettier or Biome configuration detected.
-- Uses standard Next.js/React formatting (2 spaces, semi-colons).
-
-**Linting:**
-- ESLint is configured in `eslint.config.mjs`.
-- Uses `eslint-config-next/core-web-vitals` and `eslint-config-next/typescript`.
-
-## Import Organization
-
-**Order:**
-1. Framework imports (e.g., `next`, `react`).
-2. Local components and utilities.
-3. Assets and styles (e.g., `./globals.css`).
-
-**Path Aliases:**
-- `@/*` maps to `./src/*` as defined in `tsconfig.json`.
-
-## Error Handling
-
-**Patterns:**
-- No custom error handling patterns detected yet.
-- Expected to use Next.js `error.tsx` for route-level error boundaries.
-
-## Logging
-
-**Framework:** console
-
-**Patterns:**
-- No explicit logging patterns or frameworks detected.
-
-## Comments
-
-**When to Comment:**
-- Minimal commenting observed in existing files.
-
-**JSDoc/TSDoc:**
-- Not currently used in the core files.
-
-## Function Design
-
-**Size:**
-- Components are kept focused. `RootLayout` and `Home` are relatively small.
-
-**Parameters:**
-- Uses object destructuring for props: e.g., `{ children }: Readonly<{ children: React.ReactNode; }>` in `RootLayout`.
-
-**Return Values:**
-- Components return JSX/TSX.
-
-## Module Design
-
-**Exports:**
-- Default exports are used for Next.js pages and layouts.
-
-**Barrel Files:**
-- Not detected in the current structure.
-
----
-
-*Convention analysis: 2026-06-02*
+## Linting Setup
+- **Tooling**: ESLint is configured via `.eslintrc.cjs` to maintain code consistency.
+- **Rules**:
+  - Uses `eslint:recommended`, `plugin:react/recommended`, and `plugin:react-hooks/recommended`.
+  - `'react/prop-types'` is explicitly set to `'off'`, removing the need for `PropTypes` definitions across the codebase.
+  - `'react/no-unescaped-entities'` is set to `'off'`.
+  - Unused variables trigger a `'warn'` rather than an error.
+  - Includes `eslint-plugin-react-refresh` to ensure React Fast Refresh works reliably.
+- **Execution**: Run `npm run lint` to lint `.js` and `.jsx` files. Prettier is not strictly configured or enforced via CLI, relying on developer IDE settings or standard ESLint formatting.

@@ -1,80 +1,59 @@
-# Codebase Structure
+# Directory Structure
 
-**Analysis Date:** 2025-05-14
+The repository follows a feature-grouped and role-based structure tailored for a React Three Fiber project.
 
-## Directory Layout
+## Root Directory (`/home/user/site/`)
+- `src/` - The main application source code.
+- `public/` - Static assets served directly by Vite.
+- `scripts/` - Utility scripts (e.g., `dev-wrapper.js` for Vite initialization).
+- `.planning/` - Contains documentation and architectural notes generated during development.
+- `firebase.json` / `firestore.rules` / `storage.rules` - Firebase configuration and security rules.
+- `vite.config.ts`, `tailwind.config.js`, `package.json` - Build tool configurations.
 
-```
-[project-root]/
-├── public/             # Static assets (SVGs, icons)
-├── src/                # Source code
-│   └── app/            # Next.js App Router (pages, layouts, styles)
-├── graphify-out/       # Knowledge graph and project analysis output
-├── .idx/               # IDX environment configuration
-├── .planning/          # GSD planning and codebase mapping (this directory)
-├── next.config.ts      # Next.js configuration
-├── package.json        # Dependencies and scripts
-└── tsconfig.json       # TypeScript configuration
-```
+## Source Directory (`src/`)
 
-## Directory Purposes
+### `components/`
+Contains reusable UI and 3D components, primarily built with `@react-three/fiber` and `@react-three/drei`.
+- Custom 3D geometries and materials (e.g., `GlassPanel.jsx`, `FloatingCard.jsx`, `Button3D.jsx`).
+- 3D Data Visualizations (e.g., `AreaChart3D.jsx`, `BarChart3D.jsx`, `PieChart3D.jsx`).
+- Global Scene layout (e.g., `Scene.jsx` which holds lighting, post-processing, and the main Canvas).
+- Subfolders like `common/`, `layout/`, and `ui/` for further organization.
 
-**src/app/:**
-- Purpose: Root of the application routing and UI components.
-- Contains: Layouts, pages, and global CSS.
-- Key files: `layout.tsx`, `page.tsx`, `globals.css`.
+### `pages/`
+Contains the "Scenes" that represent full application pages or views. Since the app is a single WebGL canvas, these are technically complex 3D groups rather than HTML pages.
+- e.g., `DashboardScene.jsx`, `LandingScene.jsx`, `AICoachScene.jsx`, `TrackerScene.jsx`.
 
-**public/:**
-- Purpose: Static assets served by the application.
-- Contains: SVG logos and default Next.js assets.
+### `store/`
+Global state management.
+- `useStore.js`: The Zustand store responsible for routing (`currentPage`), real-time Firebase subscriptions, derived carbon metrics, and chat history.
 
-**graphify-out/:**
-- Purpose: Contains the knowledge graph generated for the codebase.
-- Contains: `graph.json`, `GRAPH_REPORT.md`.
+### `contexts/`
+React Context providers for scope-based state that doesn't fit globally in Zustand.
+- `AuthContext.jsx`: Manages the Firebase authentication listener and current user profile session.
+- `CarbonContext.jsx`: Dedicated context for specific carbon tracking flows.
 
-## Key File Locations
+### `lib/`
+Initialization and raw wrappers for external platforms.
+- `firebase.js`: Initializes the Firebase App, Auth, and Firestore instances using environment variables.
+- `firestore.js`: Contains pure wrapper functions for Firestore CRUD operations (e.g., `createUserProfile`, `logActivity`).
 
-**Entry Points:**
-- `src/app/page.tsx`: The home page of the application.
-- `src/app/layout.tsx`: The root layout wrapping all pages.
+### `services/`
+High-level service abstractions for third-party APIs.
+- `geminiService.js`: Encapsulates all interactions with the Google Gemini API, including prompt construction and JSON parsing for AI-driven insights and coaching.
 
-**Configuration:**
-- `next.config.ts`: Next.js specific settings.
-- `package.json`: Project dependencies and scripts.
-- `tsconfig.json`: TypeScript compiler settings and path aliases.
-- `postcss.config.mjs`: PostCSS configuration for Tailwind.
+### `utils/`
+Helper functions and pure logic.
+- `carbonCalculator.js`: Logic for calculating carbon emission impacts based on activity types.
+- `firestoreHelpers.js`: Utility scripts for database seeding and complex migrations.
+- `animations.js`, `helpers.js`: Reusable math and animation timing constants.
 
-**Core Logic:**
-- `src/app/page.tsx`: Currently contains the primary UI and layout logic.
+### `shaders/`
+Custom GLSL shader code used for advanced 3D visual effects.
+- e.g., `aurora.frag`, `neonGlow.vert`, used in custom Three.js `ShaderMaterial` implementations.
 
-## Naming Conventions
+### `config/` & `data/`
+- Static configurations and JSON/JS data constants (e.g., lists of achievable badges, base carbon metrics by activity).
 
-**Files:**
-- Next.js reserved filenames: `layout.tsx`, `page.tsx`.
-- PascalCase for components (none separated yet).
-
-**Directories:**
-- lower-case for route segments (none yet besides `app`).
-
-## Where to Add New Code
-
-**New Feature:**
-- Primary code: Create a new directory under `src/app` for a new route (e.g., `src/app/dashboard/page.tsx`).
-- Tests: No testing framework detected yet.
-
-**New Component/Module:**
-- Implementation: Recommended to create a `src/components` directory.
-
-**Utilities:**
-- Shared helpers: Recommended to create a `src/lib` directory.
-
-## Special Directories
-
-**graphify-out/:**
-- Purpose: Knowledge graph metadata.
-- Generated: Yes.
-- Committed: Yes (based on existence in the tree).
-
----
-
-*Structure analysis: 2025-05-14*
+## Entry Points
+- `main.tsx`: Standard React 18 DOM entry point.
+- `App.jsx`: The root component wrapping the application in providers (`AuthProvider`) and rendering the central `<Scene />` component.

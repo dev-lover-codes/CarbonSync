@@ -231,7 +231,7 @@ export function LandingScene() {
         </mesh>
 
         {/* ── HTML Hero Overlay ── */}
-        <Html portal={{ current: document.body }}
+        <Html
           position={isMobile ? [0, -1.1, 0] : isTablet ? [-2.0, 0.4, 0] : [-3.2, 0.4, 0]}
           distanceFactor={5}
           transform

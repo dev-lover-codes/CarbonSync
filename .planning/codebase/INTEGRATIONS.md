@@ -1,67 +1,45 @@
 # External Integrations
 
-**Analysis Date:** 2025-01-24
+**Analysis Date:** 2026-06-13
 
-## APIs & External Services
+## Backend & Infrastructure Services
 
-**AI & Machine Learning:**
-- Google AI - LLM services provided via `@ai-sdk/google`
-  - SDK/Client: `@ai-sdk/google`
-  - Auth: Expected environment variables for Google AI (e.g., `GOOGLE_GENERATIVE_AI_API_KEY`)
-- Google Stitch - Integration via `@google/stitch-sdk`
-  - SDK/Client: `@google/stitch-sdk`
+**Firebase (v10.14.1):**
+- Used as the primary backend-as-a-service.
+- **Client SDK:** `firebase` package installed as a primary runtime dependency.
+- **Configured Components:**
+  - **Firestore:** Main NoSQL database. Schemas and rules configured in `firestore.rules` and `firestore.indexes.json`. Implementation details in `src/lib/firestore.js`.
+  - **Firebase Storage:** Security rules exist in `storage.rules`.
+  - **Firebase Hosting:** Deployment target identified by `firebase.json` and `.firebaserc`.
+- Application configuration initialized within `src/lib/firebase.js`.
 
-## Data Storage
+**Supabase (v2.106.0 - CLI):**
+- `supabase` is present strictly as a devDependency.
+- *Status:* Likely utilized for parallel tooling, database prototyping, or legacy usage, as the main runtime interactions currently point toward Firebase.
 
-**Databases:**
-- Supabase - CLI present in `devDependencies`, indicating intended usage for database management.
-  - Connection: Likely configured via Supabase environment variables.
-  - Client: `supabase` CLI; project likely uses `@supabase/supabase-js` (though not yet in `package.json` dependencies).
+## AI & Machine Learning Services
 
-**File Storage:**
-- Not explicitly configured in code, but Supabase or Firebase (via MCP) are potential providers.
+**Google Generative AI (Gemini):**
+- Embedded to act as an AI Carbon Footprint Coach named "EcoBot".
+- **SDK:** `@google/generative-ai` (v0.24.1).
+- **Service Integration:** Coordinated through `src/services/geminiService.js`.
+- **Primary Model:** `gemini-1.5-flash`.
+- **Functionality includes:**
+  - `getDailyTip()`: Generates highly specific, actionable carbon footprint reduction tips.
+  - `getWeeklyInsight()`: Analyzes week-over-week carbon footprint trends to create personalized summaries.
+  - `getChatResponse()`: A conversational endpoint answering sustainability questions using user history and data.
+  - `getFootprintScore()`: Evaluates and grades monthly carbon footprints against national averages.
+- **Authentication:** Authorized dynamically via an API key, checked first in `sessionStorage ('judge_gemini_key')`, falling back to `VITE_GEMINI_API_KEY`.
+- **Resilience:** Features extensive offline/local fallback structures ensuring the application runs uninterrupted if the LLM API is unavailable.
 
-**Caching:**
-- None detected (standard Next.js caching applies).
+## Environment Variables & Configuration
 
-## Authentication & Identity
+- Configurations are provided via `.env`, `.env.local`, and `.env.example`.
+- **Key Variables Expected:**
+  - `VITE_GEMINI_API_KEY`: Authentication for Gemini AI services.
+  - `VITE_FIREBASE_*`: Standard Firebase client-side credentials.
 
-**Auth Provider:**
-- Not detected - Likely intended to use Supabase Auth or Firebase Auth based on available tools.
+## Deployment & Hosting Platforms
 
-## Monitoring & Observability
-
-**Error Tracking:**
-- None detected.
-
-**Logs:**
-- Standard Next.js / Vercel logging.
-
-## CI/CD & Deployment
-
-**Hosting:**
-- Vercel - Implied by Next.js and links in `page.tsx`.
-- Firebase - Integrated via MCP in `.idx/mcp.json`.
-
-**CI Pipeline:**
-- None detected.
-
-## Environment Configuration
-
-**Required env vars:**
-- None currently specified in code, but AI and Supabase integrations will require API keys.
-
-**Secrets location:**
-- Expected in `.env` (not committed) or secret management in IDX/Vercel/Firebase.
-
-## Webhooks & Callbacks
-
-**Incoming:**
-- None detected.
-
-**Outgoing:**
-- None detected.
-
----
-
-*Integration audit: 2025-01-24*
+- **Primary:** Firebase Hosting (via native configuration files).
+- **Secondary/Legacy Tracks:** Traces of `.netlify` / `netlify.toml` and `.vercel` / `vercel.json` exist, indicating historical migration or multi-platform readiness.

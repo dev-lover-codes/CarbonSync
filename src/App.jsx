@@ -35,7 +35,7 @@ const AuthSync = () => {
         }
       }
     }
-  }, [currentUser, userProfile, loading]);
+  }, [currentUser, userProfile, loading, currentPage, navigate, setUser, setUserStats]);
 
   return null;
 };

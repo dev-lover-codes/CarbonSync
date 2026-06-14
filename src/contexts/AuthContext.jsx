@@ -93,6 +93,11 @@ export function AuthProvider({ children }) {
   }
 
   useEffect(() => {
+    if (!auth) {
+      setLoading(false);
+      return;
+    }
+
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       try {
         setCurrentUser(user);
@@ -103,6 +108,7 @@ export function AuthProvider({ children }) {
           setUserProfile(null);
         }
       } catch (error) {
+        console.error("Auth state change error:", error);
       } finally {
         setLoading(false);
       }
@@ -125,7 +131,7 @@ export function AuthProvider({ children }) {
 
   return (
     <AuthContext.Provider value={value}>
-      {!loading && children}
+      {children}
     </AuthContext.Provider>
   );
 }

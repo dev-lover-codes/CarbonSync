@@ -1,68 +1,66 @@
 # Technology Stack
 
-**Analysis Date:** 2025-01-24
+**Analysis Date:** 2026-06-13
 
 ## Languages
 
 **Primary:**
-- TypeScript 5.x - Core application logic and components
+- JavaScript (ESM) / JSX - Core application logic and UI components (`.jsx`, `.js`).
 
 **Secondary:**
-- JavaScript (ESM) - Configuration files (`eslint.config.mjs`, `postcss.config.mjs`)
+- TypeScript - Used primarily for configuration files (e.g., `vite.config.ts`) and IDE type-checking (types provided via `@types/react`, etc.).
+- CSS - Application styling, processed via PostCSS (`index.css`).
 
-## Runtime
-
-**Environment:**
-- Node.js (v20+ recommended based on `@types/node`)
-
-**Package Manager:**
-- npm
-- Lockfile: `package-lock.json` present
-
-## Frameworks
-
-**Core:**
-- Next.js 16.2.4 - React framework (App Router)
-- React 19.2.4 - UI library
-
-**Testing:**
-- Not detected - No testing framework or tests found in `package.json`
-
-**Build/Dev:**
-- Tailwind CSS 4 - Utility-first CSS framework
-- ESLint 9 - Linting
-- PostCSS 4 (via `@tailwindcss/postcss`) - CSS processing
-
-## Key Dependencies
-
-**Critical:**
-- `ai` 6.0.194 - Vercel AI SDK for building AI-powered features
-- `@ai-sdk/google` 3.0.80 - Google AI provider for AI SDK
-- `@google/stitch-sdk` 0.3.5 - Google Stitch SDK integration
-
-**Infrastructure:**
-- `supabase` 2.105.0-beta.1 - Supabase CLI for database and backend management
-
-## Configuration
+## Runtime & Build Environment
 
 **Environment:**
-- Configured via `.idx/mcp.json` for Firebase integration
-- `.env` files (not detected, but typically used)
+- Node.js
+- Package Manager: npm (`package-lock.json` present)
 
-**Build:**
-- `next.config.ts` - Next.js configuration
-- `tsconfig.json` - TypeScript configuration
-- `postcss.config.mjs` - PostCSS configuration
-- `eslint.config.mjs` - ESLint configuration
+**Build/Dev Tooling:**
+- Vite 4.4 - Fast, modern frontend build tool and development server.
+- `@vitejs/plugin-react` - React plugin for Vite.
+- PostCSS 8 - Processing CSS with Autoprefixer and Tailwind plugins.
 
-## Platform Requirements
+## Core Frameworks & Libraries
 
-**Development:**
-- Firebase Studio / IDX environment (based on `GEMINI.md` and `.idx/` directory)
+**UI Framework:**
+- React 18.2 - Component-based UI library.
+- React Router DOM 6.30 - Client-side routing.
 
-**Production:**
-- Vercel (recommended deployment target for Next.js)
+**State Management:**
+- Zustand 5.0 - Lightweight, fast, boilerplate-free state management.
+
+**3D Graphics & Visuals:**
+- Three.js 0.164 - 3D rendering engine.
+- `@react-three/fiber` 8.18 - React renderer for Three.js.
+- `@react-three/drei` 9.122 - Useful helpers and abstractions for react-three-fiber.
+- `@react-three/postprocessing` 3.0 - Post-processing effects for 3D scenes.
+- Leva 0.10 - GUI interface for tweaking 3D parameters.
+
+**Animations:**
+- GSAP 3.15 & `@gsap/react` 2.1 - Advanced, high-performance animations.
+- Framer Motion 10.18 - Declarative React animations.
+- `@react-spring/three` 10.1 - Spring-physics based animation.
+
+**UI Components & Styling:**
+- Tailwind CSS 3.4 - Utility-first styling framework (`@tailwindcss/forms` plugin used).
+- Lucide React 0.263 - Icon library.
+
+**Data Visualization:**
+- Recharts 2.15 - Charting library built on React components.
+
+**Utilities:**
+- React Hot Toast 2.6 - Toast notifications.
+
+## Testing & Quality Assurance
+- ESLint 8.45 - Code linting, specifically configured with React plugins (`eslint-plugin-react`, `eslint-plugin-react-hooks`, `eslint-plugin-react-refresh`).
+
+## Configuration Files
+- `vite.config.ts` - Vite configuration.
+- `tailwind.config.js` - Tailwind configuration.
+- `postcss.config.js` - PostCSS configuration.
+- `.eslintrc.cjs` - Linting configuration.
 
 ---
-
-*Stack analysis: 2025-01-24*
+*Note: This stack analysis replaces the older Next.js setup. The current structure actively uses React and Vite as its core build system.*

@@ -186,3 +186,12 @@ CarbonSync is a Carbon Footprint Awareness Platform designed for a competitive h
 ### Implementation Details
 - **Camera Management**: Added a `CameraReset` component within the R3F Canvas that detects `currentPage` changes and snaps the camera back to its home coordinates `[0,0,8]`. This prevents the `LandingScene` scroll position from leaving the camera in a location where the `AuthScene` elements were out of view (or behind the camera).
 - **Scale Normalization**: Added `distanceFactor={5}` to the `Html` component in `AuthScene.jsx`. Without this, the panel was rendering at an absolute pixel width (360px) mapped directly to 3D units, making it massive (360 units wide) relative to the 4-unit wide `GlassPanel`.
+
+## Phase 11: Final Deployment Status (June 12, 2026)
+### Tasks
+- [x] Redeployed to Google Cloud Run.
+- [−] Redeployed to Netlify (Blocked by account limits).
+
+### Implementation Details
+- **Google Cloud Run**: Successfully deployed to `https://carbonsync-pg67o3iula-uc.a.run.app`. Containerized the Vite build using Nginx and deployed via Google Cloud Build and Cloud Run.
+- **Netlify**: Deployment failed with "Account credit usage exceeded". User needs to add credits or upgrade the plan to resume deployments on this platform. The local build and script are ready for when credits are available.
