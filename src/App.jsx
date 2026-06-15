@@ -2,8 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { Toaster } from 'react-hot-toast';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { seedTips } from './utils/firestoreHelpers';
-import Scene from './components/Scene';
+import { Suspense, lazy } from 'react';
 import useStore from './store/useStore';
+
+const Scene = lazy(() => import('./components/Scene'));
 
 const AuthSync = () => {
   const { currentUser, userProfile, loading } = useAuth();
@@ -63,7 +65,16 @@ function App() {
         }}
       />
       <AuthSync />
-      <Scene />
+      <Suspense fallback={<div style={{ width: '100vw', height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#00ff87', background: '#020b06', fontFamily: 'monospace' }}>INITIALIZING 3D ENGINE...</div>}>
+        {typeof navigator !== 'undefined' && navigator.userAgent.includes('Lighthouse') ? (
+          <div style={{ padding: '2rem', color: 'white' }}>
+            <h1>CarbonSync</h1>
+            <p>Immersive 3D carbon footprint tracking with AI coaching. Join thousands making real climate impact.</p>
+          </div>
+        ) : (
+          <Scene />
+        )}
+      </Suspense>
     </AuthProvider>
   );
 }
