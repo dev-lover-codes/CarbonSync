@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import useStore from '../store/useStore';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Car, 
@@ -27,7 +27,7 @@ const Onboarding = () => {
   });
   const { updateProfile } = useAuth();
   const { addGoal } = useCarbon();
-  const navigate = useNavigate();
+  const navigate = useStore((state) => state.navigate);
 
   const handleComplete = async () => {
     try {
@@ -48,7 +48,7 @@ const Onboarding = () => {
         }
       });
 
-      navigate('/dashboard');
+      navigate('dashboard');
     } catch (error) {
     }
   };

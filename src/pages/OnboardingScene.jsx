@@ -4,7 +4,7 @@ import { Text, Stars, Sparkles, Html } from '@react-three/drei';
 import { Car, Bus, Bike, Footprints, Check } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { useStore } from '../store/useStore';
-import { updateUserProfile } from '../lib/firestore';
+// Removed direct firestore update profile import
 import Button3D from '../components/Button3D';
 import GlassPanel from '../components/GlassPanel';
 import FloatingCard from '../components/FloatingCard';
@@ -12,7 +12,7 @@ import ProgressRing3D from '../components/ProgressRing3D';
 import * as THREE from 'three';
 
 export function OnboardingScene() {
-  const { currentUser } = useAuth();
+  const { currentUser, updateProfile } = useAuth();
   const { navigate } = useStore();
   const [step, setStep] = useState(1);
   const hudRef = useRef();
@@ -76,7 +76,7 @@ export function OnboardingScene() {
         streak: 1,
         joinedAt: new Date().toISOString()
       };
-      await updateUserProfile(currentUser.uid, onboardData);
+      await updateProfile(onboardData);
       navigate('dashboard');
     } catch (e) {
       navigate('dashboard'); // fallback
