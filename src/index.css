@@ -4,6 +4,10 @@
 @tailwind components;
 @tailwind utilities;
 
+html {
+  text-size-adjust: 100%;
+}
+
 /* ─────────────────────────────────────────────────────────────
    CARBONSYNC · ULTRA PREMIUM DESIGN SYSTEM v2.0
    Dark-cosmic theme: deep space greens, neon plasma, holographic
@@ -93,15 +97,15 @@ canvas {
 /* ─── Glassmorphism Utilities ───────────────────────────────── */
 .glass {
   background: var(--glass-bg);
-  backdrop-filter: blur(var(--glass-blur));
   -webkit-backdrop-filter: blur(var(--glass-blur));
+  backdrop-filter: blur(var(--glass-blur));
   border: 1px solid var(--glass-border);
 }
 
 .glass-card {
   background: rgba(10, 26, 14, 0.65);
-  backdrop-filter: blur(28px);
   -webkit-backdrop-filter: blur(28px);
+  backdrop-filter: blur(28px);
   border: 1px solid rgba(0,255,135,0.12);
   border-radius: 20px;
   box-shadow: 0 8px 32px rgba(0,0,0,0.4), inset 0 1px 0 rgba(0,255,135,0.08);
@@ -109,8 +113,8 @@ canvas {
 
 .glass-card-cyan {
   background: rgba(0, 18, 26, 0.65);
-  backdrop-filter: blur(28px);
   -webkit-backdrop-filter: blur(28px);
+  backdrop-filter: blur(28px);
   border: 1px solid rgba(0,212,255,0.12);
   border-radius: 20px;
   box-shadow: 0 8px 32px rgba(0,0,0,0.4), inset 0 1px 0 rgba(0,212,255,0.08);
@@ -118,8 +122,8 @@ canvas {
 
 .glass-panel {
   background: linear-gradient(135deg, rgba(10,26,14,0.8) 0%, rgba(13,35,22,0.7) 100%);
-  backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
   border: 1px solid rgba(0,255,135,0.14);
   box-shadow: 
     0 0 0 1px rgba(0,255,135,0.05) inset,

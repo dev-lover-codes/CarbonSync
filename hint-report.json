@@ -1,0 +1,1423 @@
+Using the built-in configuration.
+Visit https://webhint.io/docs/user-guide/ to learn how to create your own configuration.
+file:///home/user/site/dist/index.html: 1 issues
+[
+  {
+    "browsers": [
+      "and_ff 151",
+      "firefox 151",
+      "firefox 150",
+      "firefox 140",
+      "opera 131",
+      "opera 127"
+    ],
+    "category": "compatibility",
+    "documentation": [
+      {
+        "link": "https://developer.mozilla.org/docs/Web/HTML/Element/meta/name/theme-color",
+        "text": "Learn more about this HTML feature on MDN"
+      }
+    ],
+    "hintId": "compat-api/html",
+    "location": {
+      "column": 5,
+      "line": 16,
+      "startOffset": 1012
+    },
+    "message": "'meta[name=theme-color]' is not supported by Firefox, Firefox for Android, Opera.",
+    "resource": "file:///home/user/site/dist/index.html",
+    "severity": 3,
+    "sourceCode": "<meta name=\"theme-color\" content=\"#08140d\">"
+  }
+]
+
+file:///home/user/site/dist/assets/index-9d109605.css: 85 issues
+[
+  {
+    "browsers": [
+      "and_chr 149",
+      "chrome 149",
+      "chrome 148",
+      "chrome 147",
+      "chrome 146",
+      "chrome 145",
+      "chrome 142",
+      "chrome 133",
+      "chrome 131",
+      "chrome 125",
+      "chrome 118",
+      "chrome 116",
+      "chrome 112",
+      "chrome 109",
+      "edge 149",
+      "edge 148",
+      "edge 147",
+      "firefox 151",
+      "firefox 150",
+      "firefox 140",
+      "safari 26.4",
+      "safari 26.3",
+      "samsung 30",
+      "samsung 29"
+    ],
+    "category": "compatibility",
+    "codeLanguage": "css",
+    "documentation": [
+      {
+        "link": "https://developer.mozilla.org/docs/Web/CSS/text-size-adjust",
+        "text": "Learn more about this CSS feature on MDN"
+      }
+    ],
+    "hintId": "compat-api/css",
+    "location": {
+      "column": 2602,
+      "endColumn": 2626,
+      "endLine": 0,
+      "line": 0
+    },
+    "message": "'-webkit-text-size-adjust' is not supported by Chrome, Chrome Android, Edge 79+, Firefox, Safari, Samsung Internet. Add 'text-size-adjust' to support Chrome 54+, Chrome Android 54+, Edge 79+, Samsung Internet 6.0+.",
+    "resource": "file:///home/user/site/dist/assets/index-9d109605.css",
+    "severity": 4,
+    "sourceCode": "html,\n:host {\n    -webkit-text-size-adjust: 100%;\n}"
+  },
+  {
+    "category": "performance",
+    "codeLanguage": "css",
+    "hintId": "detect-css-reflows/composite",
+    "location": {
+      "column": 18922,
+      "endColumn": 18931,
+      "endLine": 0,
+      "line": 0
+    },
+    "message": "'transform' changes to this property will trigger: 'Composite', which can impact performance when used inside @keyframes.",
+    "resource": "file:///home/user/site/dist/assets/index-9d109605.css",
+    "severity": 2,
+    "sourceCode": "@keyframes bounce {\n    0%,\n    to {\n        transform: translateY(-25%);\n        animation-timing-function: cubic-bezier(.8,0,1,1);\n    }\n}"
+  },
+  {
+    "category": "performance",
+    "codeLanguage": "css",
+    "hintId": "detect-css-reflows/paint",
+    "location": {
+      "column": 18922,
+      "endColumn": 18931,
+      "endLine": 0,
+      "line": 0
+    },
+    "message": "'transform' changes to this property will trigger: 'Paint', which can impact performance when used inside @keyframes.",
+    "resource": "file:///home/user/site/dist/assets/index-9d109605.css",
+    "severity": 2,
+    "sourceCode": "@keyframes bounce {\n    0%,\n    to {\n        transform: translateY(-25%);\n        animation-timing-function: cubic-bezier(.8,0,1,1);\n    }\n}"
+  },
+  {
+    "category": "performance",
+    "codeLanguage": "css",
+    "hintId": "detect-css-reflows/composite",
+    "location": {
+      "column": 18949,
+      "endColumn": 18974,
+      "endLine": 0,
+      "line": 0
+    },
+    "message": "'animation-timing-function' changes to this property will trigger: 'Composite', which can impact performance when used inside @keyframes.",
+    "resource": "file:///home/user/site/dist/assets/index-9d109605.css",
+    "severity": 2,
+    "sourceCode": "@keyframes bounce {\n    0%,\n    to {\n        transform: translateY(-25%);\n        animation-timing-function: cubic-bezier(.8,0,1,1);\n    }\n}"
+  },
+  {
+    "category": "performance",
+    "codeLanguage": "css",
+    "hintId": "detect-css-reflows/composite",
+    "location": {
+      "column": 19002,
+      "endColumn": 19011,
+      "endLine": 0,
+      "line": 0
+    },
+    "message": "'transform' changes to this property will trigger: 'Composite', which can impact performance when used inside @keyframes.",
+    "resource": "file:///home/user/site/dist/assets/index-9d109605.css",
+    "severity": 2,
+    "sourceCode": "@keyframes bounce {\n    50% {\n        transform: none;\n        animation-timing-function: cubic-bezier(0,0,.2,1);\n    }\n}"
+  },
+  {
+    "category": "performance",
+    "codeLanguage": "css",
+    "hintId": "detect-css-reflows/paint",
+    "location": {
+      "column": 19002,
+      "endColumn": 19011,
+      "endLine": 0,
+      "line": 0
+    },
+    "message": "'transform' changes to this property will trigger: 'Paint', which can impact performance when used inside @keyframes.",
+    "resource": "file:///home/user/site/dist/assets/index-9d109605.css",
+    "severity": 2,
+    "sourceCode": "@keyframes bounce {\n    50% {\n        transform: none;\n        animation-timing-function: cubic-bezier(0,0,.2,1);\n    }\n}"
+  },
+  {
+    "category": "performance",
+    "codeLanguage": "css",
+    "hintId": "detect-css-reflows/composite",
+    "location": {
+      "column": 19017,
+      "endColumn": 19042,
+      "endLine": 0,
+      "line": 0
+    },
+    "message": "'animation-timing-function' changes to this property will trigger: 'Composite', which can impact performance when used inside @keyframes.",
+    "resource": "file:///home/user/site/dist/assets/index-9d109605.css",
+    "severity": 2,
+    "sourceCode": "@keyframes bounce {\n    50% {\n        transform: none;\n        animation-timing-function: cubic-bezier(0,0,.2,1);\n    }\n}"
+  },
+  {
+    "category": "performance",
+    "codeLanguage": "css",
+    "hintId": "detect-css-reflows/composite",
+    "location": {
+      "column": 19135,
+      "endColumn": 19144,
+      "endLine": 0,
+      "line": 0
+    },
+    "message": "'transform' changes to this property will trigger: 'Composite', which can impact performance when used inside @keyframes.",
+    "resource": "file:///home/user/site/dist/assets/index-9d109605.css",
+    "severity": 2,
+    "sourceCode": "@keyframes ping {\n    75%,\n    to {\n        transform: scale(2);\n        opacity: 0;\n    }\n}"
+  },
+  {
+    "category": "performance",
+    "codeLanguage": "css",
+    "hintId": "detect-css-reflows/paint",
+    "location": {
+      "column": 19135,
+      "endColumn": 19144,
+      "endLine": 0,
+      "line": 0
+    },
+    "message": "'transform' changes to this property will trigger: 'Paint', which can impact performance when used inside @keyframes.",
+    "resource": "file:///home/user/site/dist/assets/index-9d109605.css",
+    "severity": 2,
+    "sourceCode": "@keyframes ping {\n    75%,\n    to {\n        transform: scale(2);\n        opacity: 0;\n    }\n}"
+  },
+  {
+    "category": "performance",
+    "codeLanguage": "css",
+    "hintId": "detect-css-reflows/composite",
+    "location": {
+      "column": 19154,
+      "endColumn": 19161,
+      "endLine": 0,
+      "line": 0
+    },
+    "message": "'opacity' changes to this property will trigger: 'Composite', which can impact performance when used inside @keyframes.",
+    "resource": "file:///home/user/site/dist/assets/index-9d109605.css",
+    "severity": 2,
+    "sourceCode": "@keyframes ping {\n    75%,\n    to {\n        transform: scale(2);\n        opacity: 0;\n    }\n}"
+  },
+  {
+    "category": "performance",
+    "codeLanguage": "css",
+    "hintId": "detect-css-reflows/composite",
+    "location": {
+      "column": 19250,
+      "endColumn": 19257,
+      "endLine": 0,
+      "line": 0
+    },
+    "message": "'opacity' changes to this property will trigger: 'Composite', which can impact performance when used inside @keyframes.",
+    "resource": "file:///home/user/site/dist/assets/index-9d109605.css",
+    "severity": 2,
+    "sourceCode": "@keyframes pulse {\n    50% {\n        opacity: .5;\n    }\n}"
+  },
+  {
+    "category": "performance",
+    "codeLanguage": "css",
+    "hintId": "detect-css-reflows/composite",
+    "location": {
+      "column": 19348,
+      "endColumn": 19357,
+      "endLine": 0,
+      "line": 0
+    },
+    "message": "'transform' changes to this property will trigger: 'Composite', which can impact performance when used inside @keyframes.",
+    "resource": "file:///home/user/site/dist/assets/index-9d109605.css",
+    "severity": 2,
+    "sourceCode": "@keyframes spin {\n    to {\n        transform: rotate(360deg);\n    }\n}"
+  },
+  {
+    "category": "performance",
+    "codeLanguage": "css",
+    "hintId": "detect-css-reflows/paint",
+    "location": {
+      "column": 19348,
+      "endColumn": 19357,
+      "endLine": 0,
+      "line": 0
+    },
+    "message": "'transform' changes to this property will trigger: 'Paint', which can impact performance when used inside @keyframes.",
+    "resource": "file:///home/user/site/dist/assets/index-9d109605.css",
+    "severity": 2,
+    "sourceCode": "@keyframes spin {\n    to {\n        transform: rotate(360deg);\n    }\n}"
+  },
+  {
+    "category": "pitfalls",
+    "codeLanguage": "css",
+    "fixes": [
+      {
+        "location": {
+          "column": 61582,
+          "endColumn": 61629,
+          "endLine": 0,
+          "line": 0
+        },
+        "text": "backdrop-filter:blur(var(--glass-blur))"
+      },
+      {
+        "location": {
+          "column": 61542,
+          "endColumn": 61581,
+          "endLine": 0,
+          "line": 0
+        },
+        "text": "-webkit-backdrop-filter:blur(var(--glass-blur))"
+      }
+    ],
+    "hintId": "css-prefix-order",
+    "location": {
+      "column": 61542,
+      "endColumn": 61557,
+      "endLine": 0,
+      "line": 0
+    },
+    "message": "'backdrop-filter' should be listed after '-webkit-backdrop-filter'.",
+    "resource": "file:///home/user/site/dist/assets/index-9d109605.css",
+    "severity": 3,
+    "sourceCode": ".glass {\n    background: var(--glass-bg);\n    backdrop-filter: blur(var(--glass-blur));\n    -webkit-backdrop-filter: blur(var(--glass-blur));\n    border: 1px solid var(--glass-border);\n}"
+  },
+  {
+    "category": "pitfalls",
+    "codeLanguage": "css",
+    "fixes": [
+      {
+        "location": {
+          "column": 61736,
+          "endColumn": 61770,
+          "endLine": 0,
+          "line": 0
+        },
+        "text": "backdrop-filter:blur(28px)"
+      },
+      {
+        "location": {
+          "column": 61709,
+          "endColumn": 61735,
+          "endLine": 0,
+          "line": 0
+        },
+        "text": "-webkit-backdrop-filter:blur(28px)"
+      }
+    ],
+    "hintId": "css-prefix-order",
+    "location": {
+      "column": 61709,
+      "endColumn": 61724,
+      "endLine": 0,
+      "line": 0
+    },
+    "message": "'backdrop-filter' should be listed after '-webkit-backdrop-filter'.",
+    "resource": "file:///home/user/site/dist/assets/index-9d109605.css",
+    "severity": 3,
+    "sourceCode": ".glass-card {\n    background: rgba(10,26,14,.65);\n    backdrop-filter: blur(28px);\n    -webkit-backdrop-filter: blur(28px);\n    border: 1px solid rgba(0,255,135,.12);\n    border-radius: 20px;\n    box-shadow: 0 8px 32px #0006,inset 0 1px #00ff8714;\n}"
+  },
+  {
+    "category": "pitfalls",
+    "codeLanguage": "css",
+    "fixes": [
+      {
+        "location": {
+          "column": 61950,
+          "endColumn": 61984,
+          "endLine": 0,
+          "line": 0
+        },
+        "text": "backdrop-filter:blur(28px)"
+      },
+      {
+        "location": {
+          "column": 61923,
+          "endColumn": 61949,
+          "endLine": 0,
+          "line": 0
+        },
+        "text": "-webkit-backdrop-filter:blur(28px)"
+      }
+    ],
+    "hintId": "css-prefix-order",
+    "location": {
+      "column": 61923,
+      "endColumn": 61938,
+      "endLine": 0,
+      "line": 0
+    },
+    "message": "'backdrop-filter' should be listed after '-webkit-backdrop-filter'.",
+    "resource": "file:///home/user/site/dist/assets/index-9d109605.css",
+    "severity": 3,
+    "sourceCode": ".glass-card-cyan {\n    background: rgba(0,18,26,.65);\n    backdrop-filter: blur(28px);\n    -webkit-backdrop-filter: blur(28px);\n    border: 1px solid rgba(0,212,255,.12);\n    border-radius: 20px;\n    box-shadow: 0 8px 32px #0006,inset 0 1px #00d4ff14;\n}"
+  },
+  {
+    "category": "pitfalls",
+    "codeLanguage": "css",
+    "fixes": [
+      {
+        "location": {
+          "column": 62210,
+          "endColumn": 62244,
+          "endLine": 0,
+          "line": 0
+        },
+        "text": "backdrop-filter:blur(20px)"
+      },
+      {
+        "location": {
+          "column": 62183,
+          "endColumn": 62209,
+          "endLine": 0,
+          "line": 0
+        },
+        "text": "-webkit-backdrop-filter:blur(20px)"
+      }
+    ],
+    "hintId": "css-prefix-order",
+    "location": {
+      "column": 62183,
+      "endColumn": 62198,
+      "endLine": 0,
+      "line": 0
+    },
+    "message": "'backdrop-filter' should be listed after '-webkit-backdrop-filter'.",
+    "resource": "file:///home/user/site/dist/assets/index-9d109605.css",
+    "severity": 3,
+    "sourceCode": ".glass-panel {\n    background: linear-gradient(135deg,rgba(10,26,14,.8) 0%,rgba(13,35,22,.7) 100%);\n    backdrop-filter: blur(20px);\n    -webkit-backdrop-filter: blur(20px);\n    border: 1px solid rgba(0,255,135,.14);\n    box-shadow: 0 0 0 1px #00ff870d inset,0 20px 60px #00000080,0 0 40px #00ff870a;\n}"
+  },
+  {
+    "category": "performance",
+    "codeLanguage": "css",
+    "hintId": "detect-css-reflows/composite",
+    "location": {
+      "column": 67013,
+      "endColumn": 67020,
+      "endLine": 0,
+      "line": 0
+    },
+    "message": "'opacity' changes to this property will trigger: 'Composite', which can impact performance when used inside @keyframes.",
+    "resource": "file:///home/user/site/dist/assets/index-9d109605.css",
+    "severity": 2,
+    "sourceCode": "@keyframes pulse-neon {\n    0%,\n    to {\n        opacity: 1;\n    }\n}"
+  },
+  {
+    "category": "performance",
+    "codeLanguage": "css",
+    "hintId": "detect-css-reflows/composite",
+    "location": {
+      "column": 67027,
+      "endColumn": 67034,
+      "endLine": 0,
+      "line": 0
+    },
+    "message": "'opacity' changes to this property will trigger: 'Composite', which can impact performance when used inside @keyframes.",
+    "resource": "file:///home/user/site/dist/assets/index-9d109605.css",
+    "severity": 2,
+    "sourceCode": "@keyframes pulse-neon {\n    50% {\n        opacity: .45;\n    }\n}"
+  },
+  {
+    "category": "performance",
+    "codeLanguage": "css",
+    "hintId": "detect-css-reflows/composite",
+    "location": {
+      "column": 67063,
+      "endColumn": 67072,
+      "endLine": 0,
+      "line": 0
+    },
+    "message": "'transform' changes to this property will trigger: 'Composite', which can impact performance when used inside @keyframes.",
+    "resource": "file:///home/user/site/dist/assets/index-9d109605.css",
+    "severity": 2,
+    "sourceCode": "@keyframes float {\n    0%,\n    to {\n        transform: translateY(0);\n    }\n}"
+  },
+  {
+    "category": "performance",
+    "codeLanguage": "css",
+    "hintId": "detect-css-reflows/paint",
+    "location": {
+      "column": 67063,
+      "endColumn": 67072,
+      "endLine": 0,
+      "line": 0
+    },
+    "message": "'transform' changes to this property will trigger: 'Paint', which can impact performance when used inside @keyframes.",
+    "resource": "file:///home/user/site/dist/assets/index-9d109605.css",
+    "severity": 2,
+    "sourceCode": "@keyframes float {\n    0%,\n    to {\n        transform: translateY(0);\n    }\n}"
+  },
+  {
+    "category": "performance",
+    "codeLanguage": "css",
+    "hintId": "detect-css-reflows/composite",
+    "location": {
+      "column": 67091,
+      "endColumn": 67100,
+      "endLine": 0,
+      "line": 0
+    },
+    "message": "'transform' changes to this property will trigger: 'Composite', which can impact performance when used inside @keyframes.",
+    "resource": "file:///home/user/site/dist/assets/index-9d109605.css",
+    "severity": 2,
+    "sourceCode": "@keyframes float {\n    50% {\n        transform: translateY(-10px);\n    }\n}"
+  },
+  {
+    "category": "performance",
+    "codeLanguage": "css",
+    "hintId": "detect-css-reflows/paint",
+    "location": {
+      "column": 67091,
+      "endColumn": 67100,
+      "endLine": 0,
+      "line": 0
+    },
+    "message": "'transform' changes to this property will trigger: 'Paint', which can impact performance when used inside @keyframes.",
+    "resource": "file:///home/user/site/dist/assets/index-9d109605.css",
+    "severity": 2,
+    "sourceCode": "@keyframes float {\n    50% {\n        transform: translateY(-10px);\n    }\n}"
+  },
+  {
+    "category": "performance",
+    "codeLanguage": "css",
+    "hintId": "detect-css-reflows/composite",
+    "location": {
+      "column": 67150,
+      "endColumn": 67159,
+      "endLine": 0,
+      "line": 0
+    },
+    "message": "'transform' changes to this property will trigger: 'Composite', which can impact performance when used inside @keyframes.",
+    "resource": "file:///home/user/site/dist/assets/index-9d109605.css",
+    "severity": 2,
+    "sourceCode": "@keyframes float-gentle {\n    0%,\n    to {\n        transform: translateY(0) rotate(0);\n    }\n}"
+  },
+  {
+    "category": "performance",
+    "codeLanguage": "css",
+    "hintId": "detect-css-reflows/paint",
+    "location": {
+      "column": 67150,
+      "endColumn": 67159,
+      "endLine": 0,
+      "line": 0
+    },
+    "message": "'transform' changes to this property will trigger: 'Paint', which can impact performance when used inside @keyframes.",
+    "resource": "file:///home/user/site/dist/assets/index-9d109605.css",
+    "severity": 2,
+    "sourceCode": "@keyframes float-gentle {\n    0%,\n    to {\n        transform: translateY(0) rotate(0);\n    }\n}"
+  },
+  {
+    "category": "performance",
+    "codeLanguage": "css",
+    "hintId": "detect-css-reflows/composite",
+    "location": {
+      "column": 67188,
+      "endColumn": 67197,
+      "endLine": 0,
+      "line": 0
+    },
+    "message": "'transform' changes to this property will trigger: 'Composite', which can impact performance when used inside @keyframes.",
+    "resource": "file:///home/user/site/dist/assets/index-9d109605.css",
+    "severity": 2,
+    "sourceCode": "@keyframes float-gentle {\n    33% {\n        transform: translateY(-6px) rotate(.5deg);\n    }\n}"
+  },
+  {
+    "category": "performance",
+    "codeLanguage": "css",
+    "hintId": "detect-css-reflows/paint",
+    "location": {
+      "column": 67188,
+      "endColumn": 67197,
+      "endLine": 0,
+      "line": 0
+    },
+    "message": "'transform' changes to this property will trigger: 'Paint', which can impact performance when used inside @keyframes.",
+    "resource": "file:///home/user/site/dist/assets/index-9d109605.css",
+    "severity": 2,
+    "sourceCode": "@keyframes float-gentle {\n    33% {\n        transform: translateY(-6px) rotate(.5deg);\n    }\n}"
+  },
+  {
+    "category": "performance",
+    "codeLanguage": "css",
+    "hintId": "detect-css-reflows/composite",
+    "location": {
+      "column": 67233,
+      "endColumn": 67242,
+      "endLine": 0,
+      "line": 0
+    },
+    "message": "'transform' changes to this property will trigger: 'Composite', which can impact performance when used inside @keyframes.",
+    "resource": "file:///home/user/site/dist/assets/index-9d109605.css",
+    "severity": 2,
+    "sourceCode": "@keyframes float-gentle {\n    66% {\n        transform: translateY(-3px) rotate(-.5deg);\n    }\n}"
+  },
+  {
+    "category": "performance",
+    "codeLanguage": "css",
+    "hintId": "detect-css-reflows/paint",
+    "location": {
+      "column": 67233,
+      "endColumn": 67242,
+      "endLine": 0,
+      "line": 0
+    },
+    "message": "'transform' changes to this property will trigger: 'Paint', which can impact performance when used inside @keyframes.",
+    "resource": "file:///home/user/site/dist/assets/index-9d109605.css",
+    "severity": 2,
+    "sourceCode": "@keyframes float-gentle {\n    66% {\n        transform: translateY(-3px) rotate(-.5deg);\n    }\n}"
+  },
+  {
+    "category": "performance",
+    "codeLanguage": "css",
+    "hintId": "detect-css-reflows/composite",
+    "location": {
+      "column": 67300,
+      "endColumn": 67309,
+      "endLine": 0,
+      "line": 0
+    },
+    "message": "'transform' changes to this property will trigger: 'Composite', which can impact performance when used inside @keyframes.",
+    "resource": "file:///home/user/site/dist/assets/index-9d109605.css",
+    "severity": 2,
+    "sourceCode": "@keyframes spin-slow {\n    0% {\n        transform: rotate(0);\n    }\n}"
+  },
+  {
+    "category": "performance",
+    "codeLanguage": "css",
+    "hintId": "detect-css-reflows/paint",
+    "location": {
+      "column": 67300,
+      "endColumn": 67309,
+      "endLine": 0,
+      "line": 0
+    },
+    "message": "'transform' changes to this property will trigger: 'Paint', which can impact performance when used inside @keyframes.",
+    "resource": "file:///home/user/site/dist/assets/index-9d109605.css",
+    "severity": 2,
+    "sourceCode": "@keyframes spin-slow {\n    0% {\n        transform: rotate(0);\n    }\n}"
+  },
+  {
+    "category": "performance",
+    "codeLanguage": "css",
+    "hintId": "detect-css-reflows/composite",
+    "location": {
+      "column": 67323,
+      "endColumn": 67332,
+      "endLine": 0,
+      "line": 0
+    },
+    "message": "'transform' changes to this property will trigger: 'Composite', which can impact performance when used inside @keyframes.",
+    "resource": "file:///home/user/site/dist/assets/index-9d109605.css",
+    "severity": 2,
+    "sourceCode": "@keyframes spin-slow {\n    to {\n        transform: rotate(360deg);\n    }\n}"
+  },
+  {
+    "category": "performance",
+    "codeLanguage": "css",
+    "hintId": "detect-css-reflows/paint",
+    "location": {
+      "column": 67323,
+      "endColumn": 67332,
+      "endLine": 0,
+      "line": 0
+    },
+    "message": "'transform' changes to this property will trigger: 'Paint', which can impact performance when used inside @keyframes.",
+    "resource": "file:///home/user/site/dist/assets/index-9d109605.css",
+    "severity": 2,
+    "sourceCode": "@keyframes spin-slow {\n    to {\n        transform: rotate(360deg);\n    }\n}"
+  },
+  {
+    "category": "performance",
+    "codeLanguage": "css",
+    "hintId": "detect-css-reflows/composite",
+    "location": {
+      "column": 67373,
+      "endColumn": 67382,
+      "endLine": 0,
+      "line": 0
+    },
+    "message": "'transform' changes to this property will trigger: 'Composite', which can impact performance when used inside @keyframes.",
+    "resource": "file:///home/user/site/dist/assets/index-9d109605.css",
+    "severity": 2,
+    "sourceCode": "@keyframes scan-line {\n    0% {\n        transform: translateY(-100%);\n        opacity: 0;\n    }\n}"
+  },
+  {
+    "category": "performance",
+    "codeLanguage": "css",
+    "hintId": "detect-css-reflows/paint",
+    "location": {
+      "column": 67373,
+      "endColumn": 67382,
+      "endLine": 0,
+      "line": 0
+    },
+    "message": "'transform' changes to this property will trigger: 'Paint', which can impact performance when used inside @keyframes.",
+    "resource": "file:///home/user/site/dist/assets/index-9d109605.css",
+    "severity": 2,
+    "sourceCode": "@keyframes scan-line {\n    0% {\n        transform: translateY(-100%);\n        opacity: 0;\n    }\n}"
+  },
+  {
+    "category": "performance",
+    "codeLanguage": "css",
+    "hintId": "detect-css-reflows/composite",
+    "location": {
+      "column": 67401,
+      "endColumn": 67408,
+      "endLine": 0,
+      "line": 0
+    },
+    "message": "'opacity' changes to this property will trigger: 'Composite', which can impact performance when used inside @keyframes.",
+    "resource": "file:///home/user/site/dist/assets/index-9d109605.css",
+    "severity": 2,
+    "sourceCode": "@keyframes scan-line {\n    0% {\n        transform: translateY(-100%);\n        opacity: 0;\n    }\n}"
+  },
+  {
+    "category": "performance",
+    "codeLanguage": "css",
+    "hintId": "detect-css-reflows/composite",
+    "location": {
+      "column": 67415,
+      "endColumn": 67422,
+      "endLine": 0,
+      "line": 0
+    },
+    "message": "'opacity' changes to this property will trigger: 'Composite', which can impact performance when used inside @keyframes.",
+    "resource": "file:///home/user/site/dist/assets/index-9d109605.css",
+    "severity": 2,
+    "sourceCode": "@keyframes scan-line {\n    10% {\n        opacity: 1;\n    }\n}"
+  },
+  {
+    "category": "performance",
+    "codeLanguage": "css",
+    "hintId": "detect-css-reflows/composite",
+    "location": {
+      "column": 67429,
+      "endColumn": 67436,
+      "endLine": 0,
+      "line": 0
+    },
+    "message": "'opacity' changes to this property will trigger: 'Composite', which can impact performance when used inside @keyframes.",
+    "resource": "file:///home/user/site/dist/assets/index-9d109605.css",
+    "severity": 2,
+    "sourceCode": "@keyframes scan-line {\n    90% {\n        opacity: 1;\n    }\n}"
+  },
+  {
+    "category": "performance",
+    "codeLanguage": "css",
+    "hintId": "detect-css-reflows/composite",
+    "location": {
+      "column": 67442,
+      "endColumn": 67451,
+      "endLine": 0,
+      "line": 0
+    },
+    "message": "'transform' changes to this property will trigger: 'Composite', which can impact performance when used inside @keyframes.",
+    "resource": "file:///home/user/site/dist/assets/index-9d109605.css",
+    "severity": 2,
+    "sourceCode": "@keyframes scan-line {\n    to {\n        transform: translateY(100vh);\n        opacity: 0;\n    }\n}"
+  },
+  {
+    "category": "performance",
+    "codeLanguage": "css",
+    "hintId": "detect-css-reflows/paint",
+    "location": {
+      "column": 67442,
+      "endColumn": 67451,
+      "endLine": 0,
+      "line": 0
+    },
+    "message": "'transform' changes to this property will trigger: 'Paint', which can impact performance when used inside @keyframes.",
+    "resource": "file:///home/user/site/dist/assets/index-9d109605.css",
+    "severity": 2,
+    "sourceCode": "@keyframes scan-line {\n    to {\n        transform: translateY(100vh);\n        opacity: 0;\n    }\n}"
+  },
+  {
+    "category": "performance",
+    "codeLanguage": "css",
+    "hintId": "detect-css-reflows/composite",
+    "location": {
+      "column": 67470,
+      "endColumn": 67477,
+      "endLine": 0,
+      "line": 0
+    },
+    "message": "'opacity' changes to this property will trigger: 'Composite', which can impact performance when used inside @keyframes.",
+    "resource": "file:///home/user/site/dist/assets/index-9d109605.css",
+    "severity": 2,
+    "sourceCode": "@keyframes scan-line {\n    to {\n        transform: translateY(100vh);\n        opacity: 0;\n    }\n}"
+  },
+  {
+    "category": "performance",
+    "codeLanguage": "css",
+    "hintId": "detect-css-reflows/composite",
+    "location": {
+      "column": 67503,
+      "endColumn": 67522,
+      "endLine": 0,
+      "line": 0
+    },
+    "message": "'background-position' changes to this property will trigger: 'Composite', which can impact performance when used inside @keyframes.",
+    "resource": "file:///home/user/site/dist/assets/index-9d109605.css",
+    "severity": 2,
+    "sourceCode": "@keyframes shimmer {\n    0% {\n        background-position: -200% center;\n    }\n}"
+  },
+  {
+    "category": "performance",
+    "codeLanguage": "css",
+    "hintId": "detect-css-reflows/paint",
+    "location": {
+      "column": 67503,
+      "endColumn": 67522,
+      "endLine": 0,
+      "line": 0
+    },
+    "message": "'background-position' changes to this property will trigger: 'Paint', which can impact performance when used inside @keyframes.",
+    "resource": "file:///home/user/site/dist/assets/index-9d109605.css",
+    "severity": 2,
+    "sourceCode": "@keyframes shimmer {\n    0% {\n        background-position: -200% center;\n    }\n}"
+  },
+  {
+    "category": "performance",
+    "codeLanguage": "css",
+    "hintId": "detect-css-reflows/composite",
+    "location": {
+      "column": 67539,
+      "endColumn": 67558,
+      "endLine": 0,
+      "line": 0
+    },
+    "message": "'background-position' changes to this property will trigger: 'Composite', which can impact performance when used inside @keyframes.",
+    "resource": "file:///home/user/site/dist/assets/index-9d109605.css",
+    "severity": 2,
+    "sourceCode": "@keyframes shimmer {\n    to {\n        background-position: 200% center;\n    }\n}"
+  },
+  {
+    "category": "performance",
+    "codeLanguage": "css",
+    "hintId": "detect-css-reflows/paint",
+    "location": {
+      "column": 67539,
+      "endColumn": 67558,
+      "endLine": 0,
+      "line": 0
+    },
+    "message": "'background-position' changes to this property will trigger: 'Paint', which can impact performance when used inside @keyframes.",
+    "resource": "file:///home/user/site/dist/assets/index-9d109605.css",
+    "severity": 2,
+    "sourceCode": "@keyframes shimmer {\n    to {\n        background-position: 200% center;\n    }\n}"
+  },
+  {
+    "category": "performance",
+    "codeLanguage": "css",
+    "hintId": "detect-css-reflows/composite",
+    "location": {
+      "column": 67593,
+      "endColumn": 67600,
+      "endLine": 0,
+      "line": 0
+    },
+    "message": "'opacity' changes to this property will trigger: 'Composite', which can impact performance when used inside @keyframes.",
+    "resource": "file:///home/user/site/dist/assets/index-9d109605.css",
+    "severity": 2,
+    "sourceCode": "@keyframes fadeUp {\n    0% {\n        opacity: 0;\n        transform: translateY(24px);\n    }\n}"
+  },
+  {
+    "category": "performance",
+    "codeLanguage": "css",
+    "hintId": "detect-css-reflows/composite",
+    "location": {
+      "column": 67603,
+      "endColumn": 67612,
+      "endLine": 0,
+      "line": 0
+    },
+    "message": "'transform' changes to this property will trigger: 'Composite', which can impact performance when used inside @keyframes.",
+    "resource": "file:///home/user/site/dist/assets/index-9d109605.css",
+    "severity": 2,
+    "sourceCode": "@keyframes fadeUp {\n    0% {\n        opacity: 0;\n        transform: translateY(24px);\n    }\n}"
+  },
+  {
+    "category": "performance",
+    "codeLanguage": "css",
+    "hintId": "detect-css-reflows/paint",
+    "location": {
+      "column": 67603,
+      "endColumn": 67612,
+      "endLine": 0,
+      "line": 0
+    },
+    "message": "'transform' changes to this property will trigger: 'Paint', which can impact performance when used inside @keyframes.",
+    "resource": "file:///home/user/site/dist/assets/index-9d109605.css",
+    "severity": 2,
+    "sourceCode": "@keyframes fadeUp {\n    0% {\n        opacity: 0;\n        transform: translateY(24px);\n    }\n}"
+  },
+  {
+    "category": "performance",
+    "codeLanguage": "css",
+    "hintId": "detect-css-reflows/composite",
+    "location": {
+      "column": 67633,
+      "endColumn": 67640,
+      "endLine": 0,
+      "line": 0
+    },
+    "message": "'opacity' changes to this property will trigger: 'Composite', which can impact performance when used inside @keyframes.",
+    "resource": "file:///home/user/site/dist/assets/index-9d109605.css",
+    "severity": 2,
+    "sourceCode": "@keyframes fadeUp {\n    to {\n        opacity: 1;\n        transform: translateY(0);\n    }\n}"
+  },
+  {
+    "category": "performance",
+    "codeLanguage": "css",
+    "hintId": "detect-css-reflows/composite",
+    "location": {
+      "column": 67643,
+      "endColumn": 67652,
+      "endLine": 0,
+      "line": 0
+    },
+    "message": "'transform' changes to this property will trigger: 'Composite', which can impact performance when used inside @keyframes.",
+    "resource": "file:///home/user/site/dist/assets/index-9d109605.css",
+    "severity": 2,
+    "sourceCode": "@keyframes fadeUp {\n    to {\n        opacity: 1;\n        transform: translateY(0);\n    }\n}"
+  },
+  {
+    "category": "performance",
+    "codeLanguage": "css",
+    "hintId": "detect-css-reflows/paint",
+    "location": {
+      "column": 67643,
+      "endColumn": 67652,
+      "endLine": 0,
+      "line": 0
+    },
+    "message": "'transform' changes to this property will trigger: 'Paint', which can impact performance when used inside @keyframes.",
+    "resource": "file:///home/user/site/dist/assets/index-9d109605.css",
+    "severity": 2,
+    "sourceCode": "@keyframes fadeUp {\n    to {\n        opacity: 1;\n        transform: translateY(0);\n    }\n}"
+  },
+  {
+    "category": "performance",
+    "codeLanguage": "css",
+    "hintId": "detect-css-reflows/composite",
+    "location": {
+      "column": 67689,
+      "endColumn": 67696,
+      "endLine": 0,
+      "line": 0
+    },
+    "message": "'opacity' changes to this property will trigger: 'Composite', which can impact performance when used inside @keyframes.",
+    "resource": "file:///home/user/site/dist/assets/index-9d109605.css",
+    "severity": 2,
+    "sourceCode": "@keyframes fadeIn {\n    0% {\n        opacity: 0;\n    }\n}"
+  },
+  {
+    "category": "performance",
+    "codeLanguage": "css",
+    "hintId": "detect-css-reflows/composite",
+    "location": {
+      "column": 67702,
+      "endColumn": 67709,
+      "endLine": 0,
+      "line": 0
+    },
+    "message": "'opacity' changes to this property will trigger: 'Composite', which can impact performance when used inside @keyframes.",
+    "resource": "file:///home/user/site/dist/assets/index-9d109605.css",
+    "severity": 2,
+    "sourceCode": "@keyframes fadeIn {\n    to {\n        opacity: 1;\n    }\n}"
+  },
+  {
+    "category": "performance",
+    "codeLanguage": "css",
+    "hintId": "detect-css-reflows/composite",
+    "location": {
+      "column": 67741,
+      "endColumn": 67751,
+      "endLine": 0,
+      "line": 0
+    },
+    "message": "'box-shadow' changes to this property will trigger: 'Composite', which can impact performance when used inside @keyframes.",
+    "resource": "file:///home/user/site/dist/assets/index-9d109605.css",
+    "severity": 2,
+    "sourceCode": "@keyframes glow-pulse {\n    0%,\n    to {\n        box-shadow: 0 0 10px #00ff8740;\n    }\n}"
+  },
+  {
+    "category": "performance",
+    "codeLanguage": "css",
+    "hintId": "detect-css-reflows/paint",
+    "location": {
+      "column": 67741,
+      "endColumn": 67751,
+      "endLine": 0,
+      "line": 0
+    },
+    "message": "'box-shadow' changes to this property will trigger: 'Paint', which can impact performance when used inside @keyframes.",
+    "resource": "file:///home/user/site/dist/assets/index-9d109605.css",
+    "severity": 2,
+    "sourceCode": "@keyframes glow-pulse {\n    0%,\n    to {\n        box-shadow: 0 0 10px #00ff8740;\n    }\n}"
+  },
+  {
+    "category": "performance",
+    "codeLanguage": "css",
+    "hintId": "detect-css-reflows/composite",
+    "location": {
+      "column": 67775,
+      "endColumn": 67785,
+      "endLine": 0,
+      "line": 0
+    },
+    "message": "'box-shadow' changes to this property will trigger: 'Composite', which can impact performance when used inside @keyframes.",
+    "resource": "file:///home/user/site/dist/assets/index-9d109605.css",
+    "severity": 2,
+    "sourceCode": "@keyframes glow-pulse {\n    50% {\n        box-shadow: 0 0 35px #00ff878c,0 0 70px #00ff872e;\n    }\n}"
+  },
+  {
+    "category": "performance",
+    "codeLanguage": "css",
+    "hintId": "detect-css-reflows/paint",
+    "location": {
+      "column": 67775,
+      "endColumn": 67785,
+      "endLine": 0,
+      "line": 0
+    },
+    "message": "'box-shadow' changes to this property will trigger: 'Paint', which can impact performance when used inside @keyframes.",
+    "resource": "file:///home/user/site/dist/assets/index-9d109605.css",
+    "severity": 2,
+    "sourceCode": "@keyframes glow-pulse {\n    50% {\n        box-shadow: 0 0 35px #00ff878c,0 0 70px #00ff872e;\n    }\n}"
+  },
+  {
+    "category": "performance",
+    "codeLanguage": "css",
+    "hintId": "detect-css-reflows/composite",
+    "location": {
+      "column": 67858,
+      "endColumn": 67868,
+      "endLine": 0,
+      "line": 0
+    },
+    "message": "'box-shadow' changes to this property will trigger: 'Composite', which can impact performance when used inside @keyframes.",
+    "resource": "file:///home/user/site/dist/assets/index-9d109605.css",
+    "severity": 2,
+    "sourceCode": "@keyframes glow-pulse-cyan {\n    0%,\n    to {\n        box-shadow: 0 0 10px #00d4ff40;\n    }\n}"
+  },
+  {
+    "category": "performance",
+    "codeLanguage": "css",
+    "hintId": "detect-css-reflows/paint",
+    "location": {
+      "column": 67858,
+      "endColumn": 67868,
+      "endLine": 0,
+      "line": 0
+    },
+    "message": "'box-shadow' changes to this property will trigger: 'Paint', which can impact performance when used inside @keyframes.",
+    "resource": "file:///home/user/site/dist/assets/index-9d109605.css",
+    "severity": 2,
+    "sourceCode": "@keyframes glow-pulse-cyan {\n    0%,\n    to {\n        box-shadow: 0 0 10px #00d4ff40;\n    }\n}"
+  },
+  {
+    "category": "performance",
+    "codeLanguage": "css",
+    "hintId": "detect-css-reflows/composite",
+    "location": {
+      "column": 67892,
+      "endColumn": 67902,
+      "endLine": 0,
+      "line": 0
+    },
+    "message": "'box-shadow' changes to this property will trigger: 'Composite', which can impact performance when used inside @keyframes.",
+    "resource": "file:///home/user/site/dist/assets/index-9d109605.css",
+    "severity": 2,
+    "sourceCode": "@keyframes glow-pulse-cyan {\n    50% {\n        box-shadow: 0 0 35px #00d4ff8c,0 0 70px #00d4ff2e;\n    }\n}"
+  },
+  {
+    "category": "performance",
+    "codeLanguage": "css",
+    "hintId": "detect-css-reflows/paint",
+    "location": {
+      "column": 67892,
+      "endColumn": 67902,
+      "endLine": 0,
+      "line": 0
+    },
+    "message": "'box-shadow' changes to this property will trigger: 'Paint', which can impact performance when used inside @keyframes.",
+    "resource": "file:///home/user/site/dist/assets/index-9d109605.css",
+    "severity": 2,
+    "sourceCode": "@keyframes glow-pulse-cyan {\n    50% {\n        box-shadow: 0 0 35px #00d4ff8c,0 0 70px #00d4ff2e;\n    }\n}"
+  },
+  {
+    "category": "performance",
+    "codeLanguage": "css",
+    "hintId": "detect-css-reflows/composite",
+    "location": {
+      "column": 67962,
+      "endColumn": 67971,
+      "endLine": 0,
+      "line": 0
+    },
+    "message": "'transform' changes to this property will trigger: 'Composite', which can impact performance when used inside @keyframes.",
+    "resource": "file:///home/user/site/dist/assets/index-9d109605.css",
+    "severity": 2,
+    "sourceCode": "@keyframes orbit {\n    0% {\n        transform: rotate(0) translate(50px) rotate(0);\n    }\n}"
+  },
+  {
+    "category": "performance",
+    "codeLanguage": "css",
+    "hintId": "detect-css-reflows/paint",
+    "location": {
+      "column": 67962,
+      "endColumn": 67971,
+      "endLine": 0,
+      "line": 0
+    },
+    "message": "'transform' changes to this property will trigger: 'Paint', which can impact performance when used inside @keyframes.",
+    "resource": "file:///home/user/site/dist/assets/index-9d109605.css",
+    "severity": 2,
+    "sourceCode": "@keyframes orbit {\n    0% {\n        transform: rotate(0) translate(50px) rotate(0);\n    }\n}"
+  },
+  {
+    "category": "performance",
+    "codeLanguage": "css",
+    "hintId": "detect-css-reflows/composite",
+    "location": {
+      "column": 68011,
+      "endColumn": 68020,
+      "endLine": 0,
+      "line": 0
+    },
+    "message": "'transform' changes to this property will trigger: 'Composite', which can impact performance when used inside @keyframes.",
+    "resource": "file:///home/user/site/dist/assets/index-9d109605.css",
+    "severity": 2,
+    "sourceCode": "@keyframes orbit {\n    to {\n        transform: rotate(360deg) translate(50px) rotate(-360deg);\n    }\n}"
+  },
+  {
+    "category": "performance",
+    "codeLanguage": "css",
+    "hintId": "detect-css-reflows/paint",
+    "location": {
+      "column": 68011,
+      "endColumn": 68020,
+      "endLine": 0,
+      "line": 0
+    },
+    "message": "'transform' changes to this property will trigger: 'Paint', which can impact performance when used inside @keyframes.",
+    "resource": "file:///home/user/site/dist/assets/index-9d109605.css",
+    "severity": 2,
+    "sourceCode": "@keyframes orbit {\n    to {\n        transform: rotate(360deg) translate(50px) rotate(-360deg);\n    }\n}"
+  },
+  {
+    "category": "performance",
+    "codeLanguage": "css",
+    "hintId": "detect-css-reflows/composite",
+    "location": {
+      "column": 68100,
+      "endColumn": 68107,
+      "endLine": 0,
+      "line": 0
+    },
+    "message": "'opacity' changes to this property will trigger: 'Composite', which can impact performance when used inside @keyframes.",
+    "resource": "file:///home/user/site/dist/assets/index-9d109605.css",
+    "severity": 2,
+    "sourceCode": "@keyframes typing-cursor {\n    0%,\n    to {\n        opacity: 1;\n    }\n}"
+  },
+  {
+    "category": "performance",
+    "codeLanguage": "css",
+    "hintId": "detect-css-reflows/composite",
+    "location": {
+      "column": 68114,
+      "endColumn": 68121,
+      "endLine": 0,
+      "line": 0
+    },
+    "message": "'opacity' changes to this property will trigger: 'Composite', which can impact performance when used inside @keyframes.",
+    "resource": "file:///home/user/site/dist/assets/index-9d109605.css",
+    "severity": 2,
+    "sourceCode": "@keyframes typing-cursor {\n    50% {\n        opacity: 0;\n    }\n}"
+  },
+  {
+    "category": "performance",
+    "codeLanguage": "css",
+    "hintId": "detect-css-reflows/composite",
+    "location": {
+      "column": 68152,
+      "endColumn": 68171,
+      "endLine": 0,
+      "line": 0
+    },
+    "message": "'background-position' changes to this property will trigger: 'Composite', which can impact performance when used inside @keyframes.",
+    "resource": "file:///home/user/site/dist/assets/index-9d109605.css",
+    "severity": 2,
+    "sourceCode": "@keyframes border-dance {\n    0% {\n        background-position: 0% 50%;\n    }\n}"
+  },
+  {
+    "category": "performance",
+    "codeLanguage": "css",
+    "hintId": "detect-css-reflows/paint",
+    "location": {
+      "column": 68152,
+      "endColumn": 68171,
+      "endLine": 0,
+      "line": 0
+    },
+    "message": "'background-position' changes to this property will trigger: 'Paint', which can impact performance when used inside @keyframes.",
+    "resource": "file:///home/user/site/dist/assets/index-9d109605.css",
+    "severity": 2,
+    "sourceCode": "@keyframes border-dance {\n    0% {\n        background-position: 0% 50%;\n    }\n}"
+  },
+  {
+    "category": "performance",
+    "codeLanguage": "css",
+    "hintId": "detect-css-reflows/composite",
+    "location": {
+      "column": 68183,
+      "endColumn": 68202,
+      "endLine": 0,
+      "line": 0
+    },
+    "message": "'background-position' changes to this property will trigger: 'Composite', which can impact performance when used inside @keyframes.",
+    "resource": "file:///home/user/site/dist/assets/index-9d109605.css",
+    "severity": 2,
+    "sourceCode": "@keyframes border-dance {\n    50% {\n        background-position: 100% 50%;\n    }\n}"
+  },
+  {
+    "category": "performance",
+    "codeLanguage": "css",
+    "hintId": "detect-css-reflows/paint",
+    "location": {
+      "column": 68183,
+      "endColumn": 68202,
+      "endLine": 0,
+      "line": 0
+    },
+    "message": "'background-position' changes to this property will trigger: 'Paint', which can impact performance when used inside @keyframes.",
+    "resource": "file:///home/user/site/dist/assets/index-9d109605.css",
+    "severity": 2,
+    "sourceCode": "@keyframes border-dance {\n    50% {\n        background-position: 100% 50%;\n    }\n}"
+  },
+  {
+    "category": "performance",
+    "codeLanguage": "css",
+    "hintId": "detect-css-reflows/composite",
+    "location": {
+      "column": 68215,
+      "endColumn": 68234,
+      "endLine": 0,
+      "line": 0
+    },
+    "message": "'background-position' changes to this property will trigger: 'Composite', which can impact performance when used inside @keyframes.",
+    "resource": "file:///home/user/site/dist/assets/index-9d109605.css",
+    "severity": 2,
+    "sourceCode": "@keyframes border-dance {\n    to {\n        background-position: 0% 50%;\n    }\n}"
+  },
+  {
+    "category": "performance",
+    "codeLanguage": "css",
+    "hintId": "detect-css-reflows/paint",
+    "location": {
+      "column": 68215,
+      "endColumn": 68234,
+      "endLine": 0,
+      "line": 0
+    },
+    "message": "'background-position' changes to this property will trigger: 'Paint', which can impact performance when used inside @keyframes.",
+    "resource": "file:///home/user/site/dist/assets/index-9d109605.css",
+    "severity": 2,
+    "sourceCode": "@keyframes border-dance {\n    to {\n        background-position: 0% 50%;\n    }\n}"
+  },
+  {
+    "category": "performance",
+    "codeLanguage": "css",
+    "hintId": "detect-css-reflows/composite",
+    "location": {
+      "column": 68266,
+      "endColumn": 68273,
+      "endLine": 0,
+      "line": 0
+    },
+    "message": "'opacity' changes to this property will trigger: 'Composite', which can impact performance when used inside @keyframes.",
+    "resource": "file:///home/user/site/dist/assets/index-9d109605.css",
+    "severity": 2,
+    "sourceCode": "@keyframes scale-in {\n    0% {\n        opacity: 0;\n        transform: scale(.9);\n    }\n}"
+  },
+  {
+    "category": "performance",
+    "codeLanguage": "css",
+    "hintId": "detect-css-reflows/composite",
+    "location": {
+      "column": 68276,
+      "endColumn": 68285,
+      "endLine": 0,
+      "line": 0
+    },
+    "message": "'transform' changes to this property will trigger: 'Composite', which can impact performance when used inside @keyframes.",
+    "resource": "file:///home/user/site/dist/assets/index-9d109605.css",
+    "severity": 2,
+    "sourceCode": "@keyframes scale-in {\n    0% {\n        opacity: 0;\n        transform: scale(.9);\n    }\n}"
+  },
+  {
+    "category": "performance",
+    "codeLanguage": "css",
+    "hintId": "detect-css-reflows/paint",
+    "location": {
+      "column": 68276,
+      "endColumn": 68285,
+      "endLine": 0,
+      "line": 0
+    },
+    "message": "'transform' changes to this property will trigger: 'Paint', which can impact performance when used inside @keyframes.",
+    "resource": "file:///home/user/site/dist/assets/index-9d109605.css",
+    "severity": 2,
+    "sourceCode": "@keyframes scale-in {\n    0% {\n        opacity: 0;\n        transform: scale(.9);\n    }\n}"
+  },
+  {
+    "category": "performance",
+    "codeLanguage": "css",
+    "hintId": "detect-css-reflows/composite",
+    "location": {
+      "column": 68299,
+      "endColumn": 68306,
+      "endLine": 0,
+      "line": 0
+    },
+    "message": "'opacity' changes to this property will trigger: 'Composite', which can impact performance when used inside @keyframes.",
+    "resource": "file:///home/user/site/dist/assets/index-9d109605.css",
+    "severity": 2,
+    "sourceCode": "@keyframes scale-in {\n    to {\n        opacity: 1;\n        transform: scale(1);\n    }\n}"
+  },
+  {
+    "category": "performance",
+    "codeLanguage": "css",
+    "hintId": "detect-css-reflows/composite",
+    "location": {
+      "column": 68309,
+      "endColumn": 68318,
+      "endLine": 0,
+      "line": 0
+    },
+    "message": "'transform' changes to this property will trigger: 'Composite', which can impact performance when used inside @keyframes.",
+    "resource": "file:///home/user/site/dist/assets/index-9d109605.css",
+    "severity": 2,
+    "sourceCode": "@keyframes scale-in {\n    to {\n        opacity: 1;\n        transform: scale(1);\n    }\n}"
+  },
+  {
+    "category": "performance",
+    "codeLanguage": "css",
+    "hintId": "detect-css-reflows/paint",
+    "location": {
+      "column": 68309,
+      "endColumn": 68318,
+      "endLine": 0,
+      "line": 0
+    },
+    "message": "'transform' changes to this property will trigger: 'Paint', which can impact performance when used inside @keyframes.",
+    "resource": "file:///home/user/site/dist/assets/index-9d109605.css",
+    "severity": 2,
+    "sourceCode": "@keyframes scale-in {\n    to {\n        opacity: 1;\n        transform: scale(1);\n    }\n}"
+  },
+  {
+    "category": "performance",
+    "codeLanguage": "css",
+    "hintId": "detect-css-reflows/composite",
+    "location": {
+      "column": 68358,
+      "endColumn": 68365,
+      "endLine": 0,
+      "line": 0
+    },
+    "message": "'opacity' changes to this property will trigger: 'Composite', which can impact performance when used inside @keyframes.",
+    "resource": "file:///home/user/site/dist/assets/index-9d109605.css",
+    "severity": 2,
+    "sourceCode": "@keyframes slide-in-right {\n    0% {\n        opacity: 0;\n        transform: translate(20px);\n    }\n}"
+  },
+  {
+    "category": "performance",
+    "codeLanguage": "css",
+    "hintId": "detect-css-reflows/composite",
+    "location": {
+      "column": 68368,
+      "endColumn": 68377,
+      "endLine": 0,
+      "line": 0
+    },
+    "message": "'transform' changes to this property will trigger: 'Composite', which can impact performance when used inside @keyframes.",
+    "resource": "file:///home/user/site/dist/assets/index-9d109605.css",
+    "severity": 2,
+    "sourceCode": "@keyframes slide-in-right {\n    0% {\n        opacity: 0;\n        transform: translate(20px);\n    }\n}"
+  },
+  {
+    "category": "performance",
+    "codeLanguage": "css",
+    "hintId": "detect-css-reflows/paint",
+    "location": {
+      "column": 68368,
+      "endColumn": 68377,
+      "endLine": 0,
+      "line": 0
+    },
+    "message": "'transform' changes to this property will trigger: 'Paint', which can impact performance when used inside @keyframes.",
+    "resource": "file:///home/user/site/dist/assets/index-9d109605.css",
+    "severity": 2,
+    "sourceCode": "@keyframes slide-in-right {\n    0% {\n        opacity: 0;\n        transform: translate(20px);\n    }\n}"
+  },
+  {
+    "category": "performance",
+    "codeLanguage": "css",
+    "hintId": "detect-css-reflows/composite",
+    "location": {
+      "column": 68397,
+      "endColumn": 68404,
+      "endLine": 0,
+      "line": 0
+    },
+    "message": "'opacity' changes to this property will trigger: 'Composite', which can impact performance when used inside @keyframes.",
+    "resource": "file:///home/user/site/dist/assets/index-9d109605.css",
+    "severity": 2,
+    "sourceCode": "@keyframes slide-in-right {\n    to {\n        opacity: 1;\n        transform: translate(0);\n    }\n}"
+  },
+  {
+    "category": "performance",
+    "codeLanguage": "css",
+    "hintId": "detect-css-reflows/composite",
+    "location": {
+      "column": 68407,
+      "endColumn": 68416,
+      "endLine": 0,
+      "line": 0
+    },
+    "message": "'transform' changes to this property will trigger: 'Composite', which can impact performance when used inside @keyframes.",
+    "resource": "file:///home/user/site/dist/assets/index-9d109605.css",
+    "severity": 2,
+    "sourceCode": "@keyframes slide-in-right {\n    to {\n        opacity: 1;\n        transform: translate(0);\n    }\n}"
+  },
+  {
+    "category": "performance",
+    "codeLanguage": "css",
+    "hintId": "detect-css-reflows/paint",
+    "location": {
+      "column": 68407,
+      "endColumn": 68416,
+      "endLine": 0,
+      "line": 0
+    },
+    "message": "'transform' changes to this property will trigger: 'Paint', which can impact performance when used inside @keyframes.",
+    "resource": "file:///home/user/site/dist/assets/index-9d109605.css",
+    "severity": 2,
+    "sourceCode": "@keyframes slide-in-right {\n    to {\n        opacity: 1;\n        transform: translate(0);\n    }\n}"
+  }
+]
