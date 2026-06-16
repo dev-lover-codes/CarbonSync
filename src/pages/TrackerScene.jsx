@@ -19,7 +19,7 @@ import {
 
 export function TrackerScene() {
   const { currentUser } = useAuth();
-  const { navigate, setUserStats } = useStore();
+  const { navigate, setUserStats, addChatMessage } = useStore();
 
   const [activeTab, setActiveTab] = useState('transport'); // 'transport' | 'food' | 'energy' | 'shopping'
   const [subType, setSubType] = useState('car'); // transport: 'car'|'bus'|'flight'|'bike'; food: 'meat'|'veg'; shopping: 'clothing'|'electronics'|'groceries'
@@ -114,6 +114,21 @@ export function TrackerScene() {
         setUserStats({ totalSaved: Math.abs(currentCO2) });
       } else {
         setUserStats({ dailyFootprint: currentCO2 });
+      }
+
+      // Behavioral nudge
+      if (currentCO2 > 5) {
+        // High emission warning nudge
+        addChatMessage({
+          sender: 'bot',
+          text: `⚠️ That ${activeTab} activity added ${currentCO2.toFixed(1)}kg CO₂. Try the bus next time to cut this by 58%!`
+        });
+      } else if (currentCO2 < 0) {
+        // Positive reinforcement
+        addChatMessage({
+          sender: 'bot',
+          text: `🌱 Great choice! You saved ${Math.abs(currentCO2).toFixed(1)}kg CO₂ with that eco action!`
+        });
       }
 
       setTimeout(() => {

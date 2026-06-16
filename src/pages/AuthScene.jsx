@@ -150,6 +150,7 @@ export function AuthScene() {
                   </div>
                   <input
                     placeholder="DISPLAY NAME"
+                    aria-label="Display name"
                     className="input-neon pl-11"
                     value={name}
                     onChange={e => setName(e.target.value)}
@@ -164,6 +165,7 @@ export function AuthScene() {
                 <input
                   placeholder="EMAIL ADDRESS"
                   type="email"
+                  aria-label="Email address"
                   className="input-neon pl-11"
                   value={email}
                   onChange={e => setEmail(e.target.value)}
@@ -177,6 +179,7 @@ export function AuthScene() {
                 <input
                   placeholder="PASSWORD"
                   type="password"
+                  aria-label="Password"
                   className="input-neon pl-11"
                   value={password}
                   onChange={e => setPassword(e.target.value)}
@@ -195,6 +198,7 @@ export function AuthScene() {
             <button
               onClick={handleSubmit}
               disabled={loading}
+              aria-label="Sign in or create account"
               className={`w-full mt-5 py-3.5 rounded-xl font-extrabold text-xs tracking-[0.1em] uppercase flex items-center justify-center gap-2 transition-all duration-300 ${
                 loading 
                   ? 'bg-[#00ff87]/20 text-[#00ff87] cursor-not-allowed'
@@ -225,6 +229,7 @@ export function AuthScene() {
             <button
               onClick={handleGoogle}
               disabled={loading}
+              aria-label="Continue with Google"
               className="btn-ghost w-full py-3 flex items-center justify-center gap-3 text-xs tracking-wider"
             >
               <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" className="w-4 h-4" />

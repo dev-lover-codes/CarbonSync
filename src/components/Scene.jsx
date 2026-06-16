@@ -98,7 +98,9 @@ export function Scene() {
 
   return (
     <div 
-      className="relative w-full h-full select-none" 
+      className="relative w-full h-full select-none"
+      role="main"
+      aria-label="CarbonSync 3D Carbon Footprint Application"
       style={{ 
         background: 'var(--c-bg)', 
         overflow: 'hidden',

@@ -172,6 +172,13 @@ export const useStore = create((set, get) => ({
   setUserStats: (stats) => set((state) => ({ 
     userStats: { ...state.userStats, ...stats } 
   })),
+
+  getWeeklyAverage: () => {
+    const { userStats } = get ? get() : {};
+    if (!userStats?.weeklyFootprint) return 0;
+    const arr = userStats.weeklyFootprint;
+    return arr.reduce((sum, val) => sum + val, 0) / arr.length;
+  },
   
   transitionActive: false,
   setTransition: (v) => set({ transitionActive: v }),

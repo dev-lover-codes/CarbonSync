@@ -8,6 +8,7 @@ import GlassPanel from '../components/GlassPanel';
 import Button3D from '../components/Button3D';
 import AreaChart3D from '../components/AreaChart3D';
 import ProgressRing3D from '../components/ProgressRing3D';
+import { getDailyTip } from '../services/geminiService';
 import * as THREE from 'three';
 
 function DashboardScrollHandler({ layoutRef }) {
@@ -120,6 +121,16 @@ export function DashboardScene() {
 
   const [isMobile, setIsMobile] = useState(false);
   const [isTablet, setIsTablet] = useState(false);
+
+  // Dynamic AI tip fetched from Gemini
+  const [aiTip, setAiTip] = useState('Loading your personalized eco tip...');
+
+  useEffect(() => {
+    if (!currentUser) return;
+    getDailyTip(userProfile, []).then(res => {
+      if (res?.tip) setAiTip(res.tip);
+    }).catch(err => console.error("Failed to fetch daily tip:", err));
+  }, [currentUser, userProfile]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -383,6 +394,9 @@ export function DashboardScene() {
 
           {/* Log Activity Button */}
           <group position={[0, isMobile ? -2.7 : -1.55, 0.05]} scale={isMobile ? 0.85 : 1.0}>
+            <Html portal={{ current: document.body }} center distanceFactor={5} transform zIndexRange={[100, 0]} style={{ pointerEvents: 'none' }}>
+              <div aria-label="Log a new carbon activity" style={{ width: 0, height: 0, overflow: 'hidden' }} />
+            </Html>
             <Button3D
               width={3.2}
               height={0.38}
@@ -458,8 +472,7 @@ export function DashboardScene() {
                   🤖 EcoBot AI Tip
                 </div>
                 <div style={{ fontSize: isMobile ? '9.5px' : '11px', color: 'rgba(232,245,238,0.8)', lineHeight: 1.6 }}>
-                  Your transport is the top emission contributor. Commuting by bus twice a week reduces your weekly budget by{' '}
-                  <span style={{ color: '#00ff87', fontWeight: '700' }}>8.4 kg CO₂</span>!
+                  {aiTip}
                 </div>
               </div>
             </Html>

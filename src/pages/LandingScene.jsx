@@ -318,6 +318,7 @@ export function LandingScene() {
             <div style={{ display: 'flex', gap: '14px', flexWrap: 'wrap', alignItems: 'center' }}>
               <button
                 onClick={() => navigate('auth')}
+                aria-label="Get started with CarbonSync for free"
                 style={{
                   position: 'relative',
                   overflow: 'hidden',
@@ -349,6 +350,7 @@ export function LandingScene() {
               </button>
               <button
                 onClick={() => navigate('dashboard')}
+                aria-label="View CarbonSync demo dashboard"
                 style={{
                   padding: '15px 28px',
                   background: 'rgba(0,212,255,0.07)',
@@ -850,6 +852,7 @@ export function LandingScene() {
               {/* CTA */}
               <button
                 onClick={() => navigate('auth')}
+                aria-label="Get started with CarbonSync for free"
                 style={{
                   padding: isMobile ? '12px 24px' : '16px 42px',
                   background: 'linear-gradient(135deg, #00ff87 0%, #00c46b 100%)',

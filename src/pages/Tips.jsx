@@ -44,26 +44,25 @@ export default function Tips() {
     setIsGenerating(true);
     setAiTips([]);
     try {
-      const apiKey = import.meta.env.VITE_CLAUDE_API_KEY;
-      if (!apiKey) throw new Error("Missing API Key");
+      const apiKey = sessionStorage.getItem('judge_gemini_key')
+                  || import.meta.env.VITE_GEMINI_API_KEY;
+      if (!apiKey) throw new Error("No API key available");
 
       const prompt = `Based on the following user lifestyle description: "${lifestyle}", suggest exactly 5 highly specific and customized carbon reduction tips.
-Format as a JSON array of objects with keys: "id" (generate unique string starting with "ai-"), "category" ("transport", "energy", "food", "shopping", "waste"), "title", "description", "impact" ("High", "Medium", "Low"), "co2Saved" (estimated kg/month as a number), "emoji".`;
+Format as a JSON array of objects with keys: "id" (generate unique string starting with "ai-"), "category" ("transport", "energy", "food", "shopping", "waste"), "title", "description", "impact" ("High", "Medium", "Low"), "co2Saved" (estimated kg/month as a number), "emoji".
+Only return the JSON array, nothing else.`;
 
-      const res = await fetch('https://api.anthropic.com/v1/messages', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'x-api-key': apiKey, 'anthropic-version': '2023-06-01', 'anthropic-dangerously-allow-browser': 'true' },
-        body: JSON.stringify({ model: 'claude-sonnet-4-20250514', max_tokens: 800, messages: [{ role: 'user', content: prompt }] })
-      });
+      const { GoogleGenerativeAI } = await import('@google/generative-ai');
+      const genAI = new GoogleGenerativeAI(apiKey);
+      const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
 
-      if (!res.ok) throw new Error("Failed to generate tips");
-      const data = await res.json();
-      let text = data.content[0].text;
+      const result = await model.generateContent(prompt);
+      const text = result.response.text();
       const match = text.match(/\[[\s\S]*\]/);
-      if (match) text = match[0];
-      
-      setAiTips(JSON.parse(text));
-      toast.success('Generated custom tips for you! 🌟');
+      if (match) {
+        setAiTips(JSON.parse(match[0]));
+        toast.success('Generated custom tips for you! 🌟');
+      }
     } catch (error) {
       toast.error('Failed to generate AI tips.');
     } finally {

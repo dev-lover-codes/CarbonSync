@@ -10,7 +10,8 @@ import {
   orderBy, 
   limit, 
   getDocs, 
-  serverTimestamp 
+  serverTimestamp,
+  Timestamp
 } from "firebase/firestore";
 import { db } from "../lib/firebase";
 
@@ -34,9 +35,13 @@ export async function logActivity(userId, activityData) {
 // 2. Get User Activities
 export async function getUserActivities(userId, days = 30) {
   try {
+    const limitDate = new Date();
+    limitDate.setDate(limitDate.getDate() - days);
+
     const q = query(
       collection(db, "activities"),
       where("userId", "==", userId),
+      where("timestamp", ">=", Timestamp.fromDate(limitDate)),
       orderBy("timestamp", "desc")
     );
     const snap = await getDocs(q);
@@ -45,15 +50,7 @@ export async function getUserActivities(userId, days = 30) {
       const data = d.data();
       results.push({ id: d.id, ...data });
     });
-    
-    // Client-side day filtering if timestamp is Firestore Timestamp
-    const limitDate = new Date();
-    limitDate.setDate(limitDate.getDate() - days);
-
-    return results.filter(r => {
-      const date = r.timestamp?.toDate ? r.timestamp.toDate() : new Date(r.timestamp);
-      return date >= limitDate;
-    });
+    return results;
   } catch (error) {
     return [];
   }

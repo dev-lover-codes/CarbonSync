@@ -76,6 +76,9 @@ export function BottomNav3D() {
             <button
               key={item.id}
               onClick={() => navigate(item.id)}
+              aria-label={`Navigate to ${item.label}`}
+              aria-current={isActive ? 'page' : undefined}
+              role="link"
               style={{
                 display: 'flex',
                 flexDirection: 'column',

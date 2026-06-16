@@ -67,6 +67,8 @@ export function NavBar3D() {
                 <Html center distanceFactor={6} transform style={{ pointerEvents: 'auto' }}>
                   <button
                     onClick={() => navigate(item.id)}
+                    aria-label={`Navigate to ${item.label}`}
+                    aria-current={isActive ? 'page' : undefined}
                     style={{
                       padding: '5px 10px',
                       borderRadius: '8px',

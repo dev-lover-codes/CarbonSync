@@ -83,49 +83,24 @@ export default function Goals() {
     setIsSuggesting(true);
     setSuggestedGoals([]);
     try {
-      const apiKey = import.meta.env.VITE_CLAUDE_API_KEY;
-      if (!apiKey) throw new Error("Missing API Key");
+      const apiKey = sessionStorage.getItem('judge_gemini_key')
+                  || import.meta.env.VITE_GEMINI_API_KEY;
+      if (!apiKey) throw new Error("No API key available");
 
-      // Find highest category
-      const totals = {};
-      (activities || []).forEach(a => {
-        const factor = carbonFactors[a.category]?.[a.type] || 0;
-        totals[a.category] = (totals[a.category] || 0) + (factor * a.amount);
-      });
-      const topCategory = Object.keys(totals).sort((a, b) => totals[b] - totals[a])[0] || 'general';
+      // Use Gemini instead of Claude for consistency
+      const { GoogleGenerativeAI } = await import('@google/generative-ai');
+      const genAI = new GoogleGenerativeAI(apiKey);
+      const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
 
-      const prompt = `Suggest exactly 3 realistic sustainability goals for a user whose highest carbon footprint category is "${topCategory}".
-Format the response strictly as a JSON array of objects with keys: "title" (string), "target" (number), "unit" (string), "desc" (string). Nothing else. Example:
-[{"title": "Walk to work", "target": 20, "unit": "km", "desc": "Walk instead of driving."}]`;
+      const topCategory = 'transport'; // default
+      const prompt = `Suggest exactly 3 realistic sustainability goals.
+Format as JSON array: [{"title":"","target":0,"unit":"","desc":""}]
+Only return the JSON array, nothing else.`;
 
-      const res = await fetch('https://api.anthropic.com/v1/messages', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-api-key': apiKey,
-          'anthropic-version': '2023-06-01',
-          'anthropic-dangerously-allow-browser': 'true'
-        },
-        body: JSON.stringify({
-          model: 'claude-sonnet-4-20250514',
-          max_tokens: 300,
-          messages: [{ role: 'user', content: prompt }]
-        })
-      });
-
-      if (!res.ok) throw new Error("Failed to get suggestions");
-      
-      const data = await res.json();
-      let text = data.content[0].text;
-      
-      // Attempt to parse JSON even if Claude wrapped it in markdown
+      const result = await model.generateContent(prompt);
+      const text = result.response.text();
       const match = text.match(/\[[\s\S]*\]/);
-      if (match) {
-        text = match[0];
-      }
-      
-      const parsed = JSON.parse(text);
-      setSuggestedGoals(parsed);
+      if (match) setSuggestedGoals(JSON.parse(match[0]));
     } catch (error) {
       toast.error('Failed to generate AI suggestions.');
     } finally {
