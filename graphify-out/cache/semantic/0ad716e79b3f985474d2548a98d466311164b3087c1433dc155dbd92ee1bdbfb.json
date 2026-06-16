@@ -1,1 +1,0 @@
-{"nodes": [{"id": "config_carbonfactors_carbonfactors", "label": "carbonFactors", "file_type": "code", "source_file": "src/config/carbonFactors.js"}, {"id": "config_carbonfactors_calculatefootprint", "label": "calculateFootprint", "file_type": "code", "source_file": "src/config/carbonFactors.js"}], "edges": [], "hyperedges": []}

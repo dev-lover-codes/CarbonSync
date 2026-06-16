@@ -1,1 +1,0 @@
-{"nodes": [{"id": "claude_agents_md", "label": "Claude Agent Instruction Pointer", "file_type": "concept", "source_file": "CLAUDE.md"}], "edges": [{"source": "claude_agents_md", "target": "agents_nextjs_breaking_changes", "relation": "references", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "CLAUDE.md"}], "hyperedges": []}
