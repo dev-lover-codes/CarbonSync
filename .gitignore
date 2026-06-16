@@ -80,7 +80,7 @@ hack2skill_evaluator.js
 .idx/
 
 # VSCode (keep if you want to share settings across team)
-# .vscode/
+.vscode/
 
 # ============================================================
 # OS & misc
