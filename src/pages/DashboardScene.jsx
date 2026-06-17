@@ -126,7 +126,7 @@ export function DashboardScene() {
   const [aiTip, setAiTip] = useState('Loading your personalized eco tip...');
 
   useEffect(() => {
-    if (!currentUser) return;
+    if (!currentUser || !userProfile) return;
     getDailyTip(userProfile, []).then(res => {
       if (res?.tip) setAiTip(res.tip);
     }).catch(err => console.error("Failed to fetch daily tip:", err));
