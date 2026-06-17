@@ -1,63 +1,41 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-  
+
     // Users can only read and write their own profile
     match /users/{userId} {
-      allow read, write: if request.auth != null 
-                         && request.auth.uid == userId;
-    }
-    
-    // Carbon logs — user can only access their own
-    match /carbonLogs/{logId} {
-      allow read, write: if request.auth != null 
-                         && request.auth.uid == resource.data.userId;
-      allow create: if request.auth != null 
-                    && request.auth.uid == request.resource.data.userId;
+      allow read, write: if request.auth != null && request.auth.uid == userId;
     }
 
-    // Activities — user can only access their own
+    // Activities — scoped reads for any auth'd user, writes scoped to owner
     match /activities/{activityId} {
-      allow read, write: if request.auth != null 
-                         && request.auth.uid == resource.data.userId;
-      allow create: if request.auth != null 
-                    && request.auth.uid == request.resource.data.userId;
+      allow read: if request.auth != null;
+      allow create: if request.auth != null && request.auth.uid == request.resource.data.userId;
+      allow update, delete: if request.auth != null && request.auth.uid == resource.data.userId;
     }
 
     // Goals — user can only access their own
     match /goals/{goalId} {
-      allow read, write: if request.auth != null 
-                         && request.auth.uid == resource.data.userId;
-      allow create: if request.auth != null 
-                    && request.auth.uid == request.resource.data.userId;
+      allow read, write: if request.auth != null && request.auth.uid == resource.data.userId;
+      allow create: if request.auth != null && request.auth.uid == request.resource.data.userId;
     }
 
-    // Insights — user can only access their own
+    // Insights — scoped reads for any auth'd user, writes scoped to owner
     match /insights/{insightId} {
-      allow read, write: if request.auth != null 
-                         && request.auth.uid == resource.data.userId;
-      allow create: if request.auth != null 
-                    && request.auth.uid == request.resource.data.userId;
+      allow read: if request.auth != null;
+      allow create: if request.auth != null && request.auth.uid == request.resource.data.userId;
     }
 
-    // Tips — any authenticated user can read, admin write
-    match /tips/{tipId} {
-      allow read: if request.auth != null;
-      allow write: if request.auth != null;
-    }
-    
-    // Groups — any authenticated user can read, 
-    // only creator can write
-    match /groups/{groupId} {
-      allow read: if request.auth != null;
-      allow write: if request.auth != null 
-                   && request.auth.uid == resource.data.createdBy;
-    }
-    
     // Leaderboard — public read, authenticated write
-    match /leaderboard/{entry} {
+    match /leaderboard/{entryId} {
       allow read: if true;
       allow write: if request.auth != null;
+    }
+
+    // Tips — public read, no client writes
+    match /tips/{tipId} {
+      allow read: if true;
+      allow write: if false;
     }
   }
 }
