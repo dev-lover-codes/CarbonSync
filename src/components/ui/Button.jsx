@@ -29,6 +29,8 @@ const Button = ({
     <button
       className={`${baseStyles} ${variants[variant]} ${sizes[size]} ${className}`}
       disabled={isLoading || disabled}
+      aria-busy={isLoading ? "true" : undefined}
+      aria-disabled={disabled ? "true" : undefined}
       {...props}
     >
       {isLoading ? (

@@ -1,13 +1,28 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X } from 'lucide-react';
 
 const Modal = ({ isOpen, onClose, title, children }) => {
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape' && isOpen) {
+        onClose();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen, onClose]);
+
   if (!isOpen) return null;
 
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+      <div 
+        className="fixed inset-0 z-50 flex items-center justify-center p-4"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="modal-title"
+      >
         {/* Backdrop */}
         <motion.div 
           initial={{ opacity: 0 }}
@@ -25,9 +40,10 @@ const Modal = ({ isOpen, onClose, title, children }) => {
           className="relative bg-white rounded-3xl shadow-xl w-full max-w-md overflow-hidden"
         >
           <div className="flex items-center justify-between p-6 border-b border-gray-100">
-            <h3 className="text-xl font-bold text-gray-800">{title}</h3>
+            <h3 id="modal-title" className="text-xl font-bold text-gray-800">{title}</h3>
             <button 
               onClick={onClose}
+              aria-label="Close modal"
               className="p-1 hover:bg-gray-100 rounded-full transition-colors"
             >
               <X size={20} className="text-gray-400" />

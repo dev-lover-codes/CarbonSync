@@ -1,16 +1,20 @@
-import React from 'react';
+import React, { useId } from 'react';
 
 const Input = ({ 
   label, 
   error, 
   icon: Icon, 
   className = '', 
+  id,
   ...props 
 }) => {
+  const generatedId = useId();
+  const inputId = id || generatedId;
+
   return (
     <div className={`flex flex-col gap-1.5 w-full ${className}`}>
       {label && (
-        <label className="text-sm font-semibold text-gray-700 ml-1">
+        <label htmlFor={inputId} className="text-sm font-semibold text-gray-700 ml-1">
           {label}
         </label>
       )}
@@ -21,6 +25,7 @@ const Input = ({
           </div>
         )}
         <input
+          id={inputId}
           className={`
             w-full px-4 py-3 rounded-xl border-2 transition-all duration-200 outline-none
             ${Icon ? 'pl-11' : ''}
@@ -28,12 +33,19 @@ const Input = ({
               ? 'border-red-300 focus:border-red-500 bg-red-50' 
               : 'border-gray-100 focus:border-primary focus:bg-white bg-gray-50'}
           `}
+          aria-invalid={error ? "true" : "false"}
+          aria-describedby={error ? `${inputId}-error` : undefined}
           {...props}
         />
       </div>
-      {error && <span className="text-xs text-red-500 font-medium ml-1">{error}</span>}
+      {error && (
+        <span id={`${inputId}-error`} className="text-xs text-red-500 font-medium ml-1">
+          {error}
+        </span>
+      )}
     </div>
   );
 };
 
 export default Input;
+

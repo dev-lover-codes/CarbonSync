@@ -34,6 +34,11 @@ async function callGemini(prompt) {
     body: JSON.stringify({ prompt }),
   });
 
+  const contentType = response.headers.get('content-type');
+  if (!contentType || !contentType.includes('application/json')) {
+    throw new Error(`Invalid response format: ${contentType || 'unknown'}`);
+  }
+
   if (!response.ok) {
     const err = await response.json().catch(() => ({}));
     throw new Error(err.error || `Proxy error ${response.status}`);

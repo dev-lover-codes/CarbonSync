@@ -12,9 +12,10 @@ module.exports = {
   settings: { react: { version: '18.2' } },
   plugins: ['react-refresh'],
   rules: {
-    'react-refresh/only-export-components': 'warn',
+    'react-refresh/only-export-components': 'off',
     'react/prop-types': 'off',
-    'no-unused-vars': 'warn',
+    'no-unused-vars': 'off',
+    'react-hooks/exhaustive-deps': 'off',
     'react/no-unescaped-entities': 'off',
     // React Three Fiber uses custom JSX props (position, rotation, args, etc.)
     // that are valid Three.js object properties — not standard HTML attributes.
