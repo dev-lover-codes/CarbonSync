@@ -14,7 +14,9 @@ import {
 } from '../config/constants';
 
 // Re-export constants to maintain compatibility
+/** @type {number} Average annual CO₂ footprint for an Indian citizen in kg/year (1 800 kg). */
 export const INDIAN_ANNUAL_AVERAGE = CONST_INDIAN_ANNUAL_AVERAGE;
+/** @type {number} Global average annual CO₂ footprint per person in kg/year (4 000 kg). */
 export const GLOBAL_ANNUAL_AVERAGE = CONST_GLOBAL_ANNUAL_AVERAGE;
 
 // Input validation helper — shared guard across all calculator functions

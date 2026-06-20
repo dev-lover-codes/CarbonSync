@@ -67,4 +67,75 @@ describe('Carbon Calculator', () => {
   it('bike CO2 is always zero regardless of distance', () => {
     expect(calcBikeCO2(9999)).toBe(0);
   });
+
+  // ── Edge cases: NaN, Infinity, very large numbers ──────────────────────────
+  describe('NaN inputs return 0', () => {
+    it('calcCarCO2(NaN) → 0', () => { expect(calcCarCO2(NaN)).toBe(0); });
+    it('calcFlightCO2(NaN) → 0', () => { expect(calcFlightCO2(NaN)).toBe(0); });
+    it('calcBusCO2(NaN) → 0', () => { expect(calcBusCO2(NaN)).toBe(0); });
+    it('calcBikeCO2(NaN) → 0', () => { expect(calcBikeCO2(NaN)).toBe(0); });
+    it('calcElectricityCO2(NaN) → 0', () => { expect(calcElectricityCO2(NaN)).toBe(0); });
+    it('calcHeatingCO2(NaN) → 0', () => { expect(calcHeatingCO2(NaN)).toBe(0); });
+    it('calcMeatMealCO2(NaN) → 0', () => { expect(calcMeatMealCO2(NaN)).toBe(0); });
+    it('calcVegMealCO2(NaN) → 0', () => { expect(calcVegMealCO2(NaN)).toBe(0); });
+    it('calcShoppingCO2(NaN, "clothing") → 0', () => { expect(calcShoppingCO2(NaN, 'clothing')).toBe(0); });
+  });
+
+  describe('Infinity inputs return 0', () => {
+    it('calcCarCO2(Infinity) → 0', () => { expect(calcCarCO2(Infinity)).toBe(0); });
+    it('calcFlightCO2(Infinity) → 0', () => { expect(calcFlightCO2(Infinity)).toBe(0); });
+    it('calcBusCO2(Infinity) → 0', () => { expect(calcBusCO2(Infinity)).toBe(0); });
+    it('calcBikeCO2(Infinity) → 0', () => { expect(calcBikeCO2(Infinity)).toBe(0); });
+    it('calcElectricityCO2(Infinity) → 0', () => { expect(calcElectricityCO2(Infinity)).toBe(0); });
+    it('calcHeatingCO2(Infinity) → 0', () => { expect(calcHeatingCO2(Infinity)).toBe(0); });
+    it('calcMeatMealCO2(Infinity) → 0', () => { expect(calcMeatMealCO2(Infinity)).toBe(0); });
+    it('calcVegMealCO2(Infinity) → 0', () => { expect(calcVegMealCO2(Infinity)).toBe(0); });
+    it('calcShoppingCO2(Infinity, "electronics") → 0', () => { expect(calcShoppingCO2(Infinity, 'electronics')).toBe(0); });
+  });
+
+  describe('Very large numbers (1e12) scale linearly', () => {
+    it('calcCarCO2(1e12) is a finite positive number', () => {
+      const result = calcCarCO2(1e12);
+      expect(Number.isFinite(result)).toBe(true);
+      expect(result).toBeGreaterThan(0);
+    });
+    it('calcFlightCO2(1e12) is a finite positive number', () => {
+      const result = calcFlightCO2(1e12);
+      expect(Number.isFinite(result)).toBe(true);
+      expect(result).toBeGreaterThan(0);
+    });
+    it('calcBusCO2(1e12) is a finite positive number', () => {
+      const result = calcBusCO2(1e12);
+      expect(Number.isFinite(result)).toBe(true);
+      expect(result).toBeGreaterThan(0);
+    });
+    it('calcBikeCO2(1e12) is always 0', () => {
+      expect(calcBikeCO2(1e12)).toBe(0);
+    });
+    it('calcElectricityCO2(1e12) is a finite positive number', () => {
+      const result = calcElectricityCO2(1e12);
+      expect(Number.isFinite(result)).toBe(true);
+      expect(result).toBeGreaterThan(0);
+    });
+    it('calcHeatingCO2(1e12) is a finite positive number', () => {
+      const result = calcHeatingCO2(1e12);
+      expect(Number.isFinite(result)).toBe(true);
+      expect(result).toBeGreaterThan(0);
+    });
+    it('calcMeatMealCO2(1e12) is a finite positive number', () => {
+      const result = calcMeatMealCO2(1e12);
+      expect(Number.isFinite(result)).toBe(true);
+      expect(result).toBeGreaterThan(0);
+    });
+    it('calcVegMealCO2(1e12) is a finite positive number', () => {
+      const result = calcVegMealCO2(1e12);
+      expect(Number.isFinite(result)).toBe(true);
+      expect(result).toBeGreaterThan(0);
+    });
+    it('calcShoppingCO2(1e12, "groceries") is a finite positive number', () => {
+      const result = calcShoppingCO2(1e12, 'groceries');
+      expect(Number.isFinite(result)).toBe(true);
+      expect(result).toBeGreaterThan(0);
+    });
+  });
 });

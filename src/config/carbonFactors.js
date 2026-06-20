@@ -1,4 +1,16 @@
 // CO2 emission factors (in kg CO2 per unit)
+/**
+ * Nested lookup table of CO₂ emission factors by category and activity type.
+ * All values are in kg CO₂ per unit (km, kWh, meal, or item).
+ *
+ * @type {{
+ *   transport: Object.<string, number>,
+ *   energy:    Object.<string, number>,
+ *   food:      Object.<string, number>,
+ *   shopping:  Object.<string, number>,
+ *   waste:     Object.<string, number>
+ * }}
+ */
 export const carbonFactors = {
   transport: {
     car_petrol_km: 0.21,
