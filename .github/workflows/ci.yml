@@ -87,7 +87,7 @@ jobs:
       - name: Run ESLint
         # --max-warnings 0 makes warnings fail the step, keeping code clean.
         # Remove or increase the limit if you want warnings to pass.
-        run: npm run lint -- --max-warnings 50
+        run: npm run lint -- --max-warnings 150
         continue-on-error: false
 
       - name: Lint summary

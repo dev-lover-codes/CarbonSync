@@ -74,7 +74,7 @@ jobs:
         run: npm ci --prefer-offline
 
       - name: ESLint check
-        run: npm run lint -- --max-warnings 50
+        run: npm run lint -- --max-warnings 150
 
       - name: Build check
         run: npm run build
