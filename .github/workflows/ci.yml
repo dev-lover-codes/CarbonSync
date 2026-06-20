@@ -1,0 +1,112 @@
+# CarbonSync CI
+# Runs on every push and pull request targeting main.
+# All three jobs execute in parallel to keep total CI time short.
+
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+
+  # ── 1. Unit tests ─────────────────────────────────────────────────────────
+  test:
+    name: Run unit tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run tests
+        # --run forces Vitest into non-watch mode; exit code is non-zero on failure
+        run: npm test -- --run
+
+  # ── 2. Production build ───────────────────────────────────────────────────
+  build:
+    name: Verify production build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        # Vite exits with a non-zero code on build errors, failing the job
+        run: npm run build
+
+  # ── 3. Hardcoded-secret scan ──────────────────────────────────────────────
+  secret-scan:
+    name: Scan for hardcoded secrets
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Check for hardcoded API keys
+        # Strategy:
+        #   1. grep for strings that start with a known key prefix (AQ., AIza,
+        #      sk-, ghp_) and are longer than 30 characters total.
+        #   2. Exclude lines that assign the value via process.env or
+        #      import.meta.env (environment-variable lookups are safe).
+        #   3. Also exclude lines that are themselves env-variable definitions
+        #      (e.g. VITE_GEMINI_KEY=AIza... in .env files checked into git
+        #      are intentionally absent here because .env is in .gitignore;
+        #      we only scan tracked source files under src/ and api/).
+        #   4. Print only the filename and line number -- never the matched
+        #      value -- so a real secret is not echoed into public CI logs.
+        run: |
+          FAILED=0
+
+          # Build the pattern: one of the key prefixes followed by 26+ word-chars
+          # (total token length > 30).  The {26,} accounts for the prefix itself.
+          PATTERN='(AQ\.|AIza|sk-|ghp_)[A-Za-z0-9_\-]{26,}'
+
+          # Find candidate lines in tracked JS/JSX/TS/TSX files under src/ and api/
+          while IFS= read -r hit; do
+            FILE=$(echo "$hit" | cut -d: -f1)
+            LINENO=$(echo "$hit" | cut -d: -f2)
+            LINE=$(echo "$hit" | cut -d: -f3-)
+
+            # Allow lines that read from an environment variable on the same line
+            if echo "$LINE" | grep -qE '(process\.env|import\.meta\.env)'; then
+              continue
+            fi
+
+            echo "::error file=${FILE},line=${LINENO}::[POTENTIAL KEY FOUND] - review ${FILE}:${LINENO}"
+            FAILED=1
+          done < <(grep -rn --include="*.js" --include="*.jsx" \
+                            --include="*.ts"  --include="*.tsx" \
+                       -E "$PATTERN" src/ api/ 2>/dev/null || true)
+
+          if [ "$FAILED" -eq 1 ]; then
+            echo ""
+            echo "Secret scan failed. At least one file contains a string that"
+            echo "matches a common API-key prefix and is NOT sourced from an"
+            echo "environment variable. Review the file(s) listed above."
+            exit 1
+          fi
+
+          echo "Secret scan passed -- no hardcoded key patterns detected."
