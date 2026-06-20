@@ -13,8 +13,7 @@ export default defineConfig({
           'react-three': ['@react-three/fiber', '@react-three/drei', '@react-spring/three'],
           'animation': ['gsap', '@gsap/react', 'framer-motion'],
           'firebase': ['firebase/app', 'firebase/auth', 'firebase/firestore', 'firebase/storage'],
-          'react-vendor': ['react', 'react-dom', 'zustand', 'react-router-dom'],
-          'gemini': ['@google/generative-ai']
+          'react-vendor': ['react', 'react-dom', 'zustand', 'react-router-dom']
         }
       }
     }
