@@ -44,20 +44,25 @@ export default function Tips() {
     setIsGenerating(true);
     setAiTips([]);
     try {
-      const apiKey = sessionStorage.getItem('judge_gemini_key')
-                  || import.meta.env.VITE_GEMINI_API_KEY;
-      if (!apiKey) throw new Error("No API key available");
-
       const prompt = `Based on the following user lifestyle description: "${lifestyle}", suggest exactly 5 highly specific and customized carbon reduction tips.
 Format as a JSON array of objects with keys: "id" (generate unique string starting with "ai-"), "category" ("transport", "energy", "food", "shopping", "waste"), "title", "description", "impact" ("High", "Medium", "Low"), "co2Saved" (estimated kg/month as a number), "emoji".
 Only return the JSON array, nothing else.`;
 
-      const { GoogleGenerativeAI } = await import('@google/generative-ai');
-      const genAI = new GoogleGenerativeAI(apiKey);
-      const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
+      const judgeKey = sessionStorage.getItem('judge_gemini_key');
+      const headers = { 'Content-Type': 'application/json' };
+      if (judgeKey) {
+        headers['Authorization'] = `Bearer ${judgeKey}`;
+      }
 
-      const result = await model.generateContent(prompt);
-      const text = result.response.text();
+      const response = await fetch('/api/gemini-proxy', {
+        method: 'POST',
+        headers,
+        body: JSON.stringify({ prompt }),
+      });
+      if (!response.ok) throw new Error('Proxy error');
+      const data = await response.json();
+      const text = data.text;
+
       const match = text.match(/\[[\s\S]*\]/);
       if (match) {
         setAiTips(JSON.parse(match[0]));
@@ -69,6 +74,7 @@ Only return the JSON array, nothing else.`;
       setIsGenerating(false);
     }
   };
+
 
   const allTips = [...staticTips, ...aiTips];
 

@@ -83,22 +83,25 @@ export default function Goals() {
     setIsSuggesting(true);
     setSuggestedGoals([]);
     try {
-      const apiKey = sessionStorage.getItem('judge_gemini_key')
-                  || import.meta.env.VITE_GEMINI_API_KEY;
-      if (!apiKey) throw new Error("No API key available");
-
-      // Use Gemini instead of Claude for consistency
-      const { GoogleGenerativeAI } = await import('@google/generative-ai');
-      const genAI = new GoogleGenerativeAI(apiKey);
-      const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
-
-      const topCategory = 'transport'; // default
       const prompt = `Suggest exactly 3 realistic sustainability goals.
 Format as JSON array: [{"title":"","target":0,"unit":"","desc":""}]
 Only return the JSON array, nothing else.`;
 
-      const result = await model.generateContent(prompt);
-      const text = result.response.text();
+      const judgeKey = sessionStorage.getItem('judge_gemini_key');
+      const headers = { 'Content-Type': 'application/json' };
+      if (judgeKey) {
+        headers['Authorization'] = `Bearer ${judgeKey}`;
+      }
+
+      const response = await fetch('/api/gemini-proxy', {
+        method: 'POST',
+        headers,
+        body: JSON.stringify({ prompt }),
+      });
+      if (!response.ok) throw new Error('Proxy error');
+      const data = await response.json();
+      const text = data.text;
+
       const match = text.match(/\[[\s\S]*\]/);
       if (match) setSuggestedGoals(JSON.parse(match[0]));
     } catch (error) {
@@ -107,6 +110,7 @@ Only return the JSON array, nothing else.`;
       setIsSuggesting(false);
     }
   };
+
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 animate-in fade-in duration-500">

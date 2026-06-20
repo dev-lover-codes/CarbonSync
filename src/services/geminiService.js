@@ -1,49 +1,54 @@
-import { GoogleGenerativeAI } from "@google/generative-ai";
+/**
+ * Gemini AI service — all calls go through /api/gemini-proxy so the
+ * API key stays server-side only. The judge_gemini_key sessionStorage
+ * path is preserved as a client-side fallback for evaluator overrides.
+ */
 
-const getApiKey = () => {
-  return sessionStorage.getItem('judge_gemini_key')
-    || import.meta.env.VITE_GEMINI_API_KEY
-    || "";
-};
-
-const initGemini = () => {
-  const apiKey = getApiKey();
-  if (!apiKey) {
-    return null;
-  }
-  return new GoogleGenerativeAI(apiKey);
-};
-
-let _genAI = null;
-let _lastKey = null;
-
-const getGenAI = () => {
-  const currentKey = getApiKey();
-  if (currentKey !== _lastKey) {
-    _lastKey = currentKey;
-    _genAI = initGemini();
-  }
-  return _genAI;
-};
+// ---------------------------------------------------------------------------
+// Shared helpers
+// ---------------------------------------------------------------------------
 
 function cleanAndParseJSON(text) {
-  try {
-    let clean = text.trim();
-    if (clean.startsWith('```')) {
-      clean = clean.replace(/^```(?:json)?\n?/, '').replace(/\n?```$/, '');
-    }
-    return JSON.parse(clean.trim());
-  } catch (e) {
-    throw e;
+  let clean = text.trim();
+  if (clean.startsWith('```')) {
+    clean = clean.replace(/^```(?:json)?\n?/, '').replace(/\n?```$/, '');
   }
+  return JSON.parse(clean.trim());
 }
+
+/**
+ * Send a prompt to the server-side Gemini proxy.
+ * Falls back to direct client-side call when a judge override key is present
+ * in sessionStorage (keeps evaluator / hackathon judge flow working).
+ */
+async function callGemini(prompt) {
+  const judgeKey = sessionStorage.getItem('judge_gemini_key');
+  const headers = { 'Content-Type': 'application/json' };
+  if (judgeKey) {
+    headers['Authorization'] = `Bearer ${judgeKey}`;
+  }
+
+  const response = await fetch('/api/gemini-proxy', {
+    method: 'POST',
+    headers,
+    body: JSON.stringify({ prompt }),
+  });
+
+  if (!response.ok) {
+    const err = await response.json().catch(() => ({}));
+    throw new Error(err.error || `Proxy error ${response.status}`);
+  }
+
+  const data = await response.json();
+  return data.text;
+}
+
+// ---------------------------------------------------------------------------
+// Exported service functions
+// ---------------------------------------------------------------------------
 
 export async function getDailyTip(userProfile, todayActivities) {
   try {
-    const genAI = getGenAI();
-    if (!genAI) throw new Error("GenAI not initialized");
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-
     const prompt = `You are EcoBot, a friendly and encouraging carbon footprint coach for Indian users. 
 The user's profile: ${JSON.stringify(userProfile || {})}. 
 Today's logged activities: ${JSON.stringify(todayActivities || [])}. 
@@ -58,8 +63,7 @@ Return ONLY a valid JSON object with the following fields:
 }
 Do not return any other text, markdown blocks, or explanation.`;
 
-    const result = await model.generateContent(prompt);
-    const text = result.response.text();
+    const text = await callGemini(prompt);
     return cleanAndParseJSON(text);
   } catch (error) {
     // Fallback response
@@ -73,10 +77,6 @@ Do not return any other text, markdown blocks, or explanation.`;
 
 export async function getWeeklyInsight(weekData, prevWeekData) {
   try {
-    const genAI = getGenAI();
-    if (!genAI) throw new Error("GenAI not initialized");
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-
     const prompt = `You are EcoBot. Analyze this week vs last week carbon data for an Indian user.
 This week: ${JSON.stringify(weekData || [])}.
 Last week: ${JSON.stringify(prevWeekData || [])}.
@@ -91,8 +91,7 @@ Return ONLY a valid JSON object:
 }
 Do not return any other text.`;
 
-    const result = await model.generateContent(prompt);
-    const text = result.response.text();
+    const text = await callGemini(prompt);
     return cleanAndParseJSON(text);
   } catch (error) {
     return {
@@ -105,10 +104,6 @@ Do not return any other text.`;
 
 export async function getChatResponse(userMessage, userStats, chatHistory) {
   try {
-    const genAI = getGenAI();
-    if (!genAI) throw new Error("GenAI not initialized");
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-
     // Format chat history for Gemini
     const historyText = (chatHistory || [])
       .map(m => `${m.role === 'user' ? 'User' : 'EcoBot'}: ${m.content}`)
@@ -126,8 +121,7 @@ User's new message: ${userMessage}
 
 Response:`;
 
-    const result = await model.generateContent(prompt);
-    return result.response.text();
+    return await callGemini(prompt);
   } catch (error) {
     return "I am currently running in offline/local helper mode, but I'm here to support your green journey! Reducing transport emissions by walking and switching off appliances are great first steps to save CO2.";
   }
@@ -135,10 +129,6 @@ Response:`;
 
 export async function getFootprintScore(monthlyData) {
   try {
-    const genAI = getGenAI();
-    if (!genAI) throw new Error("GenAI not initialized");
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-
     const prompt = `Score this monthly carbon footprint data from 0-100 where 100 = zero carbon and 50 = Indian national average (1800 kg/year or 150 kg/month). 
 Data: ${JSON.stringify(monthlyData || [])}.
 
@@ -151,8 +141,7 @@ Return ONLY valid JSON:
 }
 Do not include any explanation or extra text outside the JSON.`;
 
-    const result = await model.generateContent(prompt);
-    const text = result.response.text();
+    const text = await callGemini(prompt);
     return cleanAndParseJSON(text);
   } catch (error) {
     return {
