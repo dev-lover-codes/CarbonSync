@@ -12,21 +12,10 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { GoogleGenerativeAI } = await import('@google/generative-ai');
-    const genAI = new GoogleGenerativeAI(apiKey);
-    const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
-
-    const { prompt } = req.body;
-    if (!prompt) {
-      return res.status(400).json({ error: 'Missing prompt' });
-    }
-
-    const result = await model.generateContent(prompt);
-    const text = result.response.text();
-
-    return res.status(200).json({ text });
+    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models?key=${apiKey}`);
+    const data = await response.json();
+    return res.status(200).json(data);
   } catch (error) {
-    console.error('Gemini proxy error:', error);
-    return res.status(500).json({ error: 'Generation failed', details: error.message });
+    return res.status(500).json({ error: 'Failed to list models', details: error.message });
   }
 }
