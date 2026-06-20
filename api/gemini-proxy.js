@@ -14,10 +14,12 @@ export default async function handler(req, res) {
   try {
     const { GoogleGenerativeAI } = await import('@google/generative-ai');
     const genAI = new GoogleGenerativeAI(apiKey);
-    // Use the active Gemini 3.5 Flash model supported by the API key
-    const model = genAI.getGenerativeModel({ model: 'gemini-3.5-flash' });
+    
+    // Support client-specified model, default to gemini-1.5-flash
+    const { prompt, model: clientModel } = req.body;
+    const modelName = clientModel || 'gemini-1.5-flash';
+    const model = genAI.getGenerativeModel({ model: modelName });
 
-    const { prompt } = req.body;
     if (!prompt) {
       return res.status(400).json({ error: 'Missing prompt' });
     }
