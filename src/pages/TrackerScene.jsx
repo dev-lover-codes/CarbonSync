@@ -39,7 +39,8 @@ export function TrackerScene() {
     try {
       const logs = await getActivities(currentUser.uid, 5);
       setRecentLogs(logs || []);
-    } catch (e) {
+    } catch {
+      // Silently ignore log fetch errors; UI shows empty state
     }
   };
 

@@ -67,7 +67,8 @@ export default function Dashboard() {
         });
         const res = await getDailyTip(userProfile, todayActs);
         setDailyTip(res);
-      } catch (err) {
+      } catch {
+        // Silently ignore tip fetch failures; UI handles null tip state
       } finally {
         setLoadingTip(false);
       }

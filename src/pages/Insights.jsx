@@ -117,7 +117,8 @@ export default function Insights() {
       try {
         const score = await getFootprintScore(activities);
         setScoreData(score);
-      } catch (err) {
+      } catch {
+        // Silently ignore score fetch failures; UI handles null score state
       } finally {
         setLoadingScore(false);
       }

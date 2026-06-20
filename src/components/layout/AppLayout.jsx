@@ -41,7 +41,8 @@ const AppLayout = () => {
     try {
       await logout();
       navigate('/auth');
-    } catch (error) {
+    } catch {
+      // Logout errors are non-critical; user stays on current page
     }
   };
 

@@ -49,7 +49,8 @@ const Onboarding = () => {
       });
 
       navigate('dashboard');
-    } catch (error) {
+    } catch {
+      // Silently ignore onboarding save errors; user is navigated forward regardless
     }
   };
 

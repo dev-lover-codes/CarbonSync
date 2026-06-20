@@ -17,19 +17,15 @@ import { db } from "../lib/firebase";
 
 // 1. Log Activity
 export async function logActivity(userId, activityData) {
-  try {
-    const docRef = await addDoc(collection(db, "activities"), {
-      userId,
-      ...activityData,
-      timestamp: serverTimestamp()
-    });
-    // Update stats and streak
-    await updateUserStats(userId, activityData.co2);
-    await updateStreak(userId);
-    return { id: docRef.id, ...activityData };
-  } catch (error) {
-    throw error;
-  }
+  const docRef = await addDoc(collection(db, "activities"), {
+    userId,
+    ...activityData,
+    timestamp: serverTimestamp()
+  });
+  // Update stats and streak
+  await updateUserStats(userId, activityData.co2);
+  await updateStreak(userId);
+  return { id: docRef.id, ...activityData };
 }
 
 // 2. Get User Activities
@@ -51,7 +47,7 @@ export async function getUserActivities(userId, days = 30) {
       results.push({ id: d.id, ...data });
     });
     return results;
-  } catch (error) {
+  } catch {
     return [];
   }
 }
@@ -59,7 +55,6 @@ export async function getUserActivities(userId, days = 30) {
 // 3. Update User Stats
 export async function updateUserStats(userId, co2Added) {
   // co2Added: carbon savings (negative carbon represents addition, positive saved represents reduction)
-  // Master prompt implies we track CO2 saved. Let's make sure we update totals.
   try {
     const userRef = doc(db, "users", userId);
     const userSnap = await getDoc(userRef);
@@ -81,7 +76,8 @@ export async function updateUserStats(userId, co2Added) {
 
       await upsertLeaderboardEntry(userId, data.name || "Eco Warrior", data.photoURL || "", newMonthly);
     }
-  } catch (error) {
+  } catch {
+    // Silently ignore stats update failures to not disrupt activity logging
   }
 }
 
@@ -111,7 +107,8 @@ export async function updateStreak(userId) {
         lastLogDate: new Date().toISOString()
       });
     }
-  } catch (error) {
+  } catch {
+    // Silently ignore streak update failures
   }
 }
 
@@ -129,7 +126,7 @@ export async function getLeaderboard() {
       results.push({ id: d.id, ...d.data() });
     });
     return results;
-  } catch (error) {
+  } catch {
     return [];
   }
 }
@@ -147,24 +144,20 @@ export async function getUserGoals(userId) {
       results.push({ id: d.id, ...d.data() });
     });
     return results;
-  } catch (error) {
+  } catch {
     return [];
   }
 }
 
 // 7. Create Goal
 export async function createGoal(userId, goalData) {
-  try {
-    const docRef = await addDoc(collection(db, "goals"), {
-      userId,
-      ...goalData,
-      progress: 0,
-      createdAt: serverTimestamp()
-    });
-    return { id: docRef.id, ...goalData, progress: 0 };
-  } catch (error) {
-    throw error;
-  }
+  const docRef = await addDoc(collection(db, "goals"), {
+    userId,
+    ...goalData,
+    progress: 0,
+    createdAt: serverTimestamp()
+  });
+  return { id: docRef.id, ...goalData, progress: 0 };
 }
 
 // 8. Update Goal Progress
@@ -175,7 +168,8 @@ export async function updateGoalProgress(goalId, progress) {
       progress,
       status: progress >= 100 ? "completed" : "active"
     });
-  } catch (error) {
+  } catch {
+    // Silently ignore progress update failures
   }
 }
 
@@ -199,7 +193,7 @@ export async function getTips() {
       results.push({ id: d.id, ...d.data() });
     });
     return results;
-  } catch (error) {
+  } catch {
     return [];
   }
 }
@@ -210,11 +204,12 @@ export async function seedTips() {
     if (snap.empty) {
       for (const tip of INITIAL_TIPS) {
         // Strip id for firestore auto id
-        const { id, ...tipData } = tip;
+        const { id: _id, ...tipData } = tip;
         await addDoc(collection(db, "tips"), tipData);
       }
     }
-  } catch (error) {
+  } catch {
+    // Silently ignore seed failures
   }
 }
 
@@ -228,22 +223,19 @@ export async function upsertLeaderboardEntry(userId, displayName, photoURL, co2S
       thisMonthSaved: co2Saved,
       updatedAt: serverTimestamp()
     }, { merge: true });
-  } catch (error) {
+  } catch {
+    // Silently ignore leaderboard update failures
   }
 }
 
 // 11. Save Insight
 export async function saveInsight(userId, insightData) {
-  try {
-    const docRef = await addDoc(collection(db, "insights"), {
-      userId,
-      ...insightData,
-      timestamp: serverTimestamp()
-    });
-    return { id: docRef.id, ...insightData };
-  } catch (error) {
-    throw error;
-  }
+  const docRef = await addDoc(collection(db, "insights"), {
+    userId,
+    ...insightData,
+    timestamp: serverTimestamp()
+  });
+  return { id: docRef.id, ...insightData };
 }
 
 // 12. Get Insights
@@ -261,8 +253,7 @@ export async function getInsights(userId, limitCount = 7) {
       results.push({ id: d.id, ...d.data() });
     });
     return results;
-  } catch (error) {
+  } catch {
     return [];
   }
 }
-

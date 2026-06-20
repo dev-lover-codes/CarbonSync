@@ -23,7 +23,6 @@ export function Portal3D() {
         y: 0, 
         z: 0, 
         duration: 0.5, 
-        // eslint-disable-next-line react-hooks/exhaustive-deps
         ease: 'power2.inOut' 
       });
     }

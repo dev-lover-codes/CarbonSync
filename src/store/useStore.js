@@ -114,7 +114,7 @@ export const useStore = create((set, get) => ({
         transport: 0, food: 0, energy: 0, shopping: 0 
       };
       todayLogs.forEach(log => {
-        if (categories.hasOwnProperty(log.category)) {
+        if (Object.prototype.hasOwnProperty.call(categories, log.category)) {
           categories[log.category] += log.carbon_kg || 0;
         }
       });
