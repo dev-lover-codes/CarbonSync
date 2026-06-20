@@ -1,13 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useSpring, animated } from '@react-spring/three';
 import { Text, Sparkles } from '@react-three/drei';
-import { useAuth } from '../contexts/AuthContext';
 import GlassPanel from '../components/GlassPanel';
 import Button3D from '../components/Button3D';
 import * as THREE from 'three';
 
 export function LeaderboardScene() {
-  const { currentUser } = useAuth();
   const [filter, setFilter] = useState('month'); // 'month' | 'alltime'
 
   // Spring animation for podiums rising on mount

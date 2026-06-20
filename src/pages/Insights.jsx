@@ -18,7 +18,7 @@ const INDIAN_ANNUAL_AVERAGE = 1800; // kg/year
 const GLOBAL_ANNUAL_AVERAGE = 4000; // kg/year
 
 export default function Insights() {
-  const { currentUser, userProfile } = useAuth();
+  const { currentUser } = useAuth();
   const { activities, insights, fetchInsights } = useCarbon();
   
   const [range, setRange] = useState('week'); // week | month | quarter

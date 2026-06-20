@@ -35,7 +35,7 @@ const CATEGORY_COLORS = {
 export default function Dashboard() {
   const { userProfile } = useAuth();
   const { user, fetchUserStats, subscribeToLogs, userStats, isLoading, error } = useStore();
-  const { activities, goals, weeklyTotal } = useCarbon();
+  const { activities, goals } = useCarbon();
   const navigate = useNavigate();
 
   const [dailyTip, setDailyTip] = useState(null);

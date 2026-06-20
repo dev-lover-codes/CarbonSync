@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { useScroll, Text, Sparkles } from '@react-three/drei';
-import { useAuth } from '../contexts/AuthContext';
 import { useStore } from '../store/useStore';
 import PieChart3D from '../components/PieChart3D';
 import BarChart3D from '../components/BarChart3D';
@@ -15,15 +14,14 @@ function InsightsScrollHandler({ layoutRef }) {
   useFrame(() => {
     if (layoutRef.current) {
       // Smoothly scroll the observatory dashboard
-      layoutRef.current.position.y = scroll.offset * 6.5;
-      layoutRef.current.position.z = -scroll.offset * 4.0;
+      layoutRef.current.position.y = scroll.offset * 3.8;
+      layoutRef.current.position.z = -scroll.offset * 4.5;
     }
   });
   return null;
 }
 
 export function InsightsScene() {
-  const { currentUser } = useAuth();
   const { userStats } = useStore();
   const layoutRef = useRef();
   

@@ -60,7 +60,7 @@ export default function Auth() {
         toast.success('Welcome back!');
         await handleAuthSuccess(user);
       } else {
-        const user = await signup(email, password, name);
+        await signup(email, password, name);
         toast.success('Account created successfully!');
         navigate('/onboarding');
       }

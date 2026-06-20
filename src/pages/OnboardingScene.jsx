@@ -83,15 +83,7 @@ export function OnboardingScene() {
     }
   };
 
-  // Interactive slider calculation
-  const handleSliderClick = (e) => {
-    e.stopPropagation();
-    // Raycast hit x coordinate mapped between [-1.2, 1.2]
-    const localX = e.point.x - (-36.0); // center is at x = -36
-    const pct = (localX + 1.2) / 2.4;
-    const value = Math.round(20 + Math.max(0, Math.min(1, pct)) * 180);
-    setFootprintTarget(value);
-  };
+
 
   return (
     <group>

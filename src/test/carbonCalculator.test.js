@@ -5,6 +5,7 @@ import {
   calcBusCO2,
   calcBikeCO2,
   calcElectricityCO2,
+  calcHeatingCO2,
   calcMeatMealCO2,
   calcVegMealCO2,
   calcShoppingCO2
@@ -26,6 +27,9 @@ describe('Carbon Calculator', () => {
   });
   it('calculates electricity CO2 correctly', () => {
     expect(calcElectricityCO2(10)).toBeCloseTo(8.2);
+  });
+  it('calculates heating CO2 correctly', () => {
+    expect(calcHeatingCO2(10)).toBeCloseTo(2);
   });
   it('calculates meat meal CO2 correctly', () => {
     expect(calcMeatMealCO2(3)).toBeCloseTo(9.9);
@@ -55,6 +59,10 @@ describe('Carbon Calculator', () => {
   });
   it('handles negative input gracefully for car', () => {
     expect(calcCarCO2(-10)).toBeLessThanOrEqual(0);
+  });
+  it('handles invalid hours for heating', () => {
+    expect(calcHeatingCO2('invalid')).toBe(0);
+    expect(calcHeatingCO2(null)).toBe(0);
   });
   it('bike CO2 is always zero regardless of distance', () => {
     expect(calcBikeCO2(9999)).toBe(0);

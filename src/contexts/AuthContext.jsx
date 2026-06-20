@@ -10,7 +10,6 @@ import {
 } from 'firebase/auth';
 import { auth } from '../lib/firebase';
 import { createUserProfile, getUserProfile, updateUserProfile } from '../lib/firestore';
-import { toast } from 'react-hot-toast';
 
 const AuthContext = createContext();
 

@@ -1,4 +1,35 @@
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect, beforeEach, vi } from 'vitest';
+
+vi.mock('../lib/firebase', () => ({
+  db: {}
+}));
+
+vi.mock('firebase/firestore', () => ({
+  doc: vi.fn(() => ({})),
+  getDoc: vi.fn(() => Promise.resolve({
+    exists: () => true,
+    data: () => ({ dailyFootprint: 10, totalSaved: 5, streak: 3 })
+  })),
+  setDoc: vi.fn(() => Promise.resolve()),
+  collection: vi.fn(() => ({})),
+  addDoc: vi.fn(() => Promise.resolve({ id: 'new-log-id' })),
+  query: vi.fn(() => ({})),
+  orderBy: vi.fn(() => ({})),
+  limit: vi.fn(() => ({})),
+  onSnapshot: vi.fn((q, cb) => {
+    cb({
+      docs: [
+        {
+          id: 'log1',
+          data: () => ({ carbon_kg: 5.2, category: 'transport', createdAt: { toDate: () => new Date() } })
+        }
+      ]
+    });
+    return vi.fn();
+  }),
+  serverTimestamp: vi.fn(() => 'mock-timestamp')
+}));
+
 import { useStore } from '../store/useStore';
 
 const INITIAL_GREETING = {
@@ -9,6 +40,11 @@ const INITIAL_GREETING = {
 describe('useStore', () => {
   beforeEach(() => {
     useStore.setState({
+      currentPage: 'landing',
+      user: null,
+      isLoading: false,
+      error: null,
+      transitionActive: false,
       userStats: {
         dailyFootprint: 0,
         weeklyFootprint: [0, 0, 0, 0, 0, 0, 0],
@@ -49,5 +85,46 @@ describe('useStore', () => {
     useStore.getState().clearChatHistory();
     expect(useStore.getState().chatHistory).toHaveLength(1);
     expect(useStore.getState().chatHistory[0].sender).toBe('bot');
+  });
+
+  it('setUser sets user state', () => {
+    useStore.getState().setUser({ uid: 'user123' });
+    expect(useStore.getState().user).toEqual({ uid: 'user123' });
+  });
+
+  it('setTransition sets transition state', () => {
+    useStore.getState().setTransition(true);
+    expect(useStore.getState().transitionActive).toBe(true);
+  });
+
+  it('navigate triggers page transition and changes currentPage', async () => {
+    vi.useFakeTimers();
+    useStore.getState().navigate('dashboard');
+    expect(useStore.getState().transitionActive).toBe(true);
+    
+    vi.advanceTimersByTime(600);
+    expect(useStore.getState().currentPage).toBe('dashboard');
+    
+    vi.advanceTimersByTime(600);
+    expect(useStore.getState().transitionActive).toBe(false);
+    vi.useRealTimers();
+  });
+
+  it('fetchUserStats fetches user stats from firestore', async () => {
+    await useStore.getState().fetchUserStats('user123');
+    expect(useStore.getState().userStats.streak).toBe(3);
+    expect(useStore.getState().userStats.dailyFootprint).toBe(10);
+  });
+
+  it('addCarbonLog logs carbon logs to firestore', async () => {
+    await useStore.getState().addCarbonLog('user123', { carbon_kg: 4.5, category: 'transport' });
+    expect(useStore.getState().isLoading).toBe(false);
+  });
+
+  it('subscribeToLogs registers listeners', () => {
+    const unsub = useStore.getState().subscribeToLogs('user123');
+    expect(unsub).toBeDefined();
+    expect(useStore.getState().userStats.dailyFootprint).toBe(5.2);
+    unsub();
   });
 });

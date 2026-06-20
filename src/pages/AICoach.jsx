@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { useCarbon } from '../contexts/CarbonContext';
-import { carbonFactors } from '../config/carbonFactors';
 import { Send, Bot, User, Loader2, Sparkles, MessageSquare } from 'lucide-react';
 import { getChatResponse } from '../services/geminiService';
 import Card from '../components/ui/Card';
@@ -19,7 +18,7 @@ const QUICK_CHIPS = [
 
 export default function AICoach() {
   const { userProfile } = useAuth();
-  const { weeklyTotal, activities } = useCarbon();
+  const { weeklyTotal } = useCarbon();
   
   const [messages, setMessages] = useState([
     { role: 'assistant', content: `Hi ${userProfile?.name?.split(' ')[0] || 'there'}! 🌱 I'm your CarbonSync AI Coach. I've got your latest footprint data ready. How can I help you today?` }
@@ -37,27 +36,8 @@ export default function AICoach() {
     scrollToBottom();
   }, [messages]);
 
-  // Determine biggest emission source for the system prompt
-  const biggestSource = React.useMemo(() => {
-    if (!activities || activities.length === 0) return 'None yet';
-    const totals = {};
-    activities.forEach(a => {
-      const factor = carbonFactors[a.category]?.[a.type] || 0;
-      totals[a.category] = (totals[a.category] || 0) + (factor * a.amount);
-    });
-    return Object.keys(totals).sort((a, b) => totals[b] - totals[a])[0] || 'Unknown';
-  }, [activities]);
 
-  const systemPrompt = `You are the CarbonSync AI Coach, a supportive, knowledgeable, and concise sustainability expert. 
-You are chatting with a user to help them reduce their carbon footprint.
-User Context:
-- Name: ${userProfile?.name || 'User'}
-- Current Level: ${userProfile?.level || 'Seedling'}
-- Current Streak: ${userProfile?.streak || 0} days
-- Weekly CO2 Footprint: ${weeklyTotal?.toFixed(1)} kg
-- Biggest Emission Source: ${biggestSource}
 
-Always be encouraging, give actionable, specific advice, and use formatting (bullet points, bold text) for readability. Keep responses under 150 words unless asked for detail. Use emojis appropriately.`;
 
   const callGemini = async (chatHistory) => {
     const userStats = {

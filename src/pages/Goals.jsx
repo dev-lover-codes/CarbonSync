@@ -1,13 +1,10 @@
 import React, { useState, useMemo } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { useCarbon } from '../contexts/CarbonContext';
-import { carbonFactors } from '../config/carbonFactors';
 import { CheckCircle, Target, Plus, Sparkles, Loader2, Flag, Lock, Award } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { tapEffect } from '../utils/animations';
-import Card from '../components/ui/Card';
 import Button from '../components/ui/Button';
-import ProgressBar from '../components/ui/ProgressBar';
 import Modal from '../components/ui/Modal';
 import Input from '../components/ui/Input';
 import toast from 'react-hot-toast';
@@ -35,10 +32,6 @@ export default function Goals() {
 
   const activeGoals = useMemo(() => {
     return (goals || []).filter(g => g.status !== 'completed');
-  }, [goals]);
-
-  const completedGoals = useMemo(() => {
-    return (goals || []).filter(g => g.status === 'completed');
   }, [goals]);
 
   const handleAddGoal = async (goalData) => {

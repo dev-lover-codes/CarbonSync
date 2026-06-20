@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Mail, Lock, User, UserPlus } from 'lucide-react';
+import { Mail, Lock, User } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 import { useAuth } from '../../contexts/AuthContext';
 import Button from '../../components/ui/Button';
@@ -16,7 +16,7 @@ const Signup = () => {
     confirmPassword: ''
   });
   const [loading, setLoading] = useState(false);
-  const { signup, loginWithGoogle } = useAuth();
+  const { signup } = useAuth();
   const navigate = useNavigate();
 
   const getPasswordStrength = (pwd) => {

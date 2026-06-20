@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { useScroll, Text, Sparkles, Grid } from '@react-three/drei';
 import GlassPanel from '../components/GlassPanel';
@@ -83,7 +83,6 @@ function GoalPlant3D({ progress = 0.5 }) {
 
 export function GoalsScene() {
   const layoutRef = useRef();
-  const [showForm, setShowForm] = useState(false);
 
   const goals = [
     { id: 1, title: 'Reduce Car Travel', progress: 0.85, deadline: '3 days left' },

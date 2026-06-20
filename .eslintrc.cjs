@@ -14,7 +14,12 @@ module.exports = {
   rules: {
     'react-refresh/only-export-components': 'off',
     'react/prop-types': 'off',
-    'no-unused-vars': 'off',
+    'no-unused-vars': ['error', {
+      'vars': 'all',
+      'args': 'none',
+      'ignoreRestSiblings': true,
+      'varsIgnorePattern': '^[A-Z_]'
+    }],
     'react-hooks/exhaustive-deps': 'off',
     'react/no-unescaped-entities': 'off',
     // React Three Fiber uses custom JSX props (position, rotation, args, etc.)

@@ -12,7 +12,7 @@ vi.mock('lucide-react', () => ({
   Leaf: () => null,
 }));
 
-import { formatCO2, getLevel, getCategoryColor } from '../utils/helpers';
+import { formatCO2, getLevel, getCategoryColor, getTimeAgo, getCategoryIcon } from '../utils/helpers';
 
 describe('Helper Utilities', () => {
   describe('formatCO2', () => {
@@ -72,6 +72,52 @@ describe('Helper Utilities', () => {
     });
     it('returns gray class for unknown category', () => {
       expect(getCategoryColor('unknown')).toContain('gray');
+    });
+  });
+
+  describe('getCategoryIcon', () => {
+    it('returns icons for categories', () => {
+      expect(getCategoryIcon('transport')).toBeDefined();
+      expect(getCategoryIcon('energy')).toBeDefined();
+      expect(getCategoryIcon('food')).toBeDefined();
+      expect(getCategoryIcon('shopping')).toBeDefined();
+      expect(getCategoryIcon('waste')).toBeDefined();
+      expect(getCategoryIcon('unknown')).toBeDefined();
+    });
+  });
+
+  describe('getTimeAgo', () => {
+    it('returns empty string for missing timestamp', () => {
+      expect(getTimeAgo(null)).toBe('');
+    });
+    it('returns Just now for very recent date', () => {
+      const now = new Date();
+      expect(getTimeAgo(now)).toBe('Just now');
+    });
+    it('returns minutes ago', () => {
+      const now = new Date();
+      const tenMinutesAgo = new Date(now.getTime() - 10 * 60 * 1000);
+      expect(getTimeAgo(tenMinutesAgo)).toBe('10m ago');
+    });
+    it('returns hours ago', () => {
+      const now = new Date();
+      const twoHoursAgo = new Date(now.getTime() - 2 * 60 * 60 * 1000);
+      expect(getTimeAgo(twoHoursAgo)).toBe('2h ago');
+    });
+    it('returns days ago', () => {
+      const now = new Date();
+      const threeDaysAgo = new Date(now.getTime() - 3 * 24 * 60 * 60 * 1000);
+      expect(getTimeAgo(threeDaysAgo)).toBe('3d ago');
+    });
+    it('returns monthly representation for dates older than a week', () => {
+      const olderDate = new Date('2026-01-01T12:00:00Z');
+      expect(getTimeAgo(olderDate)).toBeDefined();
+    });
+    it('handles firestore timestamp toDate wrapper', () => {
+      const mockTimestamp = {
+        toDate: () => new Date()
+      };
+      expect(getTimeAgo(mockTimestamp)).toBe('Just now');
     });
   });
 });

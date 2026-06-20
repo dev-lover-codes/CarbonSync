@@ -1,7 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { Text, Sparkles } from '@react-three/drei';
-import { useAuth } from '../contexts/AuthContext';
 import { useStore } from '../store/useStore';
 import { getChatResponse } from '../services/geminiService';
 import GlassPanel from '../components/GlassPanel';
@@ -12,7 +11,6 @@ import ProgressRing3D from '../components/ProgressRing3D';
 import * as THREE from 'three';
 
 export function AICoachScene() {
-  const { userProfile } = useAuth();
   const { chatHistory, addChatMessage, userStats } = useStore();
 
   const [inputMessage, setInputMessage] = useState('');

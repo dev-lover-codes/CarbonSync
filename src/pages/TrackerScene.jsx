@@ -19,7 +19,7 @@ import {
 
 export function TrackerScene() {
   const { currentUser } = useAuth();
-  const { navigate, setUserStats, addChatMessage } = useStore();
+  const { setUserStats, addChatMessage } = useStore();
 
   const [activeTab, setActiveTab] = useState('transport'); // 'transport' | 'food' | 'energy' | 'shopping'
   const [subType, setSubType] = useState('car'); // transport: 'car'|'bus'|'flight'|'bike'; food: 'meat'|'veg'; shopping: 'clothing'|'electronics'|'groceries'
