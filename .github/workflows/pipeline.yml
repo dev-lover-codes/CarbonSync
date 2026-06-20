@@ -79,10 +79,6 @@ jobs:
           path: dist/
           retention-days: 1
 
-  # ──────────────────────────────────────────────────────────
-  # Job 2: Conditional Deploy
-  # Runs only on push to main or develop after CI succeeds
-  # ──────────────────────────────────────────────────────────
   deploy:
     name: 🚀 CD (Deploy to Vercel)
     runs-on: ubuntu-latest
@@ -91,6 +87,10 @@ jobs:
     if: |
       github.event_name == 'workflow_dispatch' ||
       (github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop'))
+    env:
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID || 'team_2rknmAvTPiZjjAyOcH1etOOl' }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID || 'prj_SJMtN4L04SYcrKIoGXjvfEX1hTb2' }}
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -116,11 +116,14 @@ jobs:
         run: npm install --global vercel@latest
 
       - name: Pull Vercel Project Info
-        run: vercel pull --yes --environment=${{ steps.env-check.outputs.vercel_env }} --token=${{ secrets.VERCEL_TOKEN }}
+        run: vercel pull --yes --environment=${{ steps.env-check.outputs.vercel_env }}
+
+      - name: Build Project Artifacts
+        run: vercel build ${{ steps.env-check.outputs.prod_flag }}
 
       - name: Deploy to Vercel
         id: vercel-deploy
         run: |
-          URL=$(vercel deploy --prebuilt ${{ steps.env-check.outputs.prod_flag }} --token=${{ secrets.VERCEL_TOKEN }} 2>&1 | tail -1)
+          URL=$(vercel deploy --prebuilt ${{ steps.env-check.outputs.prod_flag }} 2>&1 | tail -1)
           echo "deployment_url=$URL" >> $GITHUB_OUTPUT
           echo "::notice title=Deployment URL::$URL"
