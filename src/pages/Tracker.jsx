@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { useCarbon } from '../contexts/CarbonContext';
+import { HIGH_EMISSION_THRESHOLD_KG } from '../config/constants';
 import { carbonFactors } from '../config/carbonFactors';
 import { 
   calcCarCO2, 
@@ -163,6 +164,58 @@ export default function Tracker() {
         return calcShoppingCO2(val, 'other');
     }
   };
+
+  const getAlternativeStats = () => {
+    const num = parseFloat(amount) || 0;
+    const currentCO2 = calculateCurrentCO2();
+    if (selectedCategory === 'transport') {
+      if (selectedType === 'car_petrol_km' || selectedType === 'car_diesel_km') {
+        return {
+          alternative: 'taking the bus',
+          altCO2: calcBusCO2(num)
+        };
+      }
+      if (selectedType === 'flight_km') {
+        return {
+          alternative: 'taking a train or carpooling',
+          altCO2: calcBusCO2(num)
+        };
+      }
+    }
+    if (selectedCategory === 'food' && (selectedType === 'beef_meal' || selectedType === 'chicken_meal' || selectedType === 'fish_meal')) {
+      return {
+        alternative: 'a vegetarian meal',
+        altCO2: calcVegMealCO2(num)
+      };
+    }
+    if (selectedCategory === 'energy') {
+      return {
+        alternative: 'LED conversion or rooftop solar',
+        altCO2: num * 0.2
+      };
+    }
+    if (selectedCategory === 'shopping') {
+      if (selectedType === 'electronics_item') {
+        return {
+          alternative: 'certified refurbished items',
+          altCO2: calcShoppingCO2(num, 'clothing')
+        };
+      }
+      if (selectedType === 'clothing_item') {
+        return {
+          alternative: 'thrifting or organic fabrics',
+          altCO2: calcShoppingCO2(num, 'groceries')
+        };
+      }
+    }
+    return {
+      alternative: 'greener choices',
+      altCO2: currentCO2 * 0.5
+    };
+  };
+
+  const { alternative: suggestedAlternative, altCO2 } = getAlternativeStats();
+  const projectedCO2 = calculateCurrentCO2();
 
   const handleLogActivity = async () => {
     try {
@@ -480,6 +533,15 @@ export default function Tracker() {
                     </div>
                   )}
                   
+                  {projectedCO2 > HIGH_EMISSION_THRESHOLD_KG && (
+                    <div className="bg-amber-50 border border-amber-200 
+                                    rounded-xl p-3 text-amber-800 text-sm mb-3">
+                      ⚠️ This will add ~{projectedCO2.toFixed(1)}kg CO₂. 
+                      Consider {suggestedAlternative} instead — it would only add 
+                      ~{altCO2.toFixed(1)}kg.
+                    </div>
+                  )}
+
                   <div className="pt-4">
                     <Button 
                       className="w-full bg-green-600 hover:bg-green-700 h-12 text-base font-semibold shadow-md shadow-green-600/20 transition-all active:scale-[0.98]" 
@@ -528,6 +590,9 @@ export default function Tracker() {
               </div>
             )}
           </div>
+          <p className="text-center text-xs text-gray-500 mt-6 italic font-semibold">
+            See it. Decide differently. Track the change.
+          </p>
         </div>
       </Modal>
     </div>

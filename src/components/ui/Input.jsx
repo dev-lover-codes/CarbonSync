@@ -35,6 +35,7 @@ const Input = ({
           `}
           aria-invalid={error ? "true" : "false"}
           aria-describedby={error ? `${inputId}-error` : undefined}
+          aria-required={props.required ? "true" : undefined}
           {...props}
         />
       </div>

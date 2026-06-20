@@ -42,7 +42,7 @@ export default function Landing() {
             <span className="text-[#52B788]">Own your impact.</span>
           </h1>
           <p className="text-lg text-gray-600 max-w-xl leading-relaxed">
-            Track daily activities. Get AI-powered insights. Join a community making real change. Take charge of your contribution to a healthier planet.
+            Intercept emissions before you act. Get AI-powered insights. Join a community making real change. Take charge of your contribution to a healthier planet.
           </p>
           <div className="flex flex-wrap gap-4">
             <Link 
@@ -177,7 +177,7 @@ export default function Landing() {
           </div>
           <div className="py-4 md:py-0">
             <p className="text-3xl font-black text-[#2D6A4F]">2.3B</p>
-            <p className="text-sm font-semibold text-gray-500 mt-1 uppercase tracking-wider">People Tracking Globally</p>
+            <p className="text-sm font-semibold text-gray-500 mt-1 uppercase tracking-wider">People Intercepting Globally</p>
           </div>
         </div>
       </section>
@@ -195,9 +195,9 @@ export default function Landing() {
             <div className="w-12 h-12 bg-green-50 rounded-xl flex items-center justify-center text-[#2D6A4F] mb-6">
               <BarChart3 className="w-6 h-6" />
             </div>
-            <h3 className="text-lg font-bold text-gray-900 mb-3">Intuitive Tracker</h3>
+            <h3 className="text-lg font-bold text-gray-900 mb-3">In-The-Moment Intercept</h3>
             <p className="text-sm text-gray-500 leading-relaxed">
-              Log transportation, home energy usages, diet, and shopping habits in seconds with real-time carbon estimation calculations.
+              Calculate footprint impact before you act. Log transportation, home energy, diet, and shopping habits at the point of decision.
             </p>
           </div>
 
@@ -236,13 +236,13 @@ export default function Landing() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12 relative">
             <div className="flex flex-col items-center text-center">
               <div className="w-16 h-16 rounded-full bg-[#2D6A4F] text-white flex items-center justify-center text-xl font-black mb-6">1</div>
-              <h3 className="text-lg font-bold text-gray-900 mb-2">Log Daily Actions</h3>
-              <p className="text-sm text-gray-500 max-w-xs leading-relaxed">Enter transport methods, home electricity usage, and food consumption.</p>
+              <h3 className="text-lg font-bold text-gray-900 mb-2">Intercept in the Moment</h3>
+              <p className="text-sm text-gray-500 max-w-xs leading-relaxed">Evaluate transportation, home electricity usage, and food consumption before confirming your choice.</p>
             </div>
             <div className="flex flex-col items-center text-center">
               <div className="w-16 h-16 rounded-full bg-[#2D6A4F] text-white flex items-center justify-center text-xl font-black mb-6">2</div>
-              <h3 className="text-lg font-bold text-gray-900 mb-2">Understand the Stats</h3>
-              <p className="text-sm text-gray-500 max-w-xs leading-relaxed">Watch interactive analytics break down carbon sources into actionable items.</p>
+              <h3 className="text-lg font-bold text-gray-900 mb-2">Analyze Decisions</h3>
+              <p className="text-sm text-gray-500 max-w-xs leading-relaxed">Watch interactive analytics break down carbon sources into actionable points of decision.</p>
             </div>
             <div className="flex flex-col items-center text-center">
               <div className="w-16 h-16 rounded-full bg-[#2D6A4F] text-white flex items-center justify-center text-xl font-black mb-6">3</div>
@@ -261,7 +261,7 @@ export default function Landing() {
 
           <h2 className="text-3xl lg:text-4xl font-black mb-4 relative z-10">Start reducing your footprint today</h2>
           <p className="text-[#D8F3DC] text-base mb-8 max-w-xl mx-auto relative z-10 leading-relaxed">
-            Join thousands of active users tracking daily and saving metric tons of CO2. Live sustainability on your terms.
+            Join thousands of active users deciding differently in the moment and saving metric tons of CO2. Intercept emissions on your terms.
           </p>
           <Link 
             to="/auth" 

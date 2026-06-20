@@ -14,7 +14,20 @@ export default function DevSettingsModal() {
   }, []);
 
   const handleSave = () => {
-    sessionStorage.setItem('judge_gemini_key', apiKey);
+    const trimmed = apiKey.trim();
+    if (!trimmed) {
+      sessionStorage.removeItem('judge_gemini_key');
+      toast.success('API key cleared, falling back to environment key');
+      setIsOpen(false);
+      return;
+    }
+
+    if (trimmed.length < 20 || trimmed.length > 150) {
+      toast.error('Invalid key length. Please enter a valid Gemini API key.');
+      return;
+    }
+
+    sessionStorage.setItem('judge_gemini_key', trimmed);
     toast.success('API key saved to session memory');
     setIsOpen(false);
   };
@@ -44,20 +57,22 @@ export default function DevSettingsModal() {
             <h2 className="text-xl font-bold text-white mb-1">Developer Settings</h2>
 
             {/* Subtitle note */}
-            <p className="text-gray-400 text-sm mb-6">
+            <p className="text-gray-300 text-sm mb-6">
               This panel is for hackathon evaluation only. Your key is stored in session memory and never saved to any database.
             </p>
 
             {/* API Key input */}
-            <label className="block text-sm text-gray-300 mb-2">
+            <label htmlFor="gemini-api-key" className="block text-sm text-gray-300 mb-2">
               Gemini API Key (for evaluation)
             </label>
             <input
+              id="gemini-api-key"
               type="text"
               value={apiKey}
               onChange={(e) => setApiKey(e.target.value)}
               placeholder="Paste your Gemini API key here"
               className="w-full bg-white/10 border border-white/20 focus:border-emerald-400 rounded-xl px-4 py-3 text-white placeholder-gray-500 outline-none transition-all duration-200"
+              aria-required="true"
             />
 
             {/* Buttons */}

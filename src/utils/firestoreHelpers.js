@@ -14,8 +14,19 @@ import {
   Timestamp
 } from "firebase/firestore";
 import { db } from "../lib/firebase";
+import {
+  LEVEL_FOREST_THRESHOLD,
+  LEVEL_TREE_THRESHOLD,
+  LEVEL_SAPLING_THRESHOLD
+} from "../config/constants";
 
-// 1. Log Activity
+/**
+ * Logs a new user carbon footprint activity to Firestore.
+ * Updates the user statistics and streak.
+ * @param {string} userId - Firebase Auth unique ID of the user.
+ * @param {Object} activityData - Activity payload containing category, type, and amount.
+ * @returns {Promise<Object>} The logged activity containing doc ID. Throws error on invalid firestore operation.
+ */
 export async function logActivity(userId, activityData) {
   const docRef = await addDoc(collection(db, "activities"), {
     userId,
@@ -28,7 +39,12 @@ export async function logActivity(userId, activityData) {
   return { id: docRef.id, ...activityData };
 }
 
-// 2. Get User Activities
+/**
+ * Fetches user activity logs within a specified date window.
+ * @param {string} userId - Firebase Auth unique ID of the user.
+ * @param {number} [days=30] - Number of days in the past to pull logs. Defaults to 30.
+ * @returns {Promise<Array>} List of user activity log objects. Returns empty array on failure/invalid input.
+ */
 export async function getUserActivities(userId, days = 30) {
   try {
     const limitDate = new Date();
@@ -52,7 +68,13 @@ export async function getUserActivities(userId, days = 30) {
   }
 }
 
-// 3. Update User Stats
+/**
+ * Accumulates user stats (total CO2 saved, monthly saved) and promotes levels.
+ * Updates leaderboard tracking index.
+ * @param {string} userId - Firebase Auth unique ID of the user.
+ * @param {number} co2Added - Carbon emissions saved or added (positive for reduction).
+ * @returns {Promise<void>} Resolves when stats write completes. Fails silently on database errors.
+ */
 export async function updateUserStats(userId, co2Added) {
   // co2Added: carbon savings (negative carbon represents addition, positive saved represents reduction)
   try {
@@ -64,9 +86,9 @@ export async function updateUserStats(userId, co2Added) {
       const newMonthly = (data.monthlySaved || 0) + (co2Added > 0 ? co2Added : 0);
       
       let newLevel = "Seedling";
-      if (newTotal > 500) newLevel = "Forest";
-      else if (newTotal > 250) newLevel = "Tree";
-      else if (newTotal > 100) newLevel = "Sapling";
+      if (newTotal > LEVEL_FOREST_THRESHOLD) newLevel = "Forest";
+      else if (newTotal > LEVEL_TREE_THRESHOLD) newLevel = "Tree";
+      else if (newTotal > LEVEL_SAPLING_THRESHOLD) newLevel = "Sapling";
 
       await updateDoc(userRef, {
         totalSaved: newTotal,
@@ -81,7 +103,11 @@ export async function updateUserStats(userId, co2Added) {
   }
 }
 
-// 4. Update Streak
+/**
+ * Increments or resets user daily engagement logging streak.
+ * @param {string} userId - Firebase Auth unique ID of the user.
+ * @returns {Promise<void>} Resolves when streak update completes. Fails silently on database errors.
+ */
 export async function updateStreak(userId) {
   try {
     const userRef = doc(db, "users", userId);
@@ -112,7 +138,10 @@ export async function updateStreak(userId) {
   }
 }
 
-// 5. Get Leaderboard
+/**
+ * Gets the top 10 users ranked by monthly carbon offset achievements.
+ * @returns {Promise<Array>} Top 10 monthly leaderboard entries. Returns empty array on database failure.
+ */
 export async function getLeaderboard() {
   try {
     const q = query(
@@ -131,7 +160,11 @@ export async function getLeaderboard() {
   }
 }
 
-// 6. Get User Goals
+/**
+ * Fetches user carbon reduction goals.
+ * @param {string} userId - Firebase Auth unique ID of the user.
+ * @returns {Promise<Array>} List of user goals. Returns empty array on database failure/invalid input.
+ */
 export async function getUserGoals(userId) {
   try {
     const q = query(
@@ -149,7 +182,12 @@ export async function getUserGoals(userId) {
   }
 }
 
-// 7. Create Goal
+/**
+ * Creates a new personal carbon reduction goal.
+ * @param {string} userId - Firebase Auth unique ID of the user.
+ * @param {Object} goalData - Goal targets (e.g. category, target limit, timeline).
+ * @returns {Promise<Object>} Created goal configuration with reference ID. Throws on error.
+ */
 export async function createGoal(userId, goalData) {
   const docRef = await addDoc(collection(db, "goals"), {
     userId,
@@ -160,7 +198,13 @@ export async function createGoal(userId, goalData) {
   return { id: docRef.id, ...goalData, progress: 0 };
 }
 
-// 8. Update Goal Progress
+/**
+ * Updates progress metrics for a carbon target/goal.
+ * Marks target as completed if progress is >= 100%.
+ * @param {string} goalId - Unique target identifier.
+ * @param {number} progress - Completion percentage metric (0 to 100).
+ * @returns {Promise<void>} Resolves when database update completes. Fails silently on database error.
+ */
 export async function updateGoalProgress(goalId, progress) {
   try {
     const goalRef = doc(db, "goals", goalId);
@@ -173,7 +217,6 @@ export async function updateGoalProgress(goalId, progress) {
   }
 }
 
-// 9. Get Tips
 const INITIAL_TIPS = [
   { id: "tip_1", title: "Switch to LED bulbs", description: "Replacing 5 bulbs saves ~18kg CO₂/year. Takes 10 minutes.", category: "energy", impactKg: 18, difficulty: "easy", likes: 0 },
   { id: "tip_2", title: "One meat-free day per week", description: "Going veg just once a week saves ~170kg CO₂/year.", category: "food", impactKg: 170, difficulty: "easy", likes: 0 },
@@ -185,6 +228,10 @@ const INITIAL_TIPS = [
   { id: "tip_8", title: "Avoid fast fashion", description: "One fewer clothing purchase/month saves ~120kg CO₂/year.", category: "shopping", impactKg: 120, difficulty: "medium", likes: 0 }
 ];
 
+/**
+ * Gets all sustainability tips.
+ * @returns {Promise<Array>} List of sustainability tips. Returns empty array on database failure.
+ */
 export async function getTips() {
   try {
     const snap = await getDocs(collection(db, "tips"));
@@ -198,6 +245,10 @@ export async function getTips() {
   }
 }
 
+/**
+ * Seeds starting set of ecological tips if database tips collection is empty.
+ * @returns {Promise<void>} Resolves when seeding completes. Fails silently on database error.
+ */
 export async function seedTips() {
   try {
     const snap = await getDocs(collection(db, "tips"));
@@ -213,7 +264,14 @@ export async function seedTips() {
   }
 }
 
-// 10. Upsert Leaderboard Entry
+/**
+ * Updates or inserts user details in leaderboard rankings.
+ * @param {string} userId - Firebase Auth unique ID of the user.
+ * @param {string} displayName - Name display value.
+ * @param {string} photoURL - Avatar image reference url.
+ * @param {number} co2Saved - Current month's saved carbon in kg.
+ * @returns {Promise<void>} Resolves when write completes. Fails silently on database error.
+ */
 export async function upsertLeaderboardEntry(userId, displayName, photoURL, co2Saved) {
   try {
     const docRef = doc(db, "leaderboard", userId);
@@ -228,7 +286,12 @@ export async function upsertLeaderboardEntry(userId, displayName, photoURL, co2S
   }
 }
 
-// 11. Save Insight
+/**
+ * Saves a new coaching/insight report generated by the AI Coach.
+ * @param {string} userId - Firebase Auth unique ID of the user.
+ * @param {Object} insightData - The summary, scores, and advice payload.
+ * @returns {Promise<Object>} Document containing database reference ID. Throws on error.
+ */
 export async function saveInsight(userId, insightData) {
   const docRef = await addDoc(collection(db, "insights"), {
     userId,
@@ -238,7 +301,12 @@ export async function saveInsight(userId, insightData) {
   return { id: docRef.id, ...insightData };
 }
 
-// 12. Get Insights
+/**
+ * Fetches saved coach reports/insights for a user.
+ * @param {string} userId - Firebase Auth unique ID of the user.
+ * @param {number} [limitCount=7] - Number of records to return. Defaults to 7.
+ * @returns {Promise<Array>} List of insight reports. Returns empty array on database failure/invalid input.
+ */
 export async function getInsights(userId, limitCount = 7) {
   try {
     const q = query(

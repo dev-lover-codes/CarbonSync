@@ -136,7 +136,7 @@ const Login = () => {
 
           <form onSubmit={handleSubmit} className="space-y-6 animate-fade-up" style={{ animationDelay: '0.1s' }}>
             <div className="space-y-2">
-              <label className="text-xs font-mono font-semibold text-[#6b8f78] uppercase tracking-wider ml-1">
+              <label htmlFor="login-email" className="text-xs font-mono font-semibold text-[#6b8f78] uppercase tracking-wider ml-1">
                 Identity Sequence (Email)
               </label>
               <div className="relative group">
@@ -144,19 +144,21 @@ const Login = () => {
                   <Mail size={18} />
                 </div>
                 <input
+                  id="login-email"
                   type="email"
                   placeholder="commander@carbonsync.io"
                   className="input-neon pl-12 h-14"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
+                  aria-required="true"
                 />
               </div>
             </div>
 
             <div className="space-y-2">
               <div className="flex justify-between items-center ml-1">
-                <label className="text-xs font-mono font-semibold text-[#6b8f78] uppercase tracking-wider">
+                <label htmlFor="login-password" className="text-xs font-mono font-semibold text-[#6b8f78] uppercase tracking-wider">
                   Access Key (Password)
                 </label>
                 <Link to="/forgot-password" className="text-xs font-mono text-[#00d4ff] hover:text-[#00ff87] transition-colors">
@@ -168,12 +170,14 @@ const Login = () => {
                   <Lock size={18} />
                 </div>
                 <input
+                  id="login-password"
                   type="password"
                   placeholder="••••••••"
                   className="input-neon pl-12 h-14"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
+                  aria-required="true"
                 />
               </div>
             </div>

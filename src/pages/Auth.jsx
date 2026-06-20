@@ -168,6 +168,8 @@ export default function Auth() {
                       value={name}
                       onChange={(e) => setName(e.target.value)}
                       className={`w-full bg-black/20 border ${errors.name ? 'border-red-500/50' : 'border-white/10'} rounded-xl py-3.5 pl-12 pr-4 text-white placeholder:text-white/30 text-sm focus:outline-none focus:border-[#52B788] focus:bg-white/5 transition-all duration-200`}
+                      aria-label="Full Name"
+                      aria-required={activeTab === 'signup'}
                     />
                   </div>
                   {errors.name && <p className="text-red-400 text-xs mt-1.5 ml-1 flex items-center gap-1"><AlertTriangle className="w-3 h-3"/>{errors.name}</p>}
@@ -184,6 +186,8 @@ export default function Auth() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className={`w-full bg-black/20 border ${errors.email ? 'border-red-500/50' : 'border-white/10'} rounded-xl py-3.5 pl-12 pr-4 text-white placeholder:text-white/30 text-sm focus:outline-none focus:border-[#52B788] focus:bg-white/5 transition-all duration-200`}
+                  aria-label="Email Address"
+                  aria-required="true"
                 />
               </div>
               {errors.email && <p className="text-red-400 text-xs mt-1.5 ml-1 flex items-center gap-1"><AlertTriangle className="w-3 h-3"/>{errors.email}</p>}
@@ -198,6 +202,8 @@ export default function Auth() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   className={`w-full bg-black/20 border ${errors.password ? 'border-red-500/50' : 'border-white/10'} rounded-xl py-3.5 pl-12 pr-12 text-white placeholder:text-white/30 text-sm focus:outline-none focus:border-[#52B788] focus:bg-white/5 transition-all duration-200`}
+                  aria-label="Password"
+                  aria-required="true"
                 />
                 <button
                   type="button"
@@ -226,6 +232,8 @@ export default function Auth() {
                       value={confirmPassword}
                       onChange={(e) => setConfirmPassword(e.target.value)}
                       className={`w-full bg-black/20 border ${errors.confirmPassword ? 'border-red-500/50' : 'border-white/10'} rounded-xl py-3.5 pl-12 pr-4 text-white placeholder:text-white/30 text-sm focus:outline-none focus:border-[#52B788] focus:bg-white/5 transition-all duration-200`}
+                      aria-label="Confirm Password"
+                      aria-required={activeTab === 'signup'}
                     />
                   </div>
                   {errors.confirmPassword && <p className="text-red-400 text-xs mt-1.5 ml-1 flex items-center gap-1"><AlertTriangle className="w-3 h-3"/>{errors.confirmPassword}</p>}

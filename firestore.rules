@@ -26,10 +26,10 @@ service cloud.firestore {
       allow create: if request.auth != null && request.auth.uid == request.resource.data.userId;
     }
 
-    // Leaderboard — public read, authenticated write
+    // Leaderboard — public read, authenticated owner write
     match /leaderboard/{entryId} {
       allow read: if true;
-      allow write: if request.auth != null;
+      allow write: if request.auth != null && request.auth.uid == entryId;
     }
 
     // Tips — public read, no client writes

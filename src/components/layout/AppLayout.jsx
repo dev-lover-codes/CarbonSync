@@ -100,13 +100,14 @@ const AppLayout = () => {
       </aside>
 
       {/* Main Content Area */}
-      <main className="flex-1 lg:ml-72 flex flex-col min-h-screen">
+      <main id="main-content" className="flex-1 lg:ml-72 flex flex-col min-h-screen">
         {/* Top Header */}
         <header className="sticky top-0 z-30 bg-surface/80 backdrop-blur-md border-b border-gray-100 px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-4">
             <button 
               className="lg:hidden p-2 text-gray-500"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              aria-label={isMobileMenuOpen ? "Close sidebar menu" : "Open sidebar menu"}
             >
               {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
@@ -118,7 +119,10 @@ const AppLayout = () => {
               <Flame size={20} className="fill-amber-500" />
               {userProfile?.streak || 0}
             </div>
-            <button className="relative p-2 text-gray-400 hover:text-primary transition-colors">
+            <button 
+              className="relative p-2 text-gray-400 hover:text-primary transition-colors"
+              aria-label="View notifications"
+            >
               <Bell size={24} />
               <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border-2 border-surface" />
             </button>
@@ -167,7 +171,7 @@ const AppLayout = () => {
             >
               <div className="mb-10 flex items-center justify-between">
                 <span className="text-xl font-black text-primary">Menu</span>
-                <button onClick={() => setIsMobileMenuOpen(false)}><X size={24} /></button>
+                <button onClick={() => setIsMobileMenuOpen(false)} aria-label="Close sidebar menu"><X size={24} /></button>
               </div>
               <nav className="space-y-4">
                 {navItems.map((item) => (

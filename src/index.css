@@ -575,3 +575,13 @@ button:focus-visible {
   outline-offset: 3px;
   box-shadow: 0 0 0 4px rgba(0,255,135,0.2);
 }
+
+/* prefers-reduced-motion fallback */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

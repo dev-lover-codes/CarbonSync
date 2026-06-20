@@ -7,6 +7,7 @@ import Card from '../components/ui/Card';
 import Input from '../components/ui/Input';
 import Button from '../components/ui/Button';
 import toast from 'react-hot-toast';
+import { SMARTPHONE_CHARGE_CO2_RATIO } from '../config/constants';
 
 const QUICK_CHIPS = [
   "How can I reduce my transport emissions?",
@@ -41,7 +42,7 @@ export default function AICoach() {
 
   const callGemini = async (chatHistory) => {
     const userStats = {
-      monthlyCO2: weeklyTotal * 4.3,
+      monthlyCO2: weeklyTotal * SMARTPHONE_CHARGE_CO2_RATIO,
       streak: userProfile?.streak || 0,
       level: userProfile?.level || 'Seedling'
     };
@@ -152,6 +153,7 @@ export default function AICoach() {
                 placeholder="Ask your AI Coach anything..."
                 className="w-full pl-10 pr-4 py-3.5 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all text-sm"
                 disabled={isLoading}
+                aria-label="Message AI Coach"
               />
             </div>
             <Button 

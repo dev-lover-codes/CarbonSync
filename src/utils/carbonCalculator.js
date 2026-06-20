@@ -1,52 +1,115 @@
-// Input validation helper — shared guard across all calculator functions
-const isValidNumber = (v) => typeof v === 'number' && !isNaN(v) && v >= 0;
+import {
+  CAR_CO2_FACTOR,
+  FLIGHT_CO2_FACTOR,
+  BUS_CO2_FACTOR,
+  ELECTRICITY_CO2_FACTOR,
+  HEATING_CO2_FACTOR,
+  MEAT_MEAL_CO2_FACTOR,
+  VEG_MEAL_CO2_FACTOR,
+  SHOPPING_ELECTRONICS_CO2_FACTOR,
+  SHOPPING_CLOTHING_CO2_FACTOR,
+  SHOPPING_GROCERIES_OTHER_CO2_FACTOR,
+  INDIAN_ANNUAL_AVERAGE as CONST_INDIAN_ANNUAL_AVERAGE,
+  GLOBAL_ANNUAL_AVERAGE as CONST_GLOBAL_ANNUAL_AVERAGE
+} from '../config/constants';
 
+// Re-export constants to maintain compatibility
+export const INDIAN_ANNUAL_AVERAGE = CONST_INDIAN_ANNUAL_AVERAGE;
+export const GLOBAL_ANNUAL_AVERAGE = CONST_GLOBAL_ANNUAL_AVERAGE;
+
+// Input validation helper — shared guard across all calculator functions
+const isValidNumber = (v) => typeof v === 'number' && Number.isFinite(v) && v >= 0;
+
+/**
+ * Calculates CO2 emissions for car travel in kg.
+ * @param {number} km - Distance traveled in kilometers.
+ * @returns {number} CO2 emissions in kg. Returns 0 for invalid input.
+ */
 export const calcCarCO2 = (km) => {
   if (!isValidNumber(km)) return 0;
-  return km * 0.21;
+  return km * CAR_CO2_FACTOR;
 };
 
+/**
+ * Calculates CO2 emissions for flight travel in kg.
+ * @param {number} km - Distance traveled in kilometers.
+ * @returns {number} CO2 emissions in kg. Returns 0 for invalid input.
+ */
 export const calcFlightCO2 = (km) => {
   if (!isValidNumber(km)) return 0;
-  return km * 0.255;
+  return km * FLIGHT_CO2_FACTOR;
 };
 
+/**
+ * Calculates CO2 emissions for bus travel in kg.
+ * @param {number} km - Distance traveled in kilometers.
+ * @returns {number} CO2 emissions in kg. Returns 0 for invalid input.
+ */
 export const calcBusCO2 = (km) => {
   if (!isValidNumber(km)) return 0;
-  return km * 0.089;
+  return km * BUS_CO2_FACTOR;
 };
 
+/**
+ * Calculates CO2 emissions for bike travel in kg (always 0).
+ * @param {number} km - Distance traveled in kilometers.
+ * @returns {number} CO2 emissions in kg (always 0). Returns 0 for invalid input.
+ */
 export const calcBikeCO2 = (km) => {
   if (!isValidNumber(km)) return 0;
   return 0;
 };
 
+/**
+ * Calculates CO2 emissions for electricity consumption in kg.
+ * @param {number} kwh - Electricity used in kilowatt-hours.
+ * @returns {number} CO2 emissions in kg. Returns 0 for invalid input.
+ */
 export const calcElectricityCO2 = (kwh) => {
   if (!isValidNumber(kwh)) return 0;
-  return kwh * 0.82;
+  return kwh * ELECTRICITY_CO2_FACTOR;
 };
 
+/**
+ * Calculates CO2 emissions for home heating in kg.
+ * @param {number} hours - Number of heating hours.
+ * @returns {number} CO2 emissions in kg. Returns 0 for invalid input.
+ */
 export const calcHeatingCO2 = (hours) => {
   if (!isValidNumber(hours)) return 0;
-  return hours * 0.2;
+  return hours * HEATING_CO2_FACTOR;
 };
 
+/**
+ * Calculates CO2 emissions for a meat-based meal in kg.
+ * @param {number} meals - Number of meat meals.
+ * @returns {number} CO2 emissions in kg. Returns 0 for invalid input.
+ */
 export const calcMeatMealCO2 = (meals) => {
   if (!isValidNumber(meals)) return 0;
-  return meals * 3.3;
+  return meals * MEAT_MEAL_CO2_FACTOR;
 };
 
+/**
+ * Calculates CO2 emissions for a vegetarian meal in kg.
+ * @param {number} meals - Number of vegetarian meals.
+ * @returns {number} CO2 emissions in kg. Returns 0 for invalid input.
+ */
 export const calcVegMealCO2 = (meals) => {
   if (!isValidNumber(meals)) return 0;
-  return meals * 0.7;
+  return meals * VEG_MEAL_CO2_FACTOR;
 };
 
+/**
+ * Calculates CO2 emissions for shopping items in kg.
+ * @param {number} items - Number of items purchased.
+ * @param {string} type - Category type of items (electronics, clothing, groceries, other).
+ * @returns {number} CO2 emissions in kg. Returns 0 for invalid input or unknown category.
+ */
 export const calcShoppingCO2 = (items, type) => {
   if (!isValidNumber(items)) return 0;
-  if (type === 'electronics') return items * 70;
-  if (type === 'clothing') return items * 10;
-  return items * 5; // groceries/other
+  if (type === 'electronics') return items * SHOPPING_ELECTRONICS_CO2_FACTOR;
+  if (type === 'clothing') return items * SHOPPING_CLOTHING_CO2_FACTOR;
+  if (type === 'groceries' || type === 'other') return items * SHOPPING_GROCERIES_OTHER_CO2_FACTOR;
+  return 0;
 };
-
-export const INDIAN_ANNUAL_AVERAGE = 1800; // kg/year
-export const GLOBAL_ANNUAL_AVERAGE = 4000; // kg/year

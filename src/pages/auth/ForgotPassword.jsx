@@ -42,7 +42,7 @@ const ForgotPassword = () => {
         <Card className="p-8">
           <div className="mb-6">
             <h2 className="text-2xl font-bold text-surface-dark mb-2">Reset Password</h2>
-            <p className="text-gray-500">Enter your email and we'll send you a link to reset your password.</p>
+            <p className="text-gray-300">Enter your email and we'll send you a link to reset your password.</p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-6">
@@ -62,7 +62,7 @@ const ForgotPassword = () => {
           </form>
 
           <div className="mt-8 text-center">
-            <Link to="/login" className="inline-flex items-center text-sm font-bold text-gray-500 hover:text-primary transition-colors">
+            <Link to="/login" className="inline-flex items-center text-sm font-bold text-gray-300 hover:text-primary transition-colors">
               <ArrowLeft size={16} className="mr-2" />
               Back to Login
             </Link>

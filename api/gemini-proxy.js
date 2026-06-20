@@ -20,8 +20,11 @@ export default async function handler(req, res) {
     const modelName = clientModel || 'gemini-1.5-flash';
     const model = genAI.getGenerativeModel({ model: modelName });
 
-    if (!prompt) {
-      return res.status(400).json({ error: 'Missing prompt' });
+    if (!prompt || typeof prompt !== 'string') {
+      return res.status(400).json({ error: 'Missing or invalid prompt' });
+    }
+    if (prompt.length > 2000) {
+      return res.status(400).json({ error: 'Prompt too long' });
     }
 
     const result = await model.generateContent(prompt);

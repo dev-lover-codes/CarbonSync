@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { useStore } from '../store/useStore';
 import { logActivity, getActivities } from '../lib/firestore';
-import { Text, Sparkles } from '@react-three/drei';
+import { Text, Sparkles, Html } from '@react-three/drei';
 import GlassPanel from '../components/GlassPanel';
 import Button3D from '../components/Button3D';
 import InputField3D from '../components/InputField3D';
@@ -16,6 +16,7 @@ import {
   calcElectricityCO2,
   calcShoppingCO2 
 } from '../utils/carbonCalculator';
+import { HIGH_EMISSION_THRESHOLD_KG } from '../config/constants';
 
 export function TrackerScene() {
   const { currentUser } = useAuth();
@@ -67,6 +68,57 @@ export function TrackerScene() {
   };
 
   const currentCO2 = calculateLiveCO2();
+  const projectedCO2 = currentCO2;
+
+  const getAlternativeStats = () => {
+    const num = parseFloat(inputValue) || 0;
+    if (activeTab === 'transport') {
+      if (subType === 'car') {
+        return {
+          alternative: 'taking the bus',
+          altCO2: calcBusCO2(num)
+        };
+      }
+      if (subType === 'flight') {
+        return {
+          alternative: 'taking a train or carpooling',
+          altCO2: calcBusCO2(num)
+        };
+      }
+    }
+    if (activeTab === 'food' && subType === 'meat') {
+      return {
+        alternative: 'a vegetarian meal',
+        altCO2: calcVegMealCO2(num)
+      };
+    }
+    if (activeTab === 'energy') {
+      return {
+        alternative: 'LED conversion or rooftop solar',
+        altCO2: num * 0.2
+      };
+    }
+    if (activeTab === 'shopping') {
+      if (subType === 'electronics') {
+        return {
+          alternative: 'certified refurbished items',
+          altCO2: calcShoppingCO2(num, 'clothing')
+        };
+      }
+      if (subType === 'clothing') {
+        return {
+          alternative: 'thrifting or organic fabrics',
+          altCO2: calcShoppingCO2(num, 'groceries')
+        };
+      }
+    }
+    return {
+      alternative: 'greener choices',
+      altCO2: currentCO2 * 0.5
+    };
+  };
+
+  const { alternative: suggestedAlternative, altCO2 } = getAlternativeStats();
 
   const handleSubmit = async () => {
     if (!currentUser || animatingSubmit) return;
@@ -118,7 +170,7 @@ export function TrackerScene() {
       }
 
       // Behavioral nudge
-      if (currentCO2 > 5) {
+      if (currentCO2 > HIGH_EMISSION_THRESHOLD_KG) {
         // High emission warning nudge
         addChatMessage({
           sender: 'bot',
@@ -225,9 +277,25 @@ export function TrackerScene() {
             />
           </group>
 
+          {/* Pre-submit warning nudges */}
+          {projectedCO2 > HIGH_EMISSION_THRESHOLD_KG && (
+            <Html 
+              center 
+              position={[0, -0.62, 0.05]}
+              style={{ width: '280px', pointerEvents: 'none' }}
+            >
+              <div className="bg-amber-500/10 border border-amber-500/30 
+                              rounded-xl p-3 text-amber-300 text-sm mb-3">
+                ⚠️ This will add ~{projectedCO2.toFixed(1)}kg CO₂. 
+                Consider {suggestedAlternative} instead — it would only add 
+                ~{altCO2.toFixed(1)}kg.
+              </div>
+            </Html>
+          )}
+
           {/* Submitting Success ring animation */}
           {animatingSubmit ? (
-            <group position={[0, -0.88, 0.05]}>
+            <group position={[0, -0.92, 0.05]}>
               <ProgressRing3D progress={submitPercent} size={0.24} color="#00ff87" />
             </group>
           ) : (
@@ -242,6 +310,16 @@ export function TrackerScene() {
             </group>
           )}
         </GlassPanel>
+
+        {/* Action tagline */}
+        <group position={[0, -1.35, 0.05]}>
+          <Text
+            fontSize={0.065}
+            color="rgba(153, 176, 160, 0.65)"
+          >
+            See it. Decide differently. Track the change.
+          </Text>
+        </group>
 
         {/* Live carbon indicator text below panel */}
         <group position={[0, -1.75, 0.05]}>

@@ -1,6 +1,7 @@
 import React, { useMemo, useState, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { useCarbon } from '../contexts/CarbonContext';
+import { SMARTPHONE_CHARGE_CO2_RATIO, DAILY_BUDGET_CO2_KG } from '../config/constants';
 import { carbonFactors } from '../config/carbonFactors';
 import { Link, useNavigate } from 'react-router-dom';
 import useStore from '../store/useStore';
@@ -140,8 +141,8 @@ export default function Dashboard() {
   const greeting = hour < 12 ? 'Good morning' : hour < 18 ? 'Good afternoon' : 'Good evening';
   const name = userProfile?.name?.split(' ')[0] || 'Eco Warrior';
 
-  // Gauge calculation (assuming 15kg is daily budget)
-  const dailyBudget = 15;
+  // Gauge calculation (assuming daily budget is configured)
+  const dailyBudget = DAILY_BUDGET_CO2_KG;
   const percentage = Math.min((todayTotal / dailyBudget) * 100, 100);
   const gaugeColor = percentage < 60 ? '#10B981' : percentage < 90 ? '#F59E0B' : '#EF4444';
   const strokeDasharray = `${percentage}, 100`;
@@ -241,7 +242,7 @@ export default function Dashboard() {
               {(userStats?.dailyFootprint || 0).toFixed(1)} <span className="text-xs font-semibold tracking-widest text-gray-400 uppercase ml-1">kg</span>
             </div>
             <span className="text-xs text-emerald-400 mt-1 block">
-              ≈ {Math.round((userStats?.dailyFootprint || 0) * 4.3)} smartphones fully charged
+              ≈ {Math.round((userStats?.dailyFootprint || 0) * SMARTPHONE_CHARGE_CO2_RATIO)} smartphones fully charged
             </span>
           </div>
 
@@ -260,7 +261,7 @@ export default function Dashboard() {
               {(userStats?.weeklyFootprint?.reduce((a,b)=>a+b,0) || 0).toFixed(1)} <span className="text-xs font-semibold tracking-widest text-gray-400 uppercase ml-1">kg</span>
             </div>
             <span className="text-xs text-emerald-400 mt-1 block">
-              ≈ {Math.round((userStats?.weeklyFootprint?.reduce((a,b)=>a+b,0) || 0) * 4.3)} smartphones fully charged
+              ≈ {Math.round((userStats?.weeklyFootprint?.reduce((a,b)=>a+b,0) || 0) * SMARTPHONE_CHARGE_CO2_RATIO)} smartphones fully charged
             </span>
           </div>
 
@@ -275,7 +276,7 @@ export default function Dashboard() {
               {(userStats?.totalSaved || 0).toFixed(1)} <span className="text-xs font-semibold tracking-widest text-gray-400 uppercase ml-1">kg</span>
             </div>
             <span className="text-xs text-emerald-400 mt-1 block">
-              ≈ {Math.round((userStats?.totalSaved || 0) * 4.3)} smartphones fully charged
+              ≈ {Math.round((userStats?.totalSaved || 0) * SMARTPHONE_CHARGE_CO2_RATIO)} smartphones fully charged
             </span>
           </div>
 

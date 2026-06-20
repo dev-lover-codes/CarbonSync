@@ -215,6 +215,7 @@ Only return the JSON array, nothing else.`;
                 <button 
                   onClick={() => handleToggleSave(tip.id)}
                   className={`p-2 rounded-lg transition-colors ${isSaved ? 'text-green-600 bg-green-50' : 'text-gray-400 hover:bg-gray-100 hover:text-gray-900'}`}
+                  aria-label={isSaved ? "Unsave tip" : "Save tip"}
                 >
                   {isSaved ? <Bookmark fill="currentColor" size={20} /> : <BookmarkPlus size={20} />}
                 </button>

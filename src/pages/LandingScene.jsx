@@ -311,7 +311,7 @@ export function LandingScene() {
               fontWeight: '400',
               letterSpacing: '0.01em',
             }}>
-              An immersive 3D platform that tracks, analyzes, and gamifies your carbon reductions using real-time AI insights. Join the movement.
+              An immersive 3D platform that intercepts, analyzes, and gamifies your carbon reductions in the moment using real-time AI insights. Join the movement.
             </p>
 
             {/* CTA Buttons */}
@@ -417,7 +417,7 @@ export function LandingScene() {
                   textTransform: 'uppercase',
                   fontFamily: "'Space Grotesk', monospace",
                 }}>
-                  already tracking
+                  already deciding
                 </div>
               </div>
               
@@ -622,7 +622,7 @@ export function LandingScene() {
           position={[0, -2.4, 0.06]} center distanceFactor={5} transform zIndexRange={[100, 0]} style={{ pointerEvents: 'none', width: '260px', textAlign: 'center' }}>
             <div className="landing-sec3" style={{ ...htmlContainerStyle, fontFamily: "'Space Grotesk', monospace" }}>
               <div style={{ fontSize: '13px', fontWeight: '700', color: '#00d4ff', letterSpacing: '0.1em', textTransform: 'uppercase' }}>Smart Sync Workflow</div>
-              <div style={{ fontSize: '10px', color: 'rgba(153,176,160,0.65)', marginTop: '6px', letterSpacing: '0.04em', lineHeight: 1.5 }}>Log, analyze, and reduce — seamlessly connected</div>
+              <div style={{ fontSize: '10px', color: 'rgba(153,176,160,0.65)', marginTop: '6px', letterSpacing: '0.04em', lineHeight: 1.5 }}>Intercept, analyze, and reduce — seamlessly connected</div>
             </div>
           </Html>
         </group>
@@ -704,8 +704,8 @@ export function LandingScene() {
                 textTransform: 'uppercase',
                 marginBottom: '8px',
               }}>Step 01</div>
-              <div style={{ fontSize: '15px', fontWeight: '700', color: 'white', marginBottom: '6px', fontFamily: "'Syne', sans-serif" }}>Log</div>
-              <div style={{ fontSize: '11px', color: 'rgba(153,176,160,0.65)', lineHeight: 1.6 }}>Input transport, diet, and electricity data</div>
+              <div style={{ fontSize: '15px', fontWeight: '700', color: 'white', marginBottom: '6px', fontFamily: "'Syne', sans-serif" }}>Intercept</div>
+              <div style={{ fontSize: '11px', color: 'rgba(153,176,160,0.65)', lineHeight: 1.6 }}>Evaluate transport, diet, and electricity impact before you act</div>
             </div>
           </Html>
         </group>
@@ -819,7 +819,7 @@ export function LandingScene() {
                 fontSize: '13px', color: 'rgba(153,176,160,0.7)',
                 marginBottom: isMobile ? '18px' : '30px', lineHeight: '1.65', maxWidth: '380px', margin: '0 auto 20px',
               }}>
-                Join thousands tracking their footprint. Build a sustainable future one log at a time.
+                Join thousands intercepting their footprint in the moment. Build a sustainable future one decision at a time.
               </div>
 
               {/* Stats row */}

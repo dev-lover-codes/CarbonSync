@@ -61,7 +61,7 @@ const Signup = () => {
         >
           <div className="mb-8 text-center lg:text-left">
             <h2 className="text-3xl font-extrabold text-surface-dark mb-2">Join CarbonSync</h2>
-            <p className="text-gray-500">Start your journey towards a sustainable lifestyle</p>
+            <p className="text-gray-300">Start your journey towards a sustainable lifestyle</p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-4">
@@ -96,7 +96,7 @@ const Signup = () => {
               {formData.password && (
                 <div className="px-1">
                   <div className="flex justify-between items-center mb-1">
-                    <span className="text-[10px] font-bold uppercase tracking-wider text-gray-400">Strength: {strength.label}</span>
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-gray-300">Strength: {strength.label}</span>
                   </div>
                   <div className="h-1 w-full bg-gray-100 rounded-full overflow-hidden">
                     <div className={`h-full transition-all duration-500 ${strength.color} ${strength.width}`} />

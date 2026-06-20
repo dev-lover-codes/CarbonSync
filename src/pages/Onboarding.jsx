@@ -171,6 +171,7 @@ const Onboarding = () => {
                   value={selections.reductionGoal}
                   onChange={(e) => setSelections({...selections, reductionGoal: parseInt(e.target.value)})}
                   className="w-full h-4 bg-gray-100 rounded-lg appearance-none cursor-pointer accent-primary"
+                  aria-label="Monthly carbon reduction goal target"
                 />
                 <div className="flex justify-between mt-4 text-sm font-bold text-gray-400 px-1">
                   <span>10kg</span>
