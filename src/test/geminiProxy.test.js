@@ -37,6 +37,13 @@ function mockReqRes(method, body, headers = {}) {
   const res = {
     statusCode: 0,
     body: null,
+    headers: {},
+    setHeader(name, value) {
+      this.headers[name] = value;
+    },
+    end() {
+      return this;
+    },
     status(code) {
       this.statusCode = code;
       return this;
@@ -95,5 +102,13 @@ describe('gemini-proxy handler', () => {
     expect(res.statusCode).toBe(500);
     expect(res.body.error).toBe('Generation failed');
     expect(res.body.details).toBe('mock failure');
+  });
+
+  it('sets restricted CORS origin header on every response', async () => {
+    const { req, res } = mockReqRes('POST', { prompt: 'hello' });
+    await handler(req, res);
+    expect(res.headers['Access-Control-Allow-Origin']).toBe(
+      'https://carbonsync-site.vercel.app'
+    );
   });
 });

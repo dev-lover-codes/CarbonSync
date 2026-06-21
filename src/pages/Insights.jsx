@@ -1,21 +1,17 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { useCarbon } from '../contexts/CarbonContext';
 import { carbonFactors } from '../config/carbonFactors';
 import { saveInsight } from '../utils/firestoreHelpers';
 import { getWeeklyInsight, getFootprintScore } from '../services/geminiService';
-import { 
-  PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend,
-  BarChart, Bar, XAxis, YAxis, CartesianGrid
-} from 'recharts';
-import { Sparkles, Lightbulb, Loader2, TrendingUp, Leaf, ArrowRight, CheckCircle2, AlertCircle } from 'lucide-react';
 import Card from '../components/ui/Card';
-import Button from '../components/ui/Button';
 import toast from 'react-hot-toast';
+import { CONTAINER, PAGE_HEADER_CONTAINER, PAGE_HEADER_TITLE, PAGE_HEADER_SUBTITLE } from '../utils/styles';
+import EcoScoreCard from '../components/insights/EcoScoreCard';
+import AIAnalysisCard from '../components/insights/AIAnalysisCard';
+import InsightsCharts from '../components/insights/InsightsCharts';
 
 const GREENS = ['#2D6A4F', '#40916C', '#52B788', '#74C69D', '#95D5B2'];
-const INDIAN_ANNUAL_AVERAGE = 1800; // kg/year
-const GLOBAL_ANNUAL_AVERAGE = 4000; // kg/year
 
 export default function Insights() {
   const { currentUser } = useAuth();
@@ -129,7 +125,7 @@ export default function Insights() {
   const latestInsight = insights && insights.length > 0 ? insights[0] : null;
 
   // Generate Weekly Insight using Gemini
-  const generateInsight = async () => {
+  const generateInsight = useCallback(async () => {
     if (!currentUser) return;
     setIsGenerating(true);
     
@@ -150,7 +146,7 @@ export default function Insights() {
     } finally {
       setIsGenerating(false);
     }
-  };
+  }, [currentUser, dailyChartData, prevTotal, currentTotal, fetchInsights]);
 
   // Top 3 impact areas sorting
   const topImpactAreas = useMemo(() => {
@@ -181,21 +177,13 @@ export default function Insights() {
   }, [activities]);
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 animate-in fade-in duration-500">
+    <div className={CONTAINER}>
       {/* Header */}
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+      <div className={PAGE_HEADER_CONTAINER}>
         <div>
-          <h1 className="text-3xl font-bold text-gray-900 tracking-tight">Data & Insights</h1>
-          <p className="text-gray-500 mt-1">AI-powered tracking and analytics dashboard</p>
+          <h1 className={PAGE_HEADER_TITLE}>Data & Insights</h1>
+          <p className={PAGE_HEADER_SUBTITLE}>AI-powered tracking and analytics dashboard</p>
         </div>
-        <Button 
-          onClick={generateInsight} 
-          disabled={isGenerating}
-          className="bg-green-700 hover:bg-green-800 flex items-center gap-2 shadow-md shadow-green-700/20"
-        >
-          {isGenerating ? <Loader2 size={18} className="animate-spin" /> : <Sparkles size={18} />}
-          {isGenerating ? 'Analyzing Data...' : 'Generate AI Report'}
-        </Button>
       </div>
 
       {/* Date Range Tabs */}
@@ -228,137 +216,25 @@ export default function Insights() {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
         {/* Score Card with Conic Ring */}
-        <Card className="p-6 shadow-sm border border-gray-100/60 flex flex-col items-center text-center">
-          <h2 className="text-sm font-semibold tracking-wide uppercase text-gray-500 mb-6 w-full text-left">Your Eco Score</h2>
-          {loadingScore ? (
-            <div className="h-40 flex items-center justify-center">
-              <Loader2 className="w-8 h-8 animate-spin text-green-700" />
-            </div>
-          ) : (
-            <div className="flex flex-col items-center">
-              <div className="relative w-36 h-36 flex items-center justify-center mb-6">
-                <svg viewBox="0 0 36 36" className="w-full h-full transform -rotate-90">
-                  <circle cx="18" cy="18" r="15.9" fill="none" stroke="#F3F4F6" strokeWidth="2.5" />
-                  <circle cx="18" cy="18" r="15.9" fill="none" stroke="#2D6A4F" strokeWidth="3" strokeDasharray={`${scoreData.score}, 100`} strokeLinecap="round" />
-                </svg>
-                <div className="absolute inset-0 flex flex-col items-center justify-center">
-                  <span className="text-4xl font-black text-gray-900">{scoreData.score}</span>
-                  <span className="text-sm font-bold text-green-700">Grade: {scoreData.grade}</span>
-                </div>
-              </div>
-              <p className="text-sm font-medium text-gray-700 mb-6 leading-relaxed px-4">{scoreData.summary}</p>
-              
-              {/* Benchmarks */}
-              <div className="w-full space-y-3 pt-4 border-t border-gray-100 text-left">
-                <div>
-                  <div className="flex justify-between text-xs font-semibold text-gray-500 mb-1">
-                    <span>vs Indian Average</span>
-                    <span>{((currentTotal / (INDIAN_ANNUAL_AVERAGE / 12)) * 100).toFixed(0)}%</span>
-                  </div>
-                  <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
-                    <div className="h-full bg-green-500" style={{ width: `${Math.min((currentTotal / (INDIAN_ANNUAL_AVERAGE / 12)) * 100, 100)}%` }} />
-                  </div>
-                </div>
-                <div>
-                  <div className="flex justify-between text-xs font-semibold text-gray-500 mb-1">
-                    <span>vs Global Average</span>
-                    <span>{((currentTotal / (GLOBAL_ANNUAL_AVERAGE / 12)) * 100).toFixed(0)}%</span>
-                  </div>
-                  <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
-                    <div className="h-full bg-[#52B788]" style={{ width: `${Math.min((currentTotal / (GLOBAL_ANNUAL_AVERAGE / 12)) * 100, 100)}%` }} />
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
-        </Card>
+        <EcoScoreCard 
+          loadingScore={loadingScore} 
+          scoreData={scoreData} 
+          currentTotal={currentTotal} 
+        />
 
-        {/* AI Weekly Analysis */}
-        <Card className="lg:col-span-2 p-6 border border-green-100 bg-gradient-to-b from-green-50/50 to-white shadow-sm relative overflow-hidden">
-          <div className="flex items-center gap-3 mb-6 relative z-10">
-            <div className="p-2 bg-green-100 text-green-700 rounded-lg">
-              <Lightbulb size={24} />
-            </div>
-            <h2 className="text-xl font-bold text-gray-900">AI Analysis</h2>
-          </div>
-          
-          <div className="relative z-10 space-y-4">
-            {latestInsight ? (
-              <div className="space-y-4 text-sm text-gray-700 leading-relaxed font-medium">
-                <p>{latestInsight.report}</p>
-                {latestInsight.highlight && (
-                  <div className="text-xs font-bold text-green-700 bg-green-100/60 px-3 py-1.5 rounded-full inline-block">
-                    Highlight: {latestInsight.highlight}
-                  </div>
-                )}
-                <div className="pt-4 border-t border-green-100 flex items-center text-xs text-gray-400 gap-1.5 font-bold">
-                  <CheckCircle2 size={14} className="text-green-600" />
-                  Report Trend: {latestInsight.trend || 'steady'}
-                </div>
-              </div>
-            ) : (
-              <div className="text-center py-10 opacity-70">
-                <Sparkles size={32} className="mx-auto text-green-300 mb-3" />
-                <p className="text-gray-500">No report generated yet.<br/>Click the **Generate AI Report** button to analyze your history.</p>
-              </div>
-            )}
-          </div>
-        </Card>
+        <AIAnalysisCard 
+          latestInsight={latestInsight} 
+          isGenerating={isGenerating} 
+          onGenerate={generateInsight} 
+        />
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-        {/* Pie Category Distribution */}
-        <Card className="p-6 shadow-sm border border-gray-100">
-          <h2 className="text-lg font-bold text-gray-900 mb-6">Emissions by Category</h2>
-          <div className="h-[280px] w-full flex items-center justify-center">
-            {categoryBreakdown.length > 0 ? (
-              <ResponsiveContainer width="100%" height="100%">
-                <PieChart>
-                  <Pie
-                    data={categoryBreakdown}
-                    cx="50%"
-                    cy="50%"
-                    innerRadius={70}
-                    outerRadius={105}
-                    paddingAngle={3}
-                    dataKey="value"
-                    stroke="none"
-                  >
-                    {categoryBreakdown.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={entry.color} />
-                    ))}
-                  </Pie>
-                  <Tooltip formatter={(value) => [`${value.toFixed(1)} kg`, 'CO₂']} />
-                  <Legend verticalAlign="middle" align="right" layout="vertical" />
-                </PieChart>
-              </ResponsiveContainer>
-            ) : (
-              <div className="text-center text-gray-400 text-sm py-10">No activities logged in this range.</div>
-            )}
-          </div>
-        </Card>
-
-        {/* Current vs Previous Period BarChart */}
-        <Card className="p-6 shadow-sm border border-gray-100">
-          <h2 className="text-lg font-bold text-gray-900 mb-6">Current vs. Previous Period</h2>
-          <div className="h-[280px] w-full">
-            {currentTotal > 0 || prevTotal > 0 ? (
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={dailyChartData} margin={{ top: 5, right: 10, left: -20, bottom: 0 }}>
-                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f3f4f6" />
-                  <XAxis dataKey="name" tick={{ fontSize: 11, fill: '#9ca3af' }} axisLine={false} tickLine={false} />
-                  <YAxis tick={{ fontSize: 11, fill: '#9ca3af' }} axisLine={false} tickLine={false} />
-                  <Tooltip contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }} />
-                  <Bar dataKey="This Period" fill="#2D6A4F" radius={[4, 4, 0, 0]} />
-                  <Bar dataKey="Previous Period" fill="#95D5B2" radius={[4, 4, 0, 0]} />
-                </BarChart>
-              </ResponsiveContainer>
-            ) : (
-              <div className="text-center text-gray-400 text-sm py-10">No data to display.</div>
-            )}
-          </div>
-        </Card>
-      </div>
+      <InsightsCharts 
+        categoryBreakdown={categoryBreakdown} 
+        dailyChartData={dailyChartData} 
+        currentTotal={currentTotal} 
+        prevTotal={prevTotal} 
+      />
 
       {/* Top 3 Impact Areas */}
       <h3 className="text-lg font-bold text-gray-900 mb-4">Top 3 Impact Areas</h3>

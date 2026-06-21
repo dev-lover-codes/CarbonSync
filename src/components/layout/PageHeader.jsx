@@ -1,12 +1,13 @@
 import React from 'react';
 import Button from '../ui/Button';
+import { PAGE_HEADER_CONTAINER, PAGE_HEADER_TITLE, PAGE_HEADER_SUBTITLE } from '../../utils/styles';
 
 export default function PageHeader({ title, subtitle, actionLabel, actionIcon: ActionIcon, onAction }) {
   return (
-    <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+    <div className={PAGE_HEADER_CONTAINER}>
       <div>
-        <h1 className="text-3xl font-bold text-gray-900 tracking-tight">{title}</h1>
-        {subtitle && <p className="text-gray-500 mt-1">{subtitle}</p>}
+        <h1 className={PAGE_HEADER_TITLE}>{title}</h1>
+        {subtitle && <p className={PAGE_HEADER_SUBTITLE}>{subtitle}</p>}
       </div>
       {actionLabel && (
         <Button onClick={onAction} className="bg-green-600 hover:bg-green-700 flex items-center gap-2 shadow-md shadow-green-600/20">

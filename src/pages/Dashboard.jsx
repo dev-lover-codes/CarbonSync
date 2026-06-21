@@ -18,6 +18,8 @@ import Card from '../components/ui/Card';
 import Button from '../components/ui/Button';
 import Badge from '../components/ui/Badge';
 import ProgressBar from '../components/ui/ProgressBar';
+import { CONTAINER } from '../utils/styles';
+import StatCard from '../components/dashboard/StatCard';
 
 const TIPS = [
   { id: 1, title: 'Unplug Standby Devices', desc: 'Phantom energy can account for up to 10% of home electricity use.', icon: Zap, color: 'text-amber-500', bg: 'bg-amber-100' },
@@ -53,7 +55,7 @@ export default function Dashboard() {
     
     // Cleanup subscription on unmount
     return () => unsubscribe();
-  }, [user?.uid]);
+  }, [user?.uid, fetchUserStats, subscribeToLogs]);
 
   useEffect(() => {
     async function fetchTip() {
@@ -170,7 +172,7 @@ export default function Dashboard() {
   );
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 animate-in fade-in duration-500">
+    <div className={CONTAINER}>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Hero Section */}
         <div className="md:col-span-3 bg-gradient-to-br from-green-800 to-green-900 rounded-3xl p-8 text-white shadow-xl relative overflow-hidden">
@@ -231,66 +233,51 @@ export default function Dashboard() {
 
         {/* Stats Row */}
         <div className="md:col-span-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-3xl p-6 flex flex-col gap-2">
-            <div className="flex justify-between items-start mb-2">
-              <h3 className="text-xs font-semibold tracking-widest text-gray-400 uppercase">TODAY</h3>
-              <div className={`p-1.5 rounded-lg ${userStats?.dailyFootprint < dailyBudget ? 'bg-primary/20 text-primary-light' : 'bg-red-500/20 text-red-400'}`}>
-                {userStats?.dailyFootprint < dailyBudget ? <TrendingDown size={18} /> : <TrendingUp size={18} />}
-              </div>
-            </div>
-            <div className="text-4xl font-bold text-white tracking-tight">
-              {(userStats?.dailyFootprint || 0).toFixed(1)} <span className="text-xs font-semibold tracking-widest text-gray-400 uppercase ml-1">kg</span>
-            </div>
-            <span className="text-xs text-emerald-400 mt-1 block">
-              ≈ {Math.round((userStats?.dailyFootprint || 0) * SMARTPHONE_CHARGE_CO2_RATIO)} smartphones fully charged
-            </span>
-          </div>
+          {/* TODAY card — icon dynamically reflects vs-budget status */}
+          <StatCard
+            label="TODAY"
+            value={(userStats?.dailyFootprint || 0).toFixed(1)}
+            unit="kg"
+            icon={userStats?.dailyFootprint < dailyBudget ? TrendingDown : TrendingUp}
+            iconBg={userStats?.dailyFootprint < dailyBudget ? 'bg-primary/20' : 'bg-red-500/20'}
+            iconColor={userStats?.dailyFootprint < dailyBudget ? 'text-primary-light' : 'text-red-400'}
+            awarenessText={`≈ ${Math.round((userStats?.dailyFootprint || 0) * SMARTPHONE_CHARGE_CO2_RATIO)} smartphones fully charged`}
+          />
 
-          <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-3xl p-6 flex flex-col gap-2">
-            <div className="flex justify-between items-start mb-2">
-              <h3 className="text-xs font-semibold tracking-widest text-gray-400 uppercase">WEEKLY</h3>
-              <div className="w-16 h-8">
-                <ResponsiveContainer width="100%" height="100%">
-                  <LineChart data={sparklineData}>
-                    <Line type="monotone" dataKey="value" stroke="#3B82F6" strokeWidth={2} dot={false} />
-                  </LineChart>
-                </ResponsiveContainer>
-              </div>
-            </div>
-            <div className="text-4xl font-bold text-white tracking-tight">
-              {(userStats?.weeklyFootprint?.reduce((a,b)=>a+b,0) || 0).toFixed(1)} <span className="text-xs font-semibold tracking-widest text-gray-400 uppercase ml-1">kg</span>
-            </div>
-            <span className="text-xs text-emerald-400 mt-1 block">
-              ≈ {Math.round((userStats?.weeklyFootprint?.reduce((a,b)=>a+b,0) || 0) * SMARTPHONE_CHARGE_CO2_RATIO)} smartphones fully charged
-            </span>
-          </div>
+          {/* WEEKLY card — sparkline in the header children slot */}
+          <StatCard
+            label="WEEKLY"
+            value={(userStats?.weeklyFootprint?.reduce((a, b) => a + b, 0) || 0).toFixed(1)}
+            unit="kg"
+            awarenessText={`≈ ${Math.round((userStats?.weeklyFootprint?.reduce((a, b) => a + b, 0) || 0) * SMARTPHONE_CHARGE_CO2_RATIO)} smartphones fully charged`}
+          >
+            <ResponsiveContainer width="100%" height="100%">
+              <LineChart data={sparklineData}>
+                <Line type="monotone" dataKey="value" stroke="#3B82F6" strokeWidth={2} dot={false} />
+              </LineChart>
+            </ResponsiveContainer>
+          </StatCard>
 
-          <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-3xl p-6 flex flex-col gap-2">
-            <div className="flex justify-between items-start mb-2">
-              <h3 className="text-xs font-semibold tracking-widest text-gray-400 uppercase">SAVED</h3>
-              <div className="p-1.5 rounded-lg bg-primary/20 text-primary-light">
-                <Award size={18} />
-              </div>
-            </div>
-            <div className="text-4xl font-bold text-white tracking-tight">
-              {(userStats?.totalSaved || 0).toFixed(1)} <span className="text-xs font-semibold tracking-widest text-gray-400 uppercase ml-1">kg</span>
-            </div>
-            <span className="text-xs text-emerald-400 mt-1 block">
-              ≈ {Math.round((userStats?.totalSaved || 0) * SMARTPHONE_CHARGE_CO2_RATIO)} smartphones fully charged
-            </span>
-          </div>
+          {/* SAVED card */}
+          <StatCard
+            label="SAVED"
+            value={(userStats?.totalSaved || 0).toFixed(1)}
+            unit="kg"
+            icon={Award}
+            iconBg="bg-primary/20"
+            iconColor="text-primary-light"
+            awarenessText={`≈ ${Math.round((userStats?.totalSaved || 0) * SMARTPHONE_CHARGE_CO2_RATIO)} smartphones fully charged`}
+          />
 
-          <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-3xl p-6 flex flex-col gap-2">
-            <div className="flex justify-between items-start mb-2">
-              <h3 className="text-xs font-semibold tracking-widest text-gray-400 uppercase">STREAK</h3>
-              <div className="p-1.5 rounded-lg bg-orange-500/20 text-orange-400">
-                <Flame size={18} />
-              </div>
-            </div>
-            <div className="text-4xl font-bold text-white tracking-tight">
-              {userStats?.streak || 0} <span className="text-xs font-semibold tracking-widest text-gray-400 uppercase ml-1">days</span>
-            </div>
-          </div>
+          {/* STREAK card */}
+          <StatCard
+            label="STREAK"
+            value={userStats?.streak || 0}
+            unit="days"
+            icon={Flame}
+            iconBg="bg-orange-500/20"
+            iconColor="text-orange-400"
+          />
         </div>
 
         {/* Main Content Bento Box Grid */}

@@ -1,13 +1,13 @@
 import React, { useState, useMemo } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { useCarbon } from '../contexts/CarbonContext';
-import { CheckCircle, Target, Plus, Sparkles, Loader2, Flag, Lock, Award } from 'lucide-react';
+import { CheckCircle, Target, Plus, Sparkles, Flag, Lock, Award } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { tapEffect } from '../utils/animations';
 import Button from '../components/ui/Button';
-import Modal from '../components/ui/Modal';
-import Input from '../components/ui/Input';
 import toast from 'react-hot-toast';
+import { CONTAINER, PAGE_HEADER_CONTAINER, PAGE_HEADER_TITLE, PAGE_HEADER_SUBTITLE } from '../utils/styles';
+import CreateGoalModal from '../components/goals/CreateGoalModal';
 
 const STATIC_CHALLENGES = [
   { id: 'c1', title: 'Zero Car Week', target: 0, unit: 'km', desc: 'Commute without a car for 7 days.' },
@@ -22,14 +22,7 @@ export default function Goals() {
   const { userProfile } = useAuth();
   const { goals, addGoal, toggleGoal, activities } = useCarbon();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isSuggesting, setIsSuggesting] = useState(false);
-  const [suggestedGoals, setSuggestedGoals] = useState([]);
   
-  // Custom goal form
-  const [title, setTitle] = useState('');
-  const [target, setTarget] = useState('');
-  const [unit, setUnit] = useState('');
-
   const activeGoals = useMemo(() => {
     return (goals || []).filter(g => g.status !== 'completed');
   }, [goals]);
@@ -37,17 +30,12 @@ export default function Goals() {
   const handleAddGoal = async (goalData) => {
     try {
       await addGoal({
-        title: goalData.title || title,
-        target: Number(goalData.target || target),
+        title: goalData.title,
+        target: Number(goalData.target),
         current: 0,
-        unit: goalData.unit || unit
+        unit: goalData.unit
       });
       toast.success('Goal added successfully! 🎯');
-      setIsModalOpen(false);
-      setTitle('');
-      setTarget('');
-      setUnit('');
-      setSuggestedGoals([]);
     } catch (error) {
       toast.error('Failed to add goal');
     }
@@ -72,46 +60,13 @@ export default function Goals() {
     ];
   }, [userProfile, activities]);
 
-  const getAIGoals = async () => {
-    setIsSuggesting(true);
-    setSuggestedGoals([]);
-    try {
-      const prompt = `Suggest exactly 3 realistic sustainability goals.
-Format as JSON array: [{"title":"","target":0,"unit":"","desc":""}]
-Only return the JSON array, nothing else.`;
-
-      const judgeKey = sessionStorage.getItem('judge_gemini_key');
-      const headers = { 'Content-Type': 'application/json' };
-      if (judgeKey) {
-        headers['Authorization'] = `Bearer ${judgeKey}`;
-      }
-
-      const response = await fetch('/api/gemini-proxy', {
-        method: 'POST',
-        headers,
-        body: JSON.stringify({ prompt }),
-      });
-      if (!response.ok) throw new Error('Proxy error');
-      const data = await response.json();
-      const text = data.text;
-
-      const match = text.match(/\[[\s\S]*\]/);
-      if (match) setSuggestedGoals(JSON.parse(match[0]));
-    } catch (error) {
-      toast.error('Failed to generate AI suggestions.');
-    } finally {
-      setIsSuggesting(false);
-    }
-  };
-
-
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 animate-in fade-in duration-500">
+    <div className={CONTAINER}>
       
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+      <div className={PAGE_HEADER_CONTAINER}>
         <div>
-          <h1 className="text-3xl font-extrabold text-gray-900 tracking-tight">Your Goals</h1>
-          <p className="text-gray-500 mt-1">Set targets and challenge yourself to do better</p>
+          <h1 className={PAGE_HEADER_TITLE}>Your Goals</h1>
+          <p className={PAGE_HEADER_SUBTITLE}>Set targets and challenge yourself to do better</p>
         </div>
         <motion.div
           whileHover={tapEffect.whileHover}
@@ -285,102 +240,10 @@ Only return the JSON array, nothing else.`;
         </div>
       </div>
 
-      {/* Modal */}
-      <Modal isOpen={isModalOpen} onClose={() => { setIsModalOpen(false); setSuggestedGoals([]); }} title="Create a Goal">
-        <div className="mt-4 space-y-4">
-          
-          <div className="p-4 bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl border border-blue-100 flex items-center justify-between">
-            <div>
-              <p className="text-sm font-bold text-gray-900">Not sure what to pick?</p>
-              <p className="text-xs text-gray-600">Let AI suggest goals based on your habits.</p>
-            </div>
-            <motion.div
-              whileHover={tapEffect.whileHover}
-              whileTap={tapEffect.whileTap}
-              transition={tapEffect.transition}
-            >
-              <Button 
-                onClick={getAIGoals} 
-                disabled={isSuggesting}
-                size="sm" 
-                className="bg-purple-600 hover:bg-purple-700 shadow-sm shadow-purple-600/20 whitespace-nowrap"
-              >
-                {isSuggesting ? <Loader2 size={16} className="animate-spin" /> : <Sparkles size={16} className="mr-1" />}
-                AI Suggest
-              </Button>
-            </motion.div>
-          </div>
-
-          {suggestedGoals.length > 0 && (
-            <div className="space-y-3 mt-4 animate-in fade-in slide-in-from-top-2">
-              <p className="text-xs font-bold text-gray-500 uppercase tracking-wider">AI Suggestions</p>
-              {suggestedGoals.map((sg, idx) => (
-                <div key={idx} className="p-3 border border-purple-200 bg-white rounded-lg flex items-center justify-between hover:border-purple-400 transition-colors">
-                  <div>
-                    <p className="font-bold text-sm text-gray-900">{sg.title}</p>
-                    <p className="text-xs text-gray-500">{sg.desc}</p>
-                  </div>
-                  <motion.div
-                    whileHover={tapEffect.whileHover}
-                    whileTap={tapEffect.whileTap}
-                    transition={tapEffect.transition}
-                  >
-                    <Button onClick={() => handleAddGoal(sg)} size="sm" variant="outline" className="ml-2 border-purple-200 text-purple-700">Add</Button>
-                  </motion.div>
-                </div>
-              ))}
-              <div className="relative flex py-4 items-center">
-                <div className="flex-grow border-t border-gray-200"></div>
-                <span className="flex-shrink-0 mx-4 text-gray-400 text-xs font-medium uppercase">Or create custom</span>
-                <div className="flex-grow border-t border-gray-200"></div>
-              </div>
-            </div>
-          )}
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Goal Title</label>
-            <Input 
-              placeholder="e.g. Cycle to work" 
-              value={title} 
-              onChange={e => setTitle(e.target.value)} 
-            />
-          </div>
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Target Number</label>
-              <Input 
-                type="number" 
-                placeholder="e.g. 50" 
-                value={target} 
-                onChange={e => setTarget(e.target.value)} 
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Unit</label>
-              <Input 
-                placeholder="e.g. km" 
-                value={unit} 
-                onChange={e => setUnit(e.target.value)} 
-              />
-            </div>
-          </div>
-          
-          <motion.div
-            whileHover={tapEffect.whileHover}
-            whileTap={tapEffect.whileTap}
-            transition={tapEffect.transition}
-            className="w-full mt-2"
-          >
-            <Button 
-              onClick={() => handleAddGoal({})} 
-              disabled={!title || !target || !unit}
-              className="w-full bg-primary hover:bg-primary-dark"
-            >
-              Save Goal
-            </Button>
-          </motion.div>
-        </div>
-      </Modal>
+      <CreateGoalModal 
+        isOpen={isModalOpen} 
+        onClose={() => setIsModalOpen(false)} 
+      />
     </div>
   );
 }

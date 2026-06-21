@@ -19,8 +19,15 @@ export const INDIAN_ANNUAL_AVERAGE = CONST_INDIAN_ANNUAL_AVERAGE;
 /** @type {number} Global average annual CO₂ footprint per person in kg/year (4 000 kg). */
 export const GLOBAL_ANNUAL_AVERAGE = CONST_GLOBAL_ANNUAL_AVERAGE;
 
-// Input validation helper — shared guard across all calculator functions
-const isValidNumber = (v) => typeof v === 'number' && Number.isFinite(v) && v >= 0;
+/**
+ * Validates that a value is a safe, non-negative finite number.
+ * Used as an input guard across all calculator functions.
+ * @param {*} val - The value to check.
+ * @returns {boolean} True only for non-negative finite numbers.
+ */
+export function isValidNumber(val) {
+  return typeof val === 'number' && Number.isFinite(val) && val >= 0;
+}
 
 /**
  * Calculates CO2 emissions for car travel in kg.

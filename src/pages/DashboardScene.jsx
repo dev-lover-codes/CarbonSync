@@ -117,7 +117,7 @@ export function DashboardScene() {
     
     // Cleanup subscription on unmount
     return () => unsubscribe();
-  }, [user?.uid]);
+  }, [user?.uid, fetchUserStats, subscribeToLogs]);
 
   const [isMobile, setIsMobile] = useState(false);
   const [isTablet, setIsTablet] = useState(false);

@@ -1,8 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X } from 'lucide-react';
 
 const Modal = ({ isOpen, onClose, title, children }) => {
+  const contentRef = useRef(null);
+
+  // Close on Escape key
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === 'Escape' && isOpen) {
@@ -13,7 +16,18 @@ const Modal = ({ isOpen, onClose, title, children }) => {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [isOpen, onClose]);
 
+  // Focus trap: move focus to first interactive element when modal opens
+  useEffect(() => {
+    if (isOpen && contentRef.current) {
+      const focusable = contentRef.current.querySelector(
+        'button, input, textarea, select, a[href], [tabindex]:not([tabindex="-1"])'
+      );
+      focusable?.focus();
+    }
+  }, [isOpen]);
+
   if (!isOpen) return null;
+
 
   return (
     <AnimatePresence>
@@ -34,6 +48,7 @@ const Modal = ({ isOpen, onClose, title, children }) => {
         
         {/* Content */}
         <motion.div 
+          ref={contentRef}
           initial={{ scale: 0.9, opacity: 0, y: 20 }}
           animate={{ scale: 1, opacity: 1, y: 0 }}
           exit={{ scale: 0.9, opacity: 0, y: 20 }}

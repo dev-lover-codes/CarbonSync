@@ -3,14 +3,16 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import React from 'react';
 
 // framer-motion mock — render motion.div as a plain div in jsdom
-vi.mock('framer-motion', () => ({
-  motion: {
-    div: React.forwardRef(({ children, className, onClick, ...rest }, ref) =>
-      React.createElement('div', { ref, className, onClick, ...rest }, children)
-    ),
-  },
-  AnimatePresence: ({ children }) => children,
-}));
+vi.mock('framer-motion', () => {
+  const MotionDiv = React.forwardRef(({ children, className, onClick, ...rest }, ref) =>
+    React.createElement('div', { ref, className, onClick, ...rest }, children)
+  );
+  MotionDiv.displayName = 'MotionDiv';
+  return {
+    motion: { div: MotionDiv },
+    AnimatePresence: ({ children }) => children,
+  };
+});
 
 // lucide-react X icon mock
 vi.mock('lucide-react', () => ({
@@ -104,5 +106,18 @@ describe('Modal component', () => {
     );
     fireEvent.keyDown(window, { key: 'Escape' });
     expect(onClose).not.toHaveBeenCalled();
+  });
+
+  // ── Focus trap ────────────────────────────────────────────────────────────
+  it('moves focus to the first focusable element when opened', () => {
+    render(
+      <Modal isOpen onClose={vi.fn()} title="Focus test">
+        Body
+      </Modal>
+    );
+    // The close button is the first focusable element inside the modal content
+    expect(document.activeElement).toBe(
+      screen.getByRole('button', { name: /close modal/i })
+    );
   });
 });

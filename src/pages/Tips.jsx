@@ -8,6 +8,7 @@ import Input from '../components/ui/Input';
 import Badge from '../components/ui/Badge';
 import PageHeader from '../components/layout/PageHeader';
 import toast from 'react-hot-toast';
+import { CONTAINER } from '../utils/styles';
 
 export default function Tips() {
   const { userProfile, updateProfile } = useAuth();
@@ -21,7 +22,7 @@ export default function Tips() {
   const [isGenerating, setIsGenerating] = useState(false);
   const [aiTips, setAiTips] = useState([]);
 
-  const savedTipIds = userProfile?.savedTips || [];
+  const savedTipIds = useMemo(() => userProfile?.savedTips || [], [userProfile?.savedTips]);
 
   const handleToggleSave = async (tipId) => {
     try {
@@ -76,7 +77,7 @@ Only return the JSON array, nothing else.`;
   };
 
 
-  const allTips = [...staticTips, ...aiTips];
+  const allTips = useMemo(() => [...staticTips, ...aiTips], [aiTips]);
 
   const filteredTips = useMemo(() => {
     let result = allTips;
@@ -105,7 +106,7 @@ Only return the JSON array, nothing else.`;
   const categories = ['all', 'transport', 'energy', 'food', 'shopping', 'waste'];
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 animate-in fade-in duration-500">
+    <div className={CONTAINER}>
       <PageHeader 
         title="Eco-Tips" 
         subtitle="Discover actionable ways to reduce your environmental impact." 

@@ -5,14 +5,16 @@ import React from 'react';
 // framer-motion uses ResizeObserver & requestAnimationFrame which aren't
 // available in jsdom. Provide a lightweight mock so motion.div just renders
 // a plain <div> with its children, allowing us to test ProgressBar logic.
-vi.mock('framer-motion', () => ({
-  motion: {
-    div: React.forwardRef(({ children, className, style, ...rest }, ref) =>
-      React.createElement('div', { ref, className, style, ...rest }, children)
-    ),
-  },
-  AnimatePresence: ({ children }) => children,
-}));
+vi.mock('framer-motion', () => {
+  const MotionDiv = React.forwardRef(({ children, className, style, ...rest }, ref) =>
+    React.createElement('div', { ref, className, style, ...rest }, children)
+  );
+  MotionDiv.displayName = 'MotionDiv';
+  return {
+    motion: { div: MotionDiv },
+    AnimatePresence: ({ children }) => children,
+  };
+});
 
 import ProgressBar from '../../components/ui/ProgressBar';
 

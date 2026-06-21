@@ -9,6 +9,7 @@ import Input from '../components/ui/Input';
 import ProgressBar from '../components/ui/ProgressBar';
 import PageHeader from '../components/layout/PageHeader';
 import toast from 'react-hot-toast';
+import { CONTAINER } from '../utils/styles';
 
 const ACHIEVEMENTS = [
   { id: 'a1', title: 'First Step', desc: 'Log your first activity', icon: '🌱', req: (a) => a.length >= 1 },
@@ -60,7 +61,7 @@ export default function Profile() {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 animate-in fade-in duration-500">
+    <div className={CONTAINER}>
       <PageHeader title="Your Profile" />
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">

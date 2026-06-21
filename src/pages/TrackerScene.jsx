@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { useStore } from '../store/useStore';
 import { logActivity, getActivities } from '../lib/firestore';
@@ -31,11 +31,7 @@ export function TrackerScene() {
   const [submitPercent, setSubmitPercent] = useState(0);
   const [animatingSubmit, setAnimatingSubmit] = useState(false);
 
-  useEffect(() => {
-    fetchLogs();
-  }, [currentUser]);
-
-  const fetchLogs = async () => {
+  const fetchLogs = useCallback(async () => {
     if (!currentUser) return;
     try {
       const logs = await getActivities(currentUser.uid, 5);
@@ -43,7 +39,11 @@ export function TrackerScene() {
     } catch {
       // Silently ignore log fetch errors; UI shows empty state
     }
-  };
+  }, [currentUser]);
+
+  useEffect(() => {
+    fetchLogs();
+  }, [currentUser, fetchLogs]);
 
   // Live Carbon footprint calculator
   const calculateLiveCO2 = () => {

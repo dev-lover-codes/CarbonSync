@@ -20,7 +20,7 @@ module.exports = {
       'ignoreRestSiblings': true,
       'varsIgnorePattern': '^[A-Z_]'
     }],
-    'react-hooks/exhaustive-deps': 'off',
+    'react-hooks/exhaustive-deps': 'error',
     'react/no-unescaped-entities': 'off',
     // React Three Fiber uses custom JSX props (position, rotation, args, etc.)
     // that are valid Three.js object properties — not standard HTML attributes.

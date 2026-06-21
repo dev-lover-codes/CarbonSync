@@ -311,7 +311,7 @@ export function LandingScene() {
               fontWeight: '400',
               letterSpacing: '0.01em',
             }}>
-              An immersive 3D platform that intercepts, analyzes, and gamifies your carbon reductions in the moment using real-time AI insights. Join the movement.
+              An immersive 3D platform that intercepts high-emission habits in real time and turns invisible carbon data into a living, personal experience.
             </p>
 
             {/* CTA Buttons */}

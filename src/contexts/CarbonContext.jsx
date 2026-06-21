@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect, useMemo } from 'react';
+import React, { createContext, useContext, useState, useEffect, useMemo, useCallback } from 'react';
 import { useAuth } from './AuthContext';
 import { 
   logActivity, 
@@ -23,42 +23,50 @@ export function CarbonProvider({ children }) {
   const [insights, setInsights] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const fetchActivities = async () => {
+  const fetchActivities = useCallback(async () => {
     if (!currentUser) return;
     const data = await getUserActivities(currentUser.uid, 50);
     setActivities(data);
-  };
+  }, [currentUser]);
 
-  const fetchGoals = async () => {
+  const fetchGoals = useCallback(async () => {
     if (!currentUser) return;
     const data = await getUserGoals(currentUser.uid);
     setGoals(data);
-  };
+  }, [currentUser]);
 
-  const fetchInsights = async () => {
+  const fetchInsights = useCallback(async () => {
     if (!currentUser) return;
     const data = await getInsights(currentUser.uid);
     setInsights(data);
-  };
+  }, [currentUser]);
 
-  const addActivity = async (data) => {
+  const addActivity = useCallback(async (data) => {
     if (!currentUser) return;
+    // Validate required shape before touching Firestore
+    if (!data?.category || !data?.type || typeof data?.amount !== 'number') {
+      console.error(
+        '[CarbonContext] addActivity: invalid data shape — requires { category, type, amount: number }. Got:',
+        data
+      );
+      return;
+    }
     await logActivity(currentUser.uid, data);
     await fetchActivities();
-  };
+  }, [currentUser, fetchActivities]);
 
-  const addGoal = async (data) => {
+  const addGoal = useCallback(async (data) => {
     if (!currentUser) return;
     await createGoal(currentUser.uid, data);
     await fetchGoals();
-  };
+  }, [currentUser, fetchGoals]);
 
-  const toggleGoal = async (goalId, currentStatus) => {
+  const toggleGoal = useCallback(async (goalId, currentStatus) => {
     if (!currentUser) return;
     const newStatus = currentStatus === 'completed' ? 'active' : 'completed';
     await updateGoalProgress(goalId, newStatus === 'completed' ? 100 : 0);
     await fetchGoals();
-  };
+  }, [currentUser, fetchGoals]);
 
   useEffect(() => {
     if (currentUser) {
@@ -70,7 +78,7 @@ export function CarbonProvider({ children }) {
       setGoals([]);
       setInsights([]);
     }
-  }, [currentUser]);
+  }, [currentUser, fetchActivities, fetchGoals, fetchInsights]);
 
   const weeklyTotal = useMemo(() => {
     const oneWeekAgo = new Date();
