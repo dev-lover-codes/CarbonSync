@@ -421,37 +421,84 @@ export function DashboardScene() {
             </div>
           </Html>
 
-          {/* Activity rows with colored left borders */}
-          {[
-            { emoji: '🚗', label: 'CAR TRAVEL', value: '+4.2 KG', color: '#3B82F6', positive: true },
-            { emoji: '🥗', label: 'VEGAN MEALS', value: '-1.5 KG', color: '#00ff87', positive: false },
-            { emoji: '🔌', label: 'HOME ENERGY', value: '+2.8 KG', color: '#ffb347', positive: true },
-          ].map((item, i) => (
-            <group key={i} position={[0, 0.3 - i * 0.48, 0]}>
-              <GlassPanel width={isMobile ? 3.0 : 3.4} height={0.38} glowColor={item.color}>
+          {/* Activity rows — mapped from real logged data */}
+          {(() => {
+            // Lookup tables: map carbonLog category/type → display values
+            const EMOJI_MAP = {
+              transport: '🚗', car: '🚗', flight: '✈️', bus: '🚌', bike: '🚲',
+              food: '🥗', meat: '🍖', vegan: '🥗', vegetarian: '🥗',
+              energy: '🔌', electricity: '⚡', heating: '🔥',
+              shopping: '🛍️', waste: '♻️',
+            };
+            const COLOR_MAP = {
+              transport: '#3B82F6', car: '#3B82F6', flight: '#818CF8', bus: '#60A5FA', bike: '#00ff87',
+              food: '#00ff87', meat: '#f97316', vegan: '#00ff87', vegetarian: '#4ade80',
+              energy: '#ffb347', electricity: '#fbbf24', heating: '#fb923c',
+              shopping: '#a855f7', waste: '#2dd4bf',
+            };
+
+            const getEmoji  = (item) => EMOJI_MAP[item.type] || EMOJI_MAP[item.category] || '🌿';
+            const getColor  = (item) => COLOR_MAP[item.type] || COLOR_MAP[item.category] || '#99b0a0';
+            const getLabel  = (item) => {
+              const raw = item.type || item.category || 'activity';
+              return raw.replace(/_/g, ' ').toUpperCase();
+            };
+            const getValue  = (item) => {
+              const kg = item.carbon_kg ?? item.co2 ?? 0;
+              const sign = kg < 0 ? '' : '+';
+              return `${sign}${Number(kg).toFixed(1)} KG`;
+            };
+            const isPositive = (item) => (item.carbon_kg ?? item.co2 ?? 0) >= 0;
+
+            const recent = (userStats?.recentActivities || []).slice(0, 3);
+
+            if (recent.length === 0) {
+              return (
                 <Html portal={{ current: document.body }}
-           position={[0, 0, 0.06]} center distanceFactor={5} transform zIndexRange={[100, 0]} style={{ width: isMobile ? '230px' : '270px', pointerEvents: 'none' }}>
+                  position={[0, 0, 0.06]} center distanceFactor={5} transform zIndexRange={[100, 0]}
+                  style={{ width: isMobile ? '230px' : '270px', pointerEvents: 'none' }}>
                   <div className="dash-sec2" style={{
                     ...htmlContainerStyle,
-                    display: 'flex', justifyContent: 'space-between', alignItems: 'center',
                     fontFamily: "'Space Grotesk', monospace",
-                    padding: '0 4px',
-                    width: '100%',
+                    textAlign: 'center',
+                    padding: '12px 8px',
                   }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                      <span style={{ fontSize: '14px' }}>{item.emoji}</span>
-                      <span style={{ fontSize: isMobile ? '9px' : '11px', fontWeight: '600', color: 'white', letterSpacing: '0.06em' }}>{item.label}</span>
+                    <div style={{ fontSize: '22px', marginBottom: '6px' }}>🌱</div>
+                    <div style={{ fontSize: isMobile ? '9px' : '10px', color: 'rgba(153,176,160,0.7)', letterSpacing: '0.06em', lineHeight: 1.5 }}>
+                      No activities logged yet.<br />Head to the Tracker!
                     </div>
-                    <span style={{
-                      fontSize: isMobile ? '9px' : '11px', fontWeight: '700',
-                      color: item.positive ? '#ff5e62' : '#00ff87',
-                      letterSpacing: '0.04em',
-                    }}>{item.value} CO₂</span>
                   </div>
                 </Html>
-              </GlassPanel>
-            </group>
-          ))}
+              );
+            }
+
+            return recent.map((item, i) => (
+              <group key={item.id || i} position={[0, 0.3 - i * 0.48, 0]}>
+                <GlassPanel width={isMobile ? 3.0 : 3.4} height={0.38} glowColor={getColor(item)}>
+                  <Html portal={{ current: document.body }}
+                    position={[0, 0, 0.06]} center distanceFactor={5} transform zIndexRange={[100, 0]} style={{ width: isMobile ? '230px' : '270px', pointerEvents: 'none' }}>
+                    <div className="dash-sec2" style={{
+                      ...htmlContainerStyle,
+                      display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+                      fontFamily: "'Space Grotesk', monospace",
+                      padding: '0 4px',
+                      width: '100%',
+                    }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                        <span style={{ fontSize: '14px' }}>{getEmoji(item)}</span>
+                        <span style={{ fontSize: isMobile ? '9px' : '11px', fontWeight: '600', color: 'white', letterSpacing: '0.06em' }}>{getLabel(item)}</span>
+                      </div>
+                      <span style={{
+                        fontSize: isMobile ? '9px' : '11px', fontWeight: '700',
+                        color: isPositive(item) ? '#ff5e62' : '#00ff87',
+                        letterSpacing: '0.04em',
+                      }}>{getValue(item)} CO₂</span>
+                    </div>
+                  </Html>
+                </GlassPanel>
+              </group>
+            ));
+          })()}
         </group>
 
         {/* ═══════════════════════════════ AI INSIGHT ═══════════════════════════════ */}

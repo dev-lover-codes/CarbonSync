@@ -123,7 +123,8 @@ export const useStore = create((set, get) => ({
           ...state.userStats,
           dailyFootprint: Math.round(dailyFootprint * 10) / 10,
           weeklyFootprint,
-          categories
+          categories,
+          recentActivities: logs.slice(0, 10)
         }
       }));
     });

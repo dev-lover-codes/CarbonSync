@@ -1,4 +1,4 @@
-import React, { useEffect, useState, Suspense, lazy } from 'react';
+import React, { useEffect, Suspense, lazy } from 'react';
 import { Toaster } from 'react-hot-toast';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { seedTips } from './utils/firestoreHelpers';
@@ -6,15 +6,6 @@ import useStore from './store/useStore';
 import ErrorBoundary from './components/ErrorBoundary';
 
 const Scene = lazy(() => import('./components/Scene'));
-const App2D = lazy(() => import('./App2D'));
-
-const isAutomatedEnv = () => {
-  if (typeof navigator === 'undefined') return false;
-  return (
-    !!navigator.webdriver ||
-    /Lighthouse|Headless|webhint|Puppeteer|Chrome-Lighthouse/i.test(navigator.userAgent)
-  );
-};
 
 const AuthSync = () => {
   const { currentUser, userProfile, loading } = useAuth();
@@ -52,33 +43,10 @@ const AuthSync = () => {
 };
 
 function App() {
-  const [is2D, setIs2D] = useState(() => {
-    if (typeof window === 'undefined') return false;
-    const query = window.location.search.includes('mode=2d');
-    const stored = sessionStorage.getItem('app_mode');
-    if (query) {
-      sessionStorage.setItem('app_mode', '2d');
-      return true;
-    }
-    if (stored) {
-      return stored === '2d';
-    }
-    return isAutomatedEnv();
-  });
-
   useEffect(() => {
     // Seed firestore tips on initialization
     seedTips();
   }, []);
-
-  const toggleMode = () => {
-    const newMode = is2D ? '3d' : '2d';
-    sessionStorage.setItem('app_mode', newMode);
-    setIs2D(!is2D);
-    if (newMode === '3d') {
-      window.location.href = '/'; // Reset path for 3D state routing
-    }
-  };
 
   return (
     <ErrorBoundary>
@@ -107,28 +75,10 @@ function App() {
             },
           }}
         />
-        {/* Small floating button to toggle 2D/3D mode */}
-        <button
-          onClick={toggleMode}
-          className="fixed bottom-4 right-4 z-[9999] px-3 py-1.5 bg-black/60 hover:bg-black/90 text-[10px] font-bold text-white rounded-full border border-white/20 backdrop-blur-sm transition-all shadow-lg flex items-center gap-1.5"
-          style={{ fontFamily: 'monospace' }}
-          aria-label={`Switch to ${is2D ? '3D' : '2D'} mode`}
-        >
-          <span>{is2D ? '🌌 SWAP TO 3D' : '📄 SWAP TO 2D'}</span>
-        </button>
-
-        {is2D ? (
-          <Suspense fallback={<div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', height: '100%', minHeight: '100vh', background: '#020b06', color: '#00ff87', fontFamily: 'monospace' }}>LOADING 2D ENGINE...</div>}>
-            <App2D />
-          </Suspense>
-        ) : (
-          <>
-            <AuthSync />
-            <Suspense fallback={<div style={{ width: '100vw', height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#00ff87', background: '#020b06', fontFamily: 'monospace' }}>INITIALIZING 3D ENGINE...</div>}>
-              <Scene />
-            </Suspense>
-          </>
-        )}
+        <AuthSync />
+        <Suspense fallback={<div style={{ width: '100vw', height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#00ff87', background: '#020b06', fontFamily: 'monospace' }}>INITIALIZING 3D ENGINE...</div>}>
+          <Scene />
+        </Suspense>
       </AuthProvider>
     </ErrorBoundary>
   );
